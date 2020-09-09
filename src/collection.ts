@@ -63,7 +63,7 @@ export class DBCollection {
     if (!queries) {
       /* DEBUG */ this.col_("No query specified, using empty array");
       docs = runQuery([], this, this.docs);
-    } else if (reactive) createReactiveIndex(this, queries);
+    } else if (reactive) docs = createReactiveIndex(this, queries);
     else docs = runQuery(queries, this, this.docs);
 
     /* DEBUG */ this.col_("Documents found for query: %d", docs.length);

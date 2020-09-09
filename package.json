@@ -1,6 +1,6 @@
 {
   "name": "memsdb",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "description": "A simple in memory DB - Created to experiment more with typescript and classes",
   "main": "dist/index.js",
   "scripts": {

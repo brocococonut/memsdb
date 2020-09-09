@@ -8,12 +8,12 @@ import { getOrCreateIndex } from "./indexed";
  * Run a query to filter out specific documents
  * @param queryArr Array of query objects to run/loop through
  * @param col Collection to run query on
- * @param docs Document array to filter, either from the collection, or from recursion
+ * @param seedDocs Document array to filter, either from the collection, or from recursion
  */
 export const runQuery = (
   queryArr: Query[],
   col: DBCollection,
-  docs: DBDoc[],
+  seedDocs: DBDoc[],
   reactive: boolean = false
 ): DBDoc[] => {
   // Debugger variable
@@ -25,16 +25,16 @@ export const runQuery = (
     queryArr.length
   );
 
-  return queryArr.reduce<DBDoc[]>((res, query, i, queries) => {
+  return queryArr.reduce<DBDoc[]>((docs, query, i, queries) => {
     // Return filtered documents if there are none left, or if the query array is empty
-    if (res.length === 0) {
+    if (docs.length === 0) {
       /* DEBUG */ _(
         "Query on collection `%s` completed, %d documents left with %d queries left to execute",
         col.name,
-        res.length,
+        docs.length,
         queries.length - i
       );
-      return res;
+      return docs;
     }
 
     // Check to see if the collection schema has the provided key
@@ -48,7 +48,7 @@ export const runQuery = (
       switch (query.operation) {
         case "<":
           // Filter out documents where the target is less than the provided value
-          res = res.filter((doc) => {
+          docs = docs.filter((doc) => {
             const res = getOrCreateIndex({ doc, query }) < query.comparison;
 
             return query.inverse ? !res : res;
@@ -56,7 +56,7 @@ export const runQuery = (
           break;
         case ">":
           // Filter out documents where the target is greater than the provided value
-          res = res.filter((doc) => {
+          docs = docs.filter((doc) => {
             const res = getOrCreateIndex({ doc, query }) > query.comparison;
 
             return query.inverse ? !res : res;
@@ -64,7 +64,7 @@ export const runQuery = (
           break;
         case "<=":
           // Filter out documents where the target is less than or equal to the the provided value
-          res = res.filter((doc) => {
+          docs = docs.filter((doc) => {
             const res = getOrCreateIndex({ doc, query }) <= query.comparison;
 
             return query.inverse ? !res : res;
@@ -72,7 +72,7 @@ export const runQuery = (
           break;
         case ">=":
           // Filter out documents where the target is greater than or equal tothe provided value
-          res = res.filter((doc) => {
+          docs = docs.filter((doc) => {
             const res = getOrCreateIndex({ doc, query }) >= query.comparison;
 
             return query.inverse ? !res : res;
@@ -80,7 +80,7 @@ export const runQuery = (
           break;
         case "===":
           // Filter out documents where the target is equal to the provided value
-          res = res.filter((doc) => {
+          docs = docs.filter((doc) => {
             const res = getOrCreateIndex({ doc, query }) === query.comparison;
 
             return query.inverse ? !res : res;
@@ -88,7 +88,7 @@ export const runQuery = (
           break;
         case "includes":
           // Filter out documents that don't include the comparison
-          res = res.filter((doc) => {
+          docs = docs.filter((doc) => {
             const val = getOrCreateIndex({ doc, query });
 
             let res;
@@ -102,7 +102,7 @@ export const runQuery = (
           if (!Array.isArray(query.comparison)) break;
           const cComparison = query.comparison;
 
-          res = res.filter((doc) => {
+          docs = docs.filter((doc) => {
             const val = getOrCreateIndex({ doc, query });
 
             let res;
@@ -118,7 +118,7 @@ export const runQuery = (
           if (!Array.isArray(query.comparison)) break;
           const aComparison = query.comparison;
 
-          res = res.filter((doc) => {
+          docs = docs.filter((doc) => {
             const val = getOrCreateIndex({ doc, query });
 
             if (!Array.isArray(val)) return false;
@@ -148,7 +148,7 @@ export const runQuery = (
                   },
                 ],
                 col,
-                res
+                docs
               )
             )
           );
@@ -157,10 +157,10 @@ export const runQuery = (
           const idArr = tmp.map((doc) => doc.id);
 
           // Filter out documents that exist multiple times in the array.
-          res = tmp.filter((doc, i) => i === idArr.indexOf(doc.id));
+          docs = tmp.filter((doc, i) => i === idArr.indexOf(doc.id));
           break;
         case "all>than":
-          res = res.filter((doc) => {
+          docs = docs.filter((doc) => {
             const val = getOrCreateIndex({ doc, query });
             if (!Array.isArray(val)) return false;
 
@@ -170,7 +170,7 @@ export const runQuery = (
           });
           break;
         case "all<than":
-          res = res.filter((doc) => {
+          docs = docs.filter((doc) => {
             const val = getOrCreateIndex({ doc, query });
             if (!Array.isArray(val)) return false;
 
@@ -180,7 +180,7 @@ export const runQuery = (
           });
           break;
         case "all>=to":
-          res = res.filter((doc) => {
+          docs = docs.filter((doc) => {
             console.time("nested");
             const val = getOrCreateIndex({ doc, query });
             console.timeEnd("nested");
@@ -192,7 +192,7 @@ export const runQuery = (
           });
           break;
         case "all<=to":
-          res = res.filter((doc) => {
+          docs = docs.filter((doc) => {
             const val = getOrCreateIndex({ doc, query });
             if (!Array.isArray(val)) return false;
 
@@ -202,7 +202,7 @@ export const runQuery = (
           });
           break;
         case "all===to":
-          res = res.filter((doc) => {
+          docs = docs.filter((doc) => {
             const val = getOrCreateIndex({ doc, query });
             if (!Array.isArray(val)) return false;
 
@@ -212,7 +212,7 @@ export const runQuery = (
           });
           break;
         case "some>than":
-          res = res.filter((doc) => {
+          docs = docs.filter((doc) => {
             const val = getOrCreateIndex({ doc, query });
             if (!Array.isArray(val)) return false;
 
@@ -222,7 +222,7 @@ export const runQuery = (
           });
           break;
         case "some<than":
-          res = res.filter((doc) => {
+          docs = docs.filter((doc) => {
             const val = getOrCreateIndex({ doc, query });
             if (!Array.isArray(val)) return false;
 
@@ -232,7 +232,7 @@ export const runQuery = (
           });
           break;
         case "some>=to":
-          res = res.filter((doc) => {
+          docs = docs.filter((doc) => {
             const val = getOrCreateIndex({ doc, query });
             if (!Array.isArray(val)) return false;
 
@@ -242,7 +242,7 @@ export const runQuery = (
           });
           break;
         case "some<=to":
-          res = res.filter((doc) => {
+          docs = docs.filter((doc) => {
             const val = getOrCreateIndex({ doc, query });
             if (!Array.isArray(val)) return false;
 
@@ -252,7 +252,7 @@ export const runQuery = (
           });
           break;
         case "some===to":
-          res = res.filter((doc) => {
+          docs = docs.filter((doc) => {
             const val = getOrCreateIndex({ doc, query });
             if (!Array.isArray(val)) return false;
 
@@ -267,10 +267,10 @@ export const runQuery = (
     /* DEBUG */ _(
       "Query on collection `%s` continuing with %d documents left and %d queries left to execute",
       col.name,
-      res.length,
+      docs.length,
       queries.length - i
     );
 
-    return res;
-  }, docs);
+    return docs;
+  }, seedDocs);
 };
