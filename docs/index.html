@@ -1,0 +1,213 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>memsdb</title>
+	<meta name="description" content="Documentation for memsdb">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">memsdb</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1>memsdb</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#memsdb" id="memsdb" style="color: inherit; text-decoration: none;">
+					<h1>memsdb</h1>
+				</a>
+				<p>A simple in memory DB - Created to experiment more with typescript and classes</p>
+				<p>Initialising a new database:</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { DB } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;memsdb&#x27;</span>
+
+<span class="hljs-keyword">const</span> db = <span class="hljs-keyword">new</span> DB(<span class="hljs-string">&#x27;My DB Name&#x27;</span>)</code></pre>
+				<p>Creating and assigning new collections to the db:</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> comments = <span class="hljs-keyword">new</span> DBCollection(db, {
+  name: <span class="hljs-string">&#x27;comments&#x27;</span>,
+  structure: {
+    text: <span class="hljs-string">&#x27;&#x27;</span>,
+    by: <span class="hljs-string">&#x27;&#x27;</span>,
+    parent: <span class="hljs-string">&#x27;&#x27;</span>,
+  },
+})</code></pre>
+				<p>Adding documents to an existing collection:</p>
+				<pre><code class="language-typescript">comments.insertOne({
+  text: <span class="hljs-string">`My fantastic comment`</span>,
+  by: <span class="hljs-string">&#x27;me&#x27;</span>
+})</code></pre>
+				<p>Finding documents in a collection:</p>
+				<pre><code class="language-typescript"><span class="hljs-comment">/**
+ * Find all documents where the `by` field is equal to &#x27;me&#x27;
+ */</span>
+comments.find([{
+  key: <span class="hljs-string">&#x27;by&#x27;</span>,
+  operation: <span class="hljs-string">&#x27;===&#x27;</span>,
+  comparison: <span class="hljs-string">&#x27;me&#x27;</span>
+}])
+
+<span class="hljs-comment">/**
+ * Find a document by it&#x27;s id
+ */</span>
+comments.id(<span class="hljs-string">&#x27;0123456789abcdef01245678&#x27;</span>)</code></pre>
+				<p>Full example:</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { DB } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;memsdb&#x27;</span>
+
+<span class="hljs-keyword">const</span> db = <span class="hljs-keyword">new</span> DB(<span class="hljs-string">&#x27;My DB Name&#x27;</span>)
+
+<span class="hljs-keyword">const</span> comments = <span class="hljs-keyword">new</span> DBCollection(db, {
+  name: <span class="hljs-string">&#x27;comments&#x27;</span>,
+  structure: {
+    text: <span class="hljs-string">&#x27;&#x27;</span>,
+    by: <span class="hljs-string">&#x27;&#x27;</span>,
+    parent: <span class="hljs-string">&#x27;&#x27;</span>,
+  },
+})
+
+comments.insertOne({
+  text: <span class="hljs-string">`My fantastic comment`</span>,
+  by: <span class="hljs-string">&#x27;me&#x27;</span>
+})
+
+<span class="hljs-keyword">const</span> docs = comments.find([{
+  key: <span class="hljs-string">&#x27;by&#x27;</span>,
+  operation: <span class="hljs-string">&#x27;===&#x27;</span>,
+  comparison: <span class="hljs-string">&#x27;me&#x27;</span>
+}])
+
+<span class="hljs-comment">// docs should contain the one comment we added</span></code></pre>
+				<p>The query language is still rather simple but can support the operators: <code>&lt;</code> | <code>&gt;</code> | <code>&lt;=</code> | <code>&gt;=</code> | <code>===</code> | <code>||</code> | <code>includes</code> | <code>isContainedIn</code> | <code>hasAllOf</code> | <code>all&gt;than</code> | <code>all&lt;than</code> | <code>all&gt;=to</code> | <code>all&lt;=to</code> | <code>all===to</code> | <code>some&gt;than</code> | <code>some&lt;than</code> | <code>some&gt;=to</code> | <code>some&lt;=to</code> | <code>some===to</code> - where <code>||</code> runs an OR using an array of <code>Query</code> objects (supports multi-level ORing).</p>
+				<p>An example query object of:</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> query = {
+  key: <span class="hljs-string">&#x27;by&#x27;</span>,
+  operation: <span class="hljs-string">&#x27;===&#x27;</span>,
+  comparison: <span class="hljs-string">&#x27;me&#x27;</span>
+}</code></pre>
+				<p>should be read as <code>document.by (key to get value of) &#39;===&#39; &#39;me&#39; (value)</code></p>
+				<p>The <code>some===to</code> key (<code>some*</code>, <code>all*</code>) can be used to find similarities between different arrays</p>
+				<p><code>all===to</code> makes sure that all of the specified key is equal to the comparison. This would usually be useful with query keys that specify an array  with objects in it like the following: <code>folder.children.[].exists</code>. In the previous example you&#39;d use <code>all===to</code> to make sure that all child folders of the first level have the property <code>exists</code> and that it&#39;s equal to whatever comparison value you set in the query. Eg.:</p>
+				<p>```
+					const query = {
+					key: &#39;folder.children.[].exists&#39;,
+					operation: &#39;all===to&#39;,
+					comparison: true&#39;
+				}</p>
+				<p>Other functions on the database, collections, and documents can be read in the docs</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_collection_.html">&quot;collection&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_db_.html">&quot;db&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_doc_.html">&quot;doc&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_index_.html">&quot;index&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_types_.html">&quot;types&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_utils_indexed_.html">&quot;utils/indexed&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_utils_key_.html">&quot;utils/key&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_utils_query_.html">&quot;utils/query&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_utils_reactive_.html">&quot;utils/reactive&quot;</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
