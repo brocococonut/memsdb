@@ -37,7 +37,7 @@ export const runQuery = (
     }
 
     // Check to see if the collection schema has the provided key
-    if (nestedKey(col.schema, query.key) !== undefined) {
+    if (nestedKey(col.schema, query.key) !== undefined || query.key === '_updatedAt' || query.key === '_createdAt') {
       /* DEBUG */ _(
         "Collection contains key `%s`, querying key with operator `%s`",
         query.key,

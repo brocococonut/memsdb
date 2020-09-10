@@ -93,6 +93,7 @@ export class DBCollection {
 
     const listened = change(newDoc, () => {
       this.col_('Document %s was modified', newDoc.id)
+      newDoc.data._updatedAt = Date.now()
       if (Object.keys(newDoc.indexed).length > 0) {
         for (const key in newDoc.indexed) {
           updateDocIndex(newDoc, key);
