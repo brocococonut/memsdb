@@ -8,11 +8,12 @@ import { DBCollection } from "../collection";
  * @param collection Collection to update reactive index on
  * @param query Queries to run
  */
-export const updateReactiveIndex = (collection: DBCollection, query: Query[]) =>
-  collection.reactiveIndexed.set(
-    query,
-    runQuery(query, collection, collection.docs)
-  );
+export const updateReactiveIndex = (collection: DBCollection, query: Query[]) => {
+  const ref = collection.reactiveIndexed.get(query) as {docs: DBDoc[]}
+
+  ref.docs.length = 0
+  ref.docs.push(...runQuery(query, collection, collection.docs))
+}
 
 /**
  * Create a new reactive index from a query array (should be run from the collection, not directly)
@@ -23,8 +24,10 @@ export const createReactiveIndex = (
   collection: DBCollection,
   query: Query[]
 ) => {
-  if (!collection.reactiveIndexed.has(query))
-    updateReactiveIndex(collection, query);
+  if (!collection.reactiveIndexed.has(query)) {
+    const docs = runQuery(query, collection, collection.docs)
+    collection.reactiveIndexed.set(query, {docs})
+  }
 
-  return collection.reactiveIndexed.get(query) as DBDoc[];
+  return collection.reactiveIndexed.get(query) as {docs: DBDoc[]};
 };

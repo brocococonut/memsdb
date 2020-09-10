@@ -3,6 +3,8 @@ import { DB } from "./db";
 import { Query, SchemaTemplateType } from "./types";
 import { runQuery } from "./utils/query";
 import { updateReactiveIndex, createReactiveIndex } from "./utils/reactive";
+import change from 'on-change'
+import { updateDocIndex } from "./utils/indexed";
 
 /**
  * Class for creating collections of structured documents
@@ -19,7 +21,7 @@ export class DBCollection {
   /** Reference to the DB object */
   db: DB;
   /** Map for reactive query results */
-  reactiveIndexed: Map<Query[], DBDoc[]> = new Map();
+  reactiveIndexed: Map<Query[], {docs: DBDoc[]}> = new Map();
 
   /**
    * Create a structured collection of documents
@@ -63,8 +65,13 @@ export class DBCollection {
     if (!queries) {
       /* DEBUG */ this.col_("No query specified, using empty array");
       docs = runQuery([], this, this.docs);
-    } else if (reactive) docs = createReactiveIndex(this, queries);
-    else docs = runQuery(queries, this, this.docs);
+    } else if (reactive) {
+      createReactiveIndex(this, queries);
+      docs = runQuery(queries, this, this.docs);
+    }
+    else {
+      docs = runQuery(queries, this, this.docs);
+    }
 
     /* DEBUG */ this.col_("Documents found for query: %d", docs.length);
     return docs;
@@ -74,7 +81,7 @@ export class DBCollection {
    * Insert a new document into the array. Defaults will be loaded from the schema
    * @param doc Document to insert
    */
-  insertOne(doc: { [key: string]: any }, id?: string) {
+  insertOne(doc: { [key: string]: any }, id?: string, reactiveUpdate = true) {
     /* DEBUG */ this.col_("Creating new document");
     const newDoc = new DBDoc(doc, this);
     /* DEBUG */ this.col_(
@@ -84,10 +91,27 @@ export class DBCollection {
 
     if (id) newDoc.id = id;
 
-    this.docs.push(newDoc);
+    const listened = change(newDoc, () => {
+      this.col_('Document %s was modified', newDoc.id)
+      if (Object.keys(newDoc.indexed).length > 0) {
+        for (const key in newDoc.indexed) {
+          updateDocIndex(newDoc, key);
+          this.col_('Updated index "%s" for document %s', key, newDoc.id)
+        }
+      }
+      for (const key of this.reactiveIndexed.keys()) {
+        updateReactiveIndex(this, key);
+        this.col_('Updated collection reactive index for key %j', key)
+      }
+    })
+
+    this.docs.push(listened);
+
     for (const key of this.reactiveIndexed.keys()) {
-      updateReactiveIndex(this, key);
+      /* DEBUG */ this.col_("Updating index");
+      if (reactiveUpdate) updateReactiveIndex(this, key);
     }
+
     /* DEBUG */ this.col_("Document: %s, pushed to collection", newDoc.id);
     return newDoc;
   }
@@ -106,7 +130,7 @@ export class DBCollection {
    */
   insertMany(...docs: { [key: string]: any }[]) {
     /* DEBUG */ this.col_("Creating %d new documents", docs.length);
-    docs.map((doc) => this.insertOne(doc));
+    docs.map((doc, i, arr) => this.insertOne(doc, undefined, i === arr.length - 1));
     return this;
   }
 

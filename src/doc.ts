@@ -3,7 +3,7 @@ import { v4 } from "uuid";
 import { Query, PopulateQuery } from "./types";
 import { nestedKey } from "./utils/key";
 import { updateReactiveIndex } from "./utils/reactive";
-import { updateDocIndex } from "./utils/indexed";
+import change from 'on-change'
 
 /**
  * Class for creating structured documents
@@ -25,6 +25,8 @@ export class DBDoc {
   indexed: {
     [key: string]: any | any[];
   } = {};
+
+  _listenedRef: DBDoc = this
 
   /**
    * Construct a new Document with the collections schema and any provided data
@@ -54,7 +56,7 @@ export class DBDoc {
    */
   delete() {
     try {
-      /* DEBUG */ this.doc_("Deleting this document");
+      /* DEBUG */ this.doc_("Splicing document from collection");
       this.collection.docs.splice(
         this.collection.docs.findIndex((val) => val === this),
         1
@@ -62,32 +64,12 @@ export class DBDoc {
       for (const key of this.collection.reactiveIndexed.keys()) {
         updateReactiveIndex(this.collection, key);
       }
+
+      /* DEBUG */ this.doc_("Removing nested change listener");
+      change.unsubscribe(this._listenedRef)
     } catch (err) {
       /* DEBUG */ this.doc_("Failed to delete this document, %O", err);
     }
-  }
-
-  /**
-   * Set properties of document data model to the current document
-   * @param doc document/object to assign to the current data model
-   */
-  set(doc: { [key: string]: any }) {
-    /* DEBUG */ this.doc_("Updating document with provided key:values");
-
-    Object.assign(this.data, {
-      ...doc,
-      _createdAt: this.data._createdAt,
-      _updatedAt: Date.now(),
-    });
-
-    for (const key in this.indexed) {
-      updateDocIndex(this, key);
-    }
-    for (const key of this.collection.reactiveIndexed.keys()) {
-      updateReactiveIndex(this.collection, key);
-    }
-
-    return this;
   }
 
   /**

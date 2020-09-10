@@ -13,8 +13,7 @@ import { getOrCreateIndex } from "./indexed";
 export const runQuery = (
   queryArr: Query[],
   col: DBCollection,
-  seedDocs: DBDoc[],
-  reactive: boolean = false
+  seedDocs: DBDoc[]
 ): DBDoc[] => {
   // Debugger variable
   const _ = col.col_.extend("query");
@@ -79,7 +78,7 @@ export const runQuery = (
           });
           break;
         case "===":
-          // Filter out documents where the target is equal to the provided value
+          // Filter out documents where the target isn't equal to the provided value
           docs = docs.filter((doc) => {
             const res = getOrCreateIndex({ doc, query }) === query.comparison;
 
@@ -181,9 +180,7 @@ export const runQuery = (
           break;
         case "all>=to":
           docs = docs.filter((doc) => {
-            console.time("nested");
             const val = getOrCreateIndex({ doc, query });
-            console.timeEnd("nested");
             if (!Array.isArray(val)) return false;
 
             const res = val.every((valT) => valT >= query.comparison);
