@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "prepublish": "npm run build",
-    "generate-docs": "typedoc --theme minimal --out docs/ src/"
+    "generate-docs": "typedoc --out docs/ src/"
   },
   "author": "Jake Lees <@brocococonut>",
   "license": "SEE LICENSE IN LICENSE",
