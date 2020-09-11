@@ -1,6 +1,7 @@
 src/
 docs/
 tsconfig.json
+tsconfig.cjs.json
 README.md
 .nojekyll
 .git

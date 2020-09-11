@@ -1,6 +1,11 @@
 # memsdb
 A simple in memory DB - Created to experiment more with typescript and classes
 
+![minified](https://badgen.net/bundlephobia/min/memsdb)
+![minified + gzip](https://badgen.net/bundlephobia/minzip/memsdb)
+![dependency count](https://badgen.net/bundlephobia/dependency-count/memsdb)
+![tree shaking](https://badgen.net/bundlephobia/tree-shaking/memsdb)
+
 Initialising a new database:
 ```typescript
 import { DB } from 'memsdb'
