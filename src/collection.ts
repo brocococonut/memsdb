@@ -129,7 +129,7 @@ export class DBCollection {
    * Add any amount of new documents to the collection
    * @param docs New documents to be added
    */
-  insertMany(...docs: { [key: string]: any }[]) {
+  insertMany(docs: { [key: string]: any }[]) {
     /* DEBUG */ this.col_("Creating %d new documents", docs.length);
     docs.map((doc, i, arr) => this.insertOne(doc, undefined, i === arr.length - 1));
     return this;

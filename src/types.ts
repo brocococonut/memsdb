@@ -11,6 +11,27 @@ export interface SchemaTemplateType {
   structure: { [key: string]: any };
 }
 
+export type Operators =
+  | "<"
+  | ">"
+  | "<="
+  | ">="
+  | "==="
+  | "||"
+  | "includes"
+  | "isContainedIn"
+  | "hasAllOf"
+  | "all>than"
+  | "all<than"
+  | "all>=to"
+  | "all<=to"
+  | "all===to"
+  | "some>than"
+  | "some<than"
+  | "some>=to"
+  | "some<=to"
+  | "some===to";
+
 /** Query interface */
 export interface Query {
   /** Key to run the query on */
@@ -18,26 +39,7 @@ export interface Query {
   /** Inverse result requirement */
   inverse?: boolean;
   /** Operation to perform */
-  operation:
-    | "<"
-    | ">"
-    | "<="
-    | ">="
-    | "==="
-    | "||"
-    | "includes"
-    | "isContainedIn"
-    | "hasAllOf"
-    | "all>than"
-    | "all<than"
-    | "all>=to"
-    | "all<=to"
-    | "all===to"
-    | "some>than"
-    | "some<than"
-    | "some>=to"
-    | "some<=to"
-    | "some===to";
+  operation: Operators;
   /** Value to compare against */
   comparison: any | Query[];
   reactiveQuery?: boolean;

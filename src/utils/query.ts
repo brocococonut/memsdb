@@ -4,6 +4,110 @@ import { DBDoc } from "../doc";
 import { nestedKey } from "./key";
 import { getOrCreateIndex } from "./indexed";
 
+const compare = (doc: DBDoc, query: Query): boolean => {
+  const val = getOrCreateIndex({ doc, query });
+  const op = query.operation;
+  const comp = query.comparison;
+  let res = false;
+
+  if (
+    (op === "hasAllOf" ||
+      op === "all>than" ||
+      op === "all<than" ||
+      op === "all>=to" ||
+      op === "all<=to" ||
+      op === "all===to" ||
+      op === "some>than" ||
+      op === "some<than" ||
+      op === "some>=to" ||
+      op === "some<=to" ||
+      op === "some===to") &&
+    !Array.isArray(val)
+  )
+    return false;
+
+  switch (query.operation) {
+    case "<":
+      // Filter out documents where the target is less than the provided value
+      res = getOrCreateIndex({ doc, query }) < query.comparison;
+
+      break;
+    case ">":
+      // Filter out documents where the target is greater than the provided value
+      res = getOrCreateIndex({ doc, query }) > query.comparison;
+
+      break;
+    case "<=":
+      // Filter out documents where the target is less than or equal to the the provided value
+      res = getOrCreateIndex({ doc, query }) <= query.comparison;
+
+      break;
+    case ">=":
+      // Filter out documents where the target is greater than or equal tothe provided value
+      res = getOrCreateIndex({ doc, query }) >= query.comparison;
+
+      break;
+    case "===":
+      // Filter out documents where the target isn't equal to the provided value
+      res = getOrCreateIndex({ doc, query }) === query.comparison;
+
+      break;
+    case "includes":
+      // Filter out documents that don't include the comparison
+      if (Array.isArray(val)) res = val.includes(query.comparison);
+      else return false;
+
+      break;
+    case "isContainedIn":
+      if (!Array.isArray(comp)) break;
+
+      if (Array.isArray(val)) res = val.every((valT) => comp.includes(valT));
+      else return (res = comp.includes(val));
+
+      break;
+    case "hasAllOf":
+      // Filter out documents that don't have ALL of the comparison values
+      if (!Array.isArray(comp)) return false;
+
+      res = comp.every((comparison) => val.includes(comparison));
+      break;
+    case "all>than":
+      res = val.every((valT: any) => valT > comp);
+      break;
+    case "all<than":
+      res = val.every((valT: any) => valT < comp);
+      break;
+    case "all>=to":
+      res = val.every((valT: any) => valT >= comp);
+      break;
+    case "all<=to":
+      res = val.every((valT: any) => valT <= comp);
+      break;
+    case "all===to":
+      res = val.every((valT: any) => valT === comp);
+      break;
+    case "some>than":
+      res = val.some((valT: any) => valT > comp);
+      break;
+    case "some<than":
+      res = val.some((valT: any) => valT < comp);
+      break;
+    case "some>=to":
+      res = val.some((valT: any) => valT >= comp);
+      break;
+    case "some<=to":
+      res = val.some((valT: any) => valT <= comp);
+      break;
+    case "some===to":
+      res = val.some((valT: any) => valT === comp);
+      break;
+    default:
+      return false;
+  }
+
+  return query.inverse ? !res : res;
+};
+
 /**
  * Run a query to filter out specific documents
  * @param queryArr Array of query objects to run/loop through
@@ -37,7 +141,11 @@ export const runQuery = (
     }
 
     // Check to see if the collection schema has the provided key
-    if (nestedKey(col.schema, query.key) !== undefined || query.key === '_updatedAt' || query.key === '_createdAt') {
+    if (
+      nestedKey(col.schema, query.key) !== undefined ||
+      query.key === "_updatedAt" ||
+      query.key === "_createdAt"
+    ) {
       /* DEBUG */ _(
         "Collection contains key `%s`, querying key with operator `%s`",
         query.key,
@@ -45,90 +153,6 @@ export const runQuery = (
       );
       // Run the specified query
       switch (query.operation) {
-        case "<":
-          // Filter out documents where the target is less than the provided value
-          docs = docs.filter((doc) => {
-            const res = getOrCreateIndex({ doc, query }) < query.comparison;
-
-            return query.inverse ? !res : res;
-          });
-          break;
-        case ">":
-          // Filter out documents where the target is greater than the provided value
-          docs = docs.filter((doc) => {
-            const res = getOrCreateIndex({ doc, query }) > query.comparison;
-
-            return query.inverse ? !res : res;
-          });
-          break;
-        case "<=":
-          // Filter out documents where the target is less than or equal to the the provided value
-          docs = docs.filter((doc) => {
-            const res = getOrCreateIndex({ doc, query }) <= query.comparison;
-
-            return query.inverse ? !res : res;
-          });
-          break;
-        case ">=":
-          // Filter out documents where the target is greater than or equal tothe provided value
-          docs = docs.filter((doc) => {
-            const res = getOrCreateIndex({ doc, query }) >= query.comparison;
-
-            return query.inverse ? !res : res;
-          });
-          break;
-        case "===":
-          // Filter out documents where the target isn't equal to the provided value
-          docs = docs.filter((doc) => {
-            const res = getOrCreateIndex({ doc, query }) === query.comparison;
-
-            return query.inverse ? !res : res;
-          });
-          break;
-        case "includes":
-          // Filter out documents that don't include the comparison
-          docs = docs.filter((doc) => {
-            const val = getOrCreateIndex({ doc, query });
-
-            let res;
-            if (Array.isArray(val)) res = val.includes(query.comparison);
-            else return false;
-
-            return query.inverse ? !res : res;
-          });
-          break;
-        case "isContainedIn":
-          if (!Array.isArray(query.comparison)) break;
-          const cComparison = query.comparison;
-
-          docs = docs.filter((doc) => {
-            const val = getOrCreateIndex({ doc, query });
-
-            let res;
-            if (Array.isArray(val))
-              res = val.every((valT) => cComparison.includes(valT));
-            else return (res = cComparison.includes(val));
-
-            return query.inverse ? !res : res;
-          });
-          break;
-        case "hasAllOf":
-          // Filter out documents that don't have ALL of the comparison values
-          if (!Array.isArray(query.comparison)) break;
-          const aComparison = query.comparison;
-
-          docs = docs.filter((doc) => {
-            const val = getOrCreateIndex({ doc, query });
-
-            if (!Array.isArray(val)) return false;
-
-            const res = aComparison.every((comparison) =>
-              val.includes(comparison)
-            );
-
-            return query.inverse ? !res : res;
-          });
-          break;
         case "||":
           // Run multiple queries and combine the results of all of them
 
@@ -158,105 +182,8 @@ export const runQuery = (
           // Filter out documents that exist multiple times in the array.
           docs = tmp.filter((doc, i) => i === idArr.indexOf(doc.id));
           break;
-        case "all>than":
-          docs = docs.filter((doc) => {
-            const val = getOrCreateIndex({ doc, query });
-            if (!Array.isArray(val)) return false;
-
-            const res = val.every((valT) => valT > query.comparison);
-
-            return query.inverse ? !res : res;
-          });
-          break;
-        case "all<than":
-          docs = docs.filter((doc) => {
-            const val = getOrCreateIndex({ doc, query });
-            if (!Array.isArray(val)) return false;
-
-            const res = val.every((valT) => valT < query.comparison);
-
-            return query.inverse ? !res : res;
-          });
-          break;
-        case "all>=to":
-          docs = docs.filter((doc) => {
-            const val = getOrCreateIndex({ doc, query });
-            if (!Array.isArray(val)) return false;
-
-            const res = val.every((valT) => valT >= query.comparison);
-
-            return query.inverse ? !res : res;
-          });
-          break;
-        case "all<=to":
-          docs = docs.filter((doc) => {
-            const val = getOrCreateIndex({ doc, query });
-            if (!Array.isArray(val)) return false;
-
-            const res = val.every((valT) => valT <= query.comparison);
-
-            return query.inverse ? !res : res;
-          });
-          break;
-        case "all===to":
-          docs = docs.filter((doc) => {
-            const val = getOrCreateIndex({ doc, query });
-            if (!Array.isArray(val)) return false;
-
-            const res = val.every((valT) => valT === query.comparison);
-
-            return query.inverse ? !res : res;
-          });
-          break;
-        case "some>than":
-          docs = docs.filter((doc) => {
-            const val = getOrCreateIndex({ doc, query });
-            if (!Array.isArray(val)) return false;
-
-            const res = val.some((valT) => valT > query.comparison);
-
-            return query.inverse ? !res : res;
-          });
-          break;
-        case "some<than":
-          docs = docs.filter((doc) => {
-            const val = getOrCreateIndex({ doc, query });
-            if (!Array.isArray(val)) return false;
-
-            const res = val.some((valT) => valT < query.comparison);
-
-            return query.inverse ? !res : res;
-          });
-          break;
-        case "some>=to":
-          docs = docs.filter((doc) => {
-            const val = getOrCreateIndex({ doc, query });
-            if (!Array.isArray(val)) return false;
-
-            const res = val.some((valT) => valT >= query.comparison);
-
-            return query.inverse ? !res : res;
-          });
-          break;
-        case "some<=to":
-          docs = docs.filter((doc) => {
-            const val = getOrCreateIndex({ doc, query });
-            if (!Array.isArray(val)) return false;
-
-            const res = val.some((valT) => valT <= query.comparison);
-
-            return query.inverse ? !res : res;
-          });
-          break;
-        case "some===to":
-          docs = docs.filter((doc) => {
-            const val = getOrCreateIndex({ doc, query });
-            if (!Array.isArray(val)) return false;
-
-            const res = val.some((valT) => valT === query.comparison);
-
-            return query.inverse ? !res : res;
-          });
+        default:
+          docs = docs.filter((doc) => compare(doc, query));
           break;
       }
     }
