@@ -1,11 +1,12 @@
 {
   "name": "memsdb",
-  "version": "0.3.0",
+  "version": "0.3.5",
   "description": "A simple in memory DB - Created to experiment more with typescript and classes",
-  "main": "dist/index.js",
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.cjs.json",
     "prepublish": "npm run build",
     "generate-docs": "typedoc --out docs/ src/"
   },
@@ -18,6 +19,7 @@
   },
   "devDependencies": {
     "@types/debug": "^4.1.5",
+    "@types/on-change": "^1.1.0",
     "@types/uuid": "^8.3.0",
     "typedoc": "^0.19.1",
     "typescript": "^3.9.3"
@@ -28,6 +30,10 @@
   ],
   "bugs": {
     "url": "https://github.com/brocococonut/memsdb/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brocococonut/memsdb"
   },
   "homepage": "https://brocococonut.github.io/memsdb/"
 }

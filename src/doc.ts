@@ -1,9 +1,9 @@
-import { DBCollection } from "./collection";
 import { v4 } from "uuid";
+import change from 'on-change'
+import { DBCollection } from "./collection";
 import { Query, PopulateQuery } from "./types";
 import { nestedKey } from "./utils/key";
 import { updateReactiveIndex } from "./utils/reactive";
-import change from 'on-change'
 
 /**
  * Class for creating structured documents
@@ -61,14 +61,16 @@ export class DBDoc {
         this.collection.docs.findIndex((val) => val === this),
         1
       );
+
       for (const key of this.collection.reactiveIndexed.keys()) {
+        /* DEBUG */ this.doc_("Updating reactive index");
         updateReactiveIndex(this.collection, key);
       }
 
       /* DEBUG */ this.doc_("Removing nested change listener");
       change.unsubscribe(this._listenedRef)
     } catch (err) {
-      /* DEBUG */ this.doc_("Failed to delete this document, %O", err);
+      /* DEBUG */ this.doc_("Failed to delete this document, %J", err);
     }
   }
 

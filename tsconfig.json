@@ -1,16 +1,17 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "commonjs",
+    "target": "ES2019",
+    "module": "ES2020",
     "allowJs": true,
     "declaration": true,
-    "sourceMap": true,
-    "outDir": "./dist",
+    "sourceMap": false,
+    "outDir": "./lib/esm",
     "rootDir": "./src",
     "strict": true,
     "esModuleInterop": true,
+    "moduleResolution": "Node",
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
   },
-  "exclude": ["docs/", "dist/"]
+  "exclude": ["docs/", "lib/"]
 }

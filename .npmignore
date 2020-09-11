@@ -1,0 +1,9 @@
+src/
+docs/
+tsconfig.json
+README.md
+.nojekyll
+.git
+node_modules
+.npmignore
+.gitignore
