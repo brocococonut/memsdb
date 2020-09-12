@@ -71,12 +71,58 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
+							<h3>Classes</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_utils_query_.querybuilder.html" class="tsd-kind-icon">Query<wbr>Builder</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-not-exported">
+							<h3>Type aliases</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported"><a href="_utils_query_.html#wherecallback" class="tsd-kind-icon">Where<wbr>Callback</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-function tsd-parent-kind-module tsd-is-not-exported"><a href="_utils_query_.html#compare" class="tsd-kind-icon">compare</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_utils_query_.html#runquery" class="tsd-kind-icon">run<wbr>Query</a></li>
 							</ul>
 						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
+				<h2>Type aliases</h2>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
+					<a name="wherecallback" class="tsd-anchor"></a>
+					<h3>Where<wbr>Callback</h3>
+					<div class="tsd-signature tsd-kind-icon">Where<wbr>Callback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>query<span class="tsd-signature-symbol">: </span><a href="../classes/_utils_query_.querybuilder.html" class="tsd-signature-type">QueryBuilder</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="../classes/_utils_query_.querybuilder.html" class="tsd-signature-type">QueryBuilder</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6e2cb30/src/utils/query.ts#L237">utils/query.ts:237</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>query<span class="tsd-signature-symbol">: </span><a href="../classes/_utils_query_.querybuilder.html" class="tsd-signature-type">QueryBuilder</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/_utils_query_.querybuilder.html" class="tsd-signature-type">QueryBuilder</a></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>query: <a href="../classes/_utils_query_.querybuilder.html" class="tsd-signature-type">QueryBuilder</a></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <a href="../classes/_utils_query_.querybuilder.html" class="tsd-signature-type">QueryBuilder</a></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
 					</div>
 				</section>
 			</section>
@@ -92,7 +138,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/da0085f/src/utils/query.ts#L7">utils/query.ts:7</a></li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6e2cb30/src/utils/query.ts#L8">utils/query.ts:8</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -112,13 +158,13 @@
 					<a name="runquery" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> run<wbr>Query</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">run<wbr>Query<span class="tsd-signature-symbol">(</span>queryArr<span class="tsd-signature-symbol">: </span><a href="../interfaces/_types_.query.html" class="tsd-signature-type">Query</a><span class="tsd-signature-symbol">[]</span>, col<span class="tsd-signature-symbol">: </span><a href="../classes/_collection_.dbcollection.html" class="tsd-signature-type">DBCollection</a>, seedDocs<span class="tsd-signature-symbol">: </span><a href="../classes/_doc_.dbdoc.html" class="tsd-signature-type">DBDoc</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/_doc_.dbdoc.html" class="tsd-signature-type">DBDoc</a><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">run<wbr>Query<span class="tsd-signature-symbol">(</span>queryArr<span class="tsd-signature-symbol">: </span><a href="../interfaces/_types_.query.html" class="tsd-signature-type">Query</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="../classes/_utils_query_.querybuilder.html" class="tsd-signature-type">QueryBuilder</a>, col<span class="tsd-signature-symbol">: </span><a href="../classes/_collection_.dbcollection.html" class="tsd-signature-type">DBCollection</a>, seedDocs<span class="tsd-signature-symbol">: </span><a href="../classes/_doc_.dbdoc.html" class="tsd-signature-type">DBDoc</a><span class="tsd-signature-symbol">[]</span>, nested_<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Debugger</span>, nestedOp_<span class="tsd-signature-symbol">?: </span><a href="_types_.html#operators" class="tsd-signature-type">Operators</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/_doc_.dbdoc.html" class="tsd-signature-type">DBDoc</a><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/da0085f/src/utils/query.ts#L117">utils/query.ts:117</a></li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6e2cb30/src/utils/query.ts#L118">utils/query.ts:118</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -129,7 +175,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>queryArr: <a href="../interfaces/_types_.query.html" class="tsd-signature-type">Query</a><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>queryArr: <a href="../interfaces/_types_.query.html" class="tsd-signature-type">Query</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="../classes/_utils_query_.querybuilder.html" class="tsd-signature-type">QueryBuilder</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
 											<p>Array of query objects to run/loop through</p>
@@ -151,6 +197,12 @@
 											<p>Document array to filter, either from the collection, or from recursion</p>
 										</div>
 									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> nested_: <span class="tsd-signature-type">Debugger</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> nestedOp_: <a href="_types_.html#operators" class="tsd-signature-type">Operators</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../classes/_doc_.dbdoc.html" class="tsd-signature-type">DBDoc</a><span class="tsd-signature-symbol">[]</span></h4>
@@ -196,6 +248,12 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/_utils_query_.querybuilder.html" class="tsd-kind-icon">Query<wbr>Builder</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
+						<a href="_utils_query_.html#wherecallback" class="tsd-kind-icon">Where<wbr>Callback</a>
+					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
 						<a href="_utils_query_.html#compare" class="tsd-kind-icon">compare</a>
 					</li>

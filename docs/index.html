@@ -72,6 +72,16 @@
 					<img src="https://badgen.net/bundlephobia/minzip/memsdb" alt="minified + gzip">
 					<img src="https://badgen.net/bundlephobia/dependency-count/memsdb" alt="dependency count">
 				<img src="https://badgen.net/bundlephobia/tree-shaking/memsdb" alt="tree shaking"></p>
+				<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
+					<h2>Documentation:</h2>
+				</a>
+				<ul>
+					<li><a href="https://brocococonut.github.io/memsdb/">Documentation Root</a></li>
+					<li><a href="https://brocococonut.github.io/memsdb/classes/_db_.db.html">DB Class Docs</a></li>
+					<li><a href="https://brocococonut.github.io/memsdb/classes/_collection_.dbcollection.html">DBCollection Class Docs</a></li>
+					<li><a href="https://brocococonut.github.io/memsdb/classes/_doc_.dbdoc.html">DBDoc Class Docs</a></li>
+					<li><a href="https://brocococonut.github.io/memsdb/classes/_utils_query_.querybuilder.html">Query Builder Class Docs</a></li>
+				</ul>
 				<p>Initialising a new database:</p>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { DB } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;memsdb&#x27;</span>
 
@@ -99,11 +109,13 @@ comments.find([{
   operation: <span class="hljs-string">&#x27;===&#x27;</span>,
   comparison: <span class="hljs-string">&#x27;me&#x27;</span>
 }])
+<span class="hljs-comment">// Or with the QueryBuilder:</span>
+comments.find(<span class="hljs-keyword">new</span> QueryBuilder().where(<span class="hljs-string">&#x27;by&#x27;</span>, <span class="hljs-string">&#x27;===&#x27;</span>, <span class="hljs-string">&#x27;me&#x27;</span>))
 
 <span class="hljs-comment">/**
  * Find a document by it&#x27;s id
  */</span>
-comments.id(<span class="hljs-string">&#x27;0123456789abcdef01245678&#x27;</span>)</code></pre>
+comments.id(<span class="hljs-string">&#x27;50d4047b-6c6d-47e8-b487-42ca2a7a4c00&#x27;</span>)</code></pre>
 				<p>Full example:</p>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { DB } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;memsdb&#x27;</span>
 
@@ -128,6 +140,8 @@ comments.insertOne({
   operation: <span class="hljs-string">&#x27;===&#x27;</span>,
   comparison: <span class="hljs-string">&#x27;me&#x27;</span>
 }])
+<span class="hljs-comment">// Or with the QueryBuilder:</span>
+<span class="hljs-keyword">const</span> docs = comments.find(<span class="hljs-keyword">new</span> QueryBuilder().where(<span class="hljs-string">&#x27;by&#x27;</span>, <span class="hljs-string">&#x27;===&#x27;</span>, <span class="hljs-string">&#x27;me&#x27;</span>))
 
 <span class="hljs-comment">// docs should contain the one comment we added</span></code></pre>
 				<p>The query language is still rather simple but can support the operators: <code>&lt;</code> | <code>&gt;</code> | <code>&lt;=</code> | <code>&gt;=</code> | <code>===</code> | <code>||</code> | <code>includes</code> | <code>isContainedIn</code> | <code>hasAllOf</code> | <code>all&gt;than</code> | <code>all&lt;than</code> | <code>all&gt;=to</code> | <code>all&lt;=to</code> | <code>all===to</code> | <code>some&gt;than</code> | <code>some&lt;than</code> | <code>some&gt;=to</code> | <code>some&lt;=to</code> | <code>some===to</code> - where <code>||</code> runs an OR using an array of <code>Query</code> objects (supports multi-level ORing).</p>
@@ -136,17 +150,21 @@ comments.insertOne({
   key: <span class="hljs-string">&#x27;by&#x27;</span>,
   operation: <span class="hljs-string">&#x27;===&#x27;</span>,
   comparison: <span class="hljs-string">&#x27;me&#x27;</span>
-}</code></pre>
+}
+<span class="hljs-comment">// Or with the QueryBuilder:</span>
+<span class="hljs-keyword">const</span> query = <span class="hljs-keyword">new</span> QueryBuilder().where(<span class="hljs-string">&#x27;by&#x27;</span>, <span class="hljs-string">&#x27;===&#x27;</span>, <span class="hljs-string">&#x27;me&#x27;</span>)</code></pre>
 				<p>should be read as <code>document.by (key to get value of) &#39;===&#39; &#39;me&#39; (value)</code></p>
 				<p>The <code>some===to</code> key (<code>some*</code>, <code>all*</code>) can be used to find similarities between different arrays</p>
 				<p><code>all===to</code> makes sure that all of the specified key is equal to the comparison. This would usually be useful with query keys that specify an array  with objects in it like the following: <code>folder.children.[].exists</code>. In the previous example you&#39;d use <code>all===to</code> to make sure that all child folders of the first level have the property <code>exists</code> and that it&#39;s equal to whatever comparison value you set in the query. Eg.:</p>
-				<p>```
-					const query = {
-					key: &#39;folder.children.[].exists&#39;,
-					operation: &#39;all===to&#39;,
-					comparison: true&#39;
-				}</p>
-				<p>Other functions on the database, collections, and documents can be read in the docs</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> query = {
+  key: <span class="hljs-string">&#x27;folder.children.[].exists&#x27;</span>,
+  operation: <span class="hljs-string">&#x27;all===to&#x27;</span>,
+  comparison: <span class="hljs-literal">true</span>
+}
+<span class="hljs-comment">// OR using the query builder:</span>
+<span class="hljs-keyword">const</span> query = <span class="hljs-keyword">new</span> QueryBuilder()
+  .where(<span class="hljs-string">&#x27;folder.children.[].exists&#x27;</span>, <span class="hljs-string">&#x27;all===to&#x27;</span>, <span class="hljs-literal">true</span>)</code></pre>
+				<p>Other functions on the database, collections, and documents can be read in the <a href="https://brocococonut.github.io/memsdb/">documentation</a></p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">

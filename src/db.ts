@@ -9,10 +9,10 @@ const memsdb_ = debug("memsdb");
  */
 export class DB {
   /** Key based object containing all the collections */
-  name: string = "memsdb";
+  readonly name: string = "memsdb";
   collections: { [key: string]: DBCollection } = {};
   /** Debugger variable */
-  db_: debug.Debugger;
+  readonly db_: debug.Debugger;
   options = {
     useDynamicIndexes: true,
   };
@@ -29,7 +29,7 @@ export class DB {
     } = {}
   ) {
     this.name = name;
-    this.db_ = memsdb_.extend(name);
+    this.db_ = memsdb_.extend(`<db>${name}`);
     if (opts.useDynamicIndexes)
       this.options.useDynamicIndexes = opts.useDynamicIndexes;
   }

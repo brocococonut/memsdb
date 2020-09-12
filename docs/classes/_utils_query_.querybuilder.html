@@ -1,0 +1,409 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>QueryBuilder | memsdb</title>
+	<meta name="description" content="Documentation for memsdb">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">memsdb</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="../modules/_utils_query_.html">&quot;utils/query&quot;</a>
+				</li>
+				<li>
+					<a href="_utils_query_.querybuilder.html">QueryBuilder</a>
+				</li>
+			</ul>
+			<h1>Class QueryBuilder</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Helper function to easily generate queries</p>
+					</div>
+					<dl class="tsd-comment-tags">
+						<dt>example</dt>
+						<dd><p>Simple example showing a basic set of where&#39;s (&amp;&amp; together) to get documents with a value between (inclusive) 40 and 50</p>
+							<pre><code class="language-typescript"><span class="hljs-keyword">const</span> query = <span class="hljs-keyword">new</span> QueryBuilder()
+  .where(<span class="hljs-string">&#x27;myKey&#x27;</span>, <span class="hljs-string">&#x27;&gt;=&#x27;</span> <span class="hljs-number">40</span>)
+  .where(<span class="hljs-string">&#x27;myKey&#x27;</span>, <span class="hljs-string">&#x27;&lt;=&#x27;</span>, <span class="hljs-number">50</span>)</code></pre>
+						</dd>
+						<dt>example</dt>
+						<dd><p>Using the orWhere function to generate OR queries</p>
+							<pre><code class="language-typescript"><span class="hljs-keyword">const</span> query = <span class="hljs-keyword">new</span> QueryBuilder()
+  .orWhere(
+    <span class="hljs-function"><span class="hljs-params">orQuery</span> =&gt;</span> orQuery
+      .where(<span class="hljs-string">&#x27;myKey&#x27;</span>, <span class="hljs-string">&#x27;===&#x27;</span>, <span class="hljs-literal">true</span>)
+      .where(<span class="hljs-string">&#x27;mySecondKey&#x27;</span>, <span class="hljs-string">&#x27;===&#x27;</span>, <span class="hljs-number">52</span>, <span class="hljs-literal">true</span>)
+  )</code></pre>
+						</dd>
+						<dt>example</dt>
+						<dd><p>Nested AND queries in an OR query</p>
+							<pre><code class="language-typescript"><span class="hljs-comment">// Kind of like the following if statement:</span>
+<span class="hljs-comment">// if(</span>
+<span class="hljs-comment">//   (</span>
+<span class="hljs-comment">//     key1 === 21 &amp;&amp;</span>
+<span class="hljs-comment">//     key2 === &#x27;boop&#x27;</span>
+<span class="hljs-comment">//   ) ||</span>
+<span class="hljs-comment">//   (</span>
+<span class="hljs-comment">//     key3 &gt;= 1 &amp;&amp;</span>
+<span class="hljs-comment">//     key4 &lt;= 100</span>
+<span class="hljs-comment">//   )</span>
+<span class="hljs-comment">// )</span>
+<span class="hljs-keyword">const</span> query = <span class="hljs-keyword">new</span> QueryBuilder()
+  .orWhere(
+    <span class="hljs-function"><span class="hljs-params">orQuery</span> =&gt;</span> orQuery
+      .andWhere(
+        <span class="hljs-function"><span class="hljs-params">andWhere</span> =&gt;</span> andWhere
+          .where(<span class="hljs-string">&#x27;key1&#x27;</span>, <span class="hljs-string">&#x27;===&#x27;</span>, <span class="hljs-number">21</span>)
+          .where(<span class="hljs-string">&#x27;key2&#x27;</span>, <span class="hljs-string">&#x27;===&#x27;</span>, <span class="hljs-string">&#x27;boop&#x27;</span>)
+      )
+      .andWhere(
+        <span class="hljs-function"><span class="hljs-params">andWhere</span> =&gt;</span> andWhere
+          .where(<span class="hljs-string">&#x27;key3&#x27;</span>, <span class="hljs-string">&#x27;&gt;=&#x27;</span>, <span class="hljs-number">1</span>)
+          .where(<span class="hljs-string">&#x27;key4&#x27;</span>, <span class="hljs-string">&#x27;&lt;=&#x27;</span>, <span class="hljs-number">100</span>)
+      )
+  )</code></pre>
+						</dd>
+					</dl>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">QueryBuilder</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_utils_query_.querybuilder.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_utils_query_.querybuilder.html#queries" class="tsd-kind-icon">queries</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_utils_query_.querybuilder.html#andwhere" class="tsd-kind-icon">and<wbr>Where</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_utils_query_.querybuilder.html#orwhere" class="tsd-kind-icon">or<wbr>Where</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_utils_query_.querybuilder.html#where" class="tsd-kind-icon">where</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Query<wbr>Builder<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_utils_query_.querybuilder.html" class="tsd-signature-type">QueryBuilder</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6e2cb30/src/utils/query.ts#L288">utils/query.ts:288</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <a href="_utils_query_.querybuilder.html" class="tsd-signature-type">QueryBuilder</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="queries" class="tsd-anchor"></a>
+					<h3>queries</h3>
+					<div class="tsd-signature tsd-kind-icon">queries<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_types_.query.html" class="tsd-signature-type">Query</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6e2cb30/src/utils/query.ts#L288">utils/query.ts:288</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="andwhere" class="tsd-anchor"></a>
+					<h3>and<wbr>Where</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">and<wbr>Where<span class="tsd-signature-symbol">(</span>queryFunc<span class="tsd-signature-symbol">: </span><a href="../modules/_utils_query_.html#wherecallback" class="tsd-signature-type">WhereCallback</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6e2cb30/src/utils/query.ts#L323">utils/query.ts:323</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generate &amp;&amp; queries for nesting within || queries</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>queryFunc: <a href="../modules/_utils_query_.html#wherecallback" class="tsd-signature-type">WhereCallback</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>callback for generating queries with a nested QueryBuilder</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="orwhere" class="tsd-anchor"></a>
+					<h3>or<wbr>Where</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">or<wbr>Where<span class="tsd-signature-symbol">(</span>queryFunc<span class="tsd-signature-symbol">: </span><a href="../modules/_utils_query_.html#wherecallback" class="tsd-signature-type">WhereCallback</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6e2cb30/src/utils/query.ts#L313">utils/query.ts:313</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generate a nested || query</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>queryFunc: <a href="../modules/_utils_query_.html#wherecallback" class="tsd-signature-type">WhereCallback</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>callback for generating || queries with a nested QueryBuilder</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="where" class="tsd-anchor"></a>
+					<h3>where</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">where<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, operation<span class="tsd-signature-symbol">: </span><a href="../modules/_types_.html#operators" class="tsd-signature-type">Operators</a>, comparison<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, inverse<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6e2cb30/src/utils/query.ts#L299">utils/query.ts:299</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generate a new query for the array</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>key: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Key to search on (run through nestedKey function)</p>
+									</div>
+								</li>
+								<li>
+									<h5>operation: <a href="../modules/_types_.html#operators" class="tsd-signature-type">Operators</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Comparison operation to use</p>
+									</div>
+								</li>
+								<li>
+									<h5>comparison: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>What to compare against</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> inverse: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Inverse the result of the where query</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_collection_.html">&quot;collection&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_db_.html">&quot;db&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_doc_.html">&quot;doc&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_index_.html">&quot;index&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_types_.html">&quot;types&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_utils_indexed_.html">&quot;utils/indexed&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_utils_key_.html">&quot;utils/key&quot;</a>
+					</li>
+					<li class="current tsd-kind-module">
+						<a href="../modules/_utils_query_.html">&quot;utils/query&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_utils_reactive_.html">&quot;utils/reactive&quot;</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class tsd-parent-kind-module">
+						<a href="_utils_query_.querybuilder.html" class="tsd-kind-icon">Query<wbr>Builder</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="_utils_query_.querybuilder.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_utils_query_.querybuilder.html#queries" class="tsd-kind-icon">queries</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_utils_query_.querybuilder.html#andwhere" class="tsd-kind-icon">and<wbr>Where</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_utils_query_.querybuilder.html#orwhere" class="tsd-kind-icon">or<wbr>Where</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_utils_query_.querybuilder.html#where" class="tsd-kind-icon">where</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
+						<a href="../modules/_utils_query_.html#wherecallback" class="tsd-kind-icon">Where<wbr>Callback</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
+						<a href="../modules/_utils_query_.html#compare" class="tsd-kind-icon">compare</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/_utils_query_.html#runquery" class="tsd-kind-icon">run<wbr>Query</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

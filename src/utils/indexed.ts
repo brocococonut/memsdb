@@ -18,6 +18,7 @@ export const updateDocIndex = (doc: DBDoc, key = "") => {
 /**
  * Get/Create an index on the document and/or collection (if reactive) based
  * on the provided query
+ * @param param0 Index options
  */
 export const getOrCreateIndex = ({
   doc,

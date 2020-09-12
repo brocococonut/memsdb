@@ -4,13 +4,14 @@ import { DBCollection } from "./collection";
 import { Query, PopulateQuery } from "./types";
 import { nestedKey } from "./utils/key";
 import { updateReactiveIndex } from "./utils/reactive";
+import { QueryBuilder } from "./utils/query";
 
 /**
  * Class for creating structured documents
  */
 export class DBDoc {
   /** Reference to the parent collection */
-  collection: DBCollection;
+  readonly collection: DBCollection;
   /** Document id */
   id: string;
   /** Value of the document */
@@ -20,13 +21,13 @@ export class DBDoc {
     [key: string]: any;
   } = {};
   /** Debugger variable */
-  doc_: debug.Debugger;
+  readonly doc_: debug.Debugger;
 
   indexed: {
     [key: string]: any | any[];
   } = {};
 
-  _listenedRef: DBDoc = this
+  private _listenedRef: DBDoc = this
 
   /**
    * Construct a new Document with the collections schema and any provided data
@@ -48,7 +49,7 @@ export class DBDoc {
     this.data._createdAt = Date.now();
     this.data._updatedAt = Date.now();
 
-    this.doc_ = collection.col_.extend(this.id);
+    this.doc_ = collection.col_.extend(`<doc>${this.id}`);
   }
 
   /**
@@ -83,7 +84,7 @@ export class DBDoc {
     srcField: string;
     targetField?: string;
     targetCol: DBCollection;
-    query?: Query[];
+    query?: Query[] | QueryBuilder;
     destinationField?: string;
     unwind?: boolean;
   }) {

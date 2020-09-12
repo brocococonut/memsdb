@@ -1,4 +1,5 @@
 import { DBCollection } from "./collection";
+import { QueryBuilder } from "./utils/query";
 
 /** Base template of a schema/collection */
 export interface SchemaTemplateType {
@@ -18,6 +19,7 @@ export type Operators =
   | ">="
   | "==="
   | "||"
+  | "&&"
   | "includes"
   | "isContainedIn"
   | "hasAllOf"
@@ -41,7 +43,7 @@ export interface Query {
   /** Operation to perform */
   operation: Operators;
   /** Value to compare against */
-  comparison: any | Query[];
+  comparison: any | Query[] | QueryBuilder;
   reactiveQuery?: boolean;
 }
 
