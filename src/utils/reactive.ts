@@ -5,6 +5,7 @@ import { DBCollection } from "../collection";
 
 /**
  * Set a reactive query on a collection (should be run from the collection, not directly)
+ * @ignore
  * @param collection Collection to update reactive index on
  * @param query Queries to run
  */
@@ -17,6 +18,7 @@ export const updateReactiveIndex = (collection: DBCollection, query: Query[] | Q
 
 /**
  * Create a new reactive index from a query array (should be run from the collection, not directly)
+ * @ignore
  * @param collection Collection to create reactive index on
  * @param query Query array to perform
  */

@@ -1,0 +1,400 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>&quot;utils/populate&quot; | memsdb</title>
+	<meta name="description" content="Documentation for memsdb">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">memsdb</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="_utils_populate_.html">&quot;utils/populate&quot;</a>
+				</li>
+			</ul>
+			<h1>Module &quot;utils/populate&quot;</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<dl class="tsd-comment-tags">
+						<dt>module</dt>
+						<dd><p>populate</p>
+							<a href="#memsdb-populate" id="memsdb-populate" style="color: inherit; text-decoration: none;">
+								<h1>MemsDB Populate</h1>
+							</a>
+							<p>The main export of this module would have to be the <code>populate</code> function. This function allows you to pass in an array of documents from a single collection (from a query for example) and to populate a tree of documents based on the provided population query. A simple language was written for this purpose, somewhat paralleling GraphQL and plain JSON, it&#39;s called the MemsDB Population Language (<code>MemsPL</code> for short). Documents (and sub-documents) returned by the <code>populate</code> function are duplicates of the original to prevent undesired mutations.</p>
+							<p>The population function can also be used to filter out keys on documents and deeply nested document if they&#39;re not needed. The <code>filter</code> parameter dictates whether or not to delete the non-selected keys on the duped documents.</p>
+							<a href="#memspl" id="memspl" style="color: inherit; text-decoration: none;">
+								<h2>MemsPL</h2>
+							</a>
+							<p>As mentioned, MemsPL is quite similar to GraphQL and JSON. If you for example have an array of comments, and you want to populate the user to each comment, you&#39;d use a query somewhat like this:</p>
+							<pre><code><span class="hljs-keyword">user</span>{
+  username
+}</code></pre>
+							<p>Comments after each property are optional, and quotation marks aren&#39;t needed/advised against in keys.
+							Following the example from above. If you have a user with an array of comments they&#39;ve posted attached (referenced by an id) and you want to retrieve the <code>content</code> and the <code>likes</code> fields, you&#39;d have something like this:</p>
+							<pre><code>comments<span class="hljs-comment">[
+  content
+  likes
+]</span></code></pre>
+							<p>Additionally, if you had an array of submissions where you wanted to populate the user on each submission, as well as the comments on those submissions, and the user who wrote each comment, you&#39;d use something similar to this:</p>
+							<pre><code><span class="hljs-keyword">user</span>{
+  username
+}
+comments[
+  content
+  likes
+  <span class="hljs-keyword">user</span>{
+    username
+  }
+]</code></pre>
+							<a href="#document-caveats" id="document-caveats" style="color: inherit; text-decoration: none;">
+								<h2>Document Caveats</h2>
+							</a>
+							<p>A document&#39;s original reference key (e.g <code>parent</code>, <code>children</code>, etc.) will get replaced with the populated document/s. For a document that is more than just 1 dimensional and has objects deeper in it (e.g <code>{content: {reference: &#39;f75b8d8b-a28f-4c94-b560-f9931f6dc5e8&#39;}}</code>), a new key will be created that&#39;s a period delimited version of how to get to the desired key (e.g <code>content.reference</code>).</p>
+							<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
+								<h2>Examples</h2>
+							</a>
+							<p>Given you have a set of collections like the following:</p>
+							<pre><code class="language-typescript"><span class="hljs-keyword">const</span> submissionsCol = <span class="hljs-keyword">new</span> DBCollection(db, {
+  name: <span class="hljs-string">&#x27;submissions&#x27;</span>,
+  structure: {
+    title: <span class="hljs-string">&#x27;&#x27;</span>,
+    comments: [<span class="hljs-string">&#x27;&#x27;</span>],
+    user: <span class="hljs-string">&#x27;&#x27;</span>
+  }
+})
+
+<span class="hljs-keyword">const</span> commentsCol = <span class="hljs-keyword">new</span> DBCollection(db, {
+  name: <span class="hljs-string">&#x27;comments&#x27;</span>,
+  structure: {
+    content: <span class="hljs-string">&#x27;&#x27;</span>,
+    user: <span class="hljs-string">&#x27;&#x27;</span>,
+    parent: <span class="hljs-string">&#x27;&#x27;</span>
+  }
+})
+
+<span class="hljs-keyword">const</span> usersCol = <span class="hljs-keyword">new</span> DBCollection(db, {
+  name: <span class="hljs-string">&#x27;users&#x27;</span>,
+  structure: {
+    content: {
+      comments: [<span class="hljs-string">&#x27;&#x27;</span>],
+      submissions: [<span class="hljs-string">&#x27;&#x27;</span>],
+    },
+    name: <span class="hljs-string">&#x27;&#x27;</span>
+  }
+})</code></pre>
+							<p>And starting from the <code>users</code> collection, you want the results to look something like this:</p>
+							<pre><code class="language-json">[
+  <span class="hljs-comment">// User documents</span>
+  {
+    <span class="hljs-attr">&quot;content.comments&quot;</span>: [
+      <span class="hljs-comment">// Array of comment documents</span>
+      {
+        <span class="hljs-attr">&quot;parent&quot;</span>: { <span class="hljs-comment">// Parent of this comment, not an explicit reference by default, just an ID</span>
+          <span class="hljs-attr">&quot;user&quot;</span>: { <span class="hljs-comment">// User document populated in</span>
+            <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;Finn_Kunde77&quot;</span>,
+            <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;b512ae9a-20c0-4f8c-ad23-2235b7a99239&quot;</span>,
+            <span class="hljs-attr">&quot;_type&quot;</span>: <span class="hljs-string">&quot;(DBCollection&lt;users&lt;DBDoc&gt;&gt;)&quot;</span>,
+            <span class="hljs-attr">&quot;_indexes&quot;</span>: []
+          },
+          <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;7a1fdbcc-89a2-4276-8888-1d60ca14acb6&quot;</span>,
+          <span class="hljs-attr">&quot;_type&quot;</span>: <span class="hljs-string">&quot;(DBCollection&lt;submissions&lt;DBDoc&gt;&gt;)&quot;</span>,
+          <span class="hljs-attr">&quot;_indexes&quot;</span>: []
+        },
+        <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;ea810f01-88d4-481c-859d-cbb2e1408df4&quot;</span>,
+        <span class="hljs-attr">&quot;_type&quot;</span>: <span class="hljs-string">&quot;(DBCollection&lt;comments&lt;DBDoc&gt;&gt;)&quot;</span>,
+        <span class="hljs-attr">&quot;_indexes&quot;</span>: []
+      }
+    ],
+    <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;b512ae9a-20c0-4f8c-ad23-2235b7a99239&quot;</span>,
+    <span class="hljs-attr">&quot;_type&quot;</span>: <span class="hljs-string">&quot;(DBCollection&lt;users&lt;DBDoc&gt;&gt;)&quot;</span>,
+    <span class="hljs-attr">&quot;_indexes&quot;</span>: []
+  }
+]</code></pre>
+							<p>Then running the query something like this may be desired:</p>
+							<pre><code class="language-javascript"><span class="hljs-keyword">const</span> data = populate(
+  usersCol, <span class="hljs-comment">// Reference to the collection used in the search</span>
+  [usersCol.docs[<span class="hljs-number">0</span>]], <span class="hljs-comment">// Results of a query, using the first user as an example</span>
+  <span class="hljs-string">`
+    &lt;comments&gt;content.comments[
+      &lt;submissions&gt;parent{
+        &lt;users&gt;user{
+          name
+        }
+      }
+    ]
+  `</span>, <span class="hljs-comment">// Query to populate the following keys: user, comments[], comments[].user, comments[].user.submissions[]</span>
+  <span class="hljs-literal">true</span> <span class="hljs-comment">// Filter out unspecified keys</span>
+)</code></pre>
+							<p>If you don&#39;t want the result keys to be truncated, then you&#39;d simply flip the true at the end to a false, which would give you the following results (with the same comments for reference):</p>
+							<pre><code class="language-json">[
+  <span class="hljs-comment">// User documents</span>
+  {
+    <span class="hljs-attr">&quot;content&quot;</span>: {
+      <span class="hljs-attr">&quot;comments&quot;</span>: [
+        <span class="hljs-string">&quot;52105702-46c5-4b82-b06d-2bcf46bbf87d&quot;</span>
+      ],
+      <span class="hljs-attr">&quot;submissions&quot;</span>: [
+        <span class="hljs-string">&quot;1c650375-3675-4d0d-a293-20808887817c&quot;</span>
+      ]
+    },
+    <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;Lucy44&quot;</span>,
+    <span class="hljs-attr">&quot;_createdAt&quot;</span>: <span class="hljs-number">1609853187136</span>,
+    <span class="hljs-attr">&quot;_updatedAt&quot;</span>: <span class="hljs-number">1609853187140</span>,
+    <span class="hljs-attr">&quot;content.comments&quot;</span>: [
+      <span class="hljs-comment">// Array of comment documents</span>
+      {
+        <span class="hljs-attr">&quot;content&quot;</span>: <span class="hljs-string">&quot;Dolor quo aut et ducimus dolores. Ea sit distinctio. Nihil illo quo enim est blanditiis natus repellendus non. Quaerat enim qui eveniet. Architecto nam voluptas iusto rerum dolor quasi voluptas necessitatibus.&quot;</span>,
+        <span class="hljs-attr">&quot;user&quot;</span>: <span class="hljs-string">&quot;3d27cbb6-8a10-42fc-9100-de452db28b28&quot;</span>,
+        <span class="hljs-attr">&quot;parent&quot;</span>: { <span class="hljs-comment">// Parent of this comment, not an explicit reference by default, just an ID</span>
+          <span class="hljs-attr">&quot;title&quot;</span>: <span class="hljs-string">&quot;Nesciunt sint optio autem occaecati.&quot;</span>,
+          <span class="hljs-attr">&quot;comments&quot;</span>: [
+            <span class="hljs-string">&quot;52105702-46c5-4b82-b06d-2bcf46bbf87d&quot;</span>
+          ],
+          <span class="hljs-attr">&quot;user&quot;</span>: { <span class="hljs-comment">// User document populated in</span>
+            <span class="hljs-attr">&quot;content&quot;</span>: {
+              <span class="hljs-attr">&quot;comments&quot;</span>: [
+                <span class="hljs-string">&quot;52105702-46c5-4b82-b06d-2bcf46bbf87d&quot;</span>
+              ],
+              <span class="hljs-attr">&quot;submissions&quot;</span>: [
+                <span class="hljs-string">&quot;1c650375-3675-4d0d-a293-20808887817c&quot;</span>
+              ]
+            },
+            <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;Lucy44&quot;</span>,
+            <span class="hljs-attr">&quot;_createdAt&quot;</span>: <span class="hljs-number">1609853187136</span>,
+            <span class="hljs-attr">&quot;_updatedAt&quot;</span>: <span class="hljs-number">1609853187140</span>,
+            <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;3d27cbb6-8a10-42fc-9100-de452db28b28&quot;</span>,
+            <span class="hljs-attr">&quot;_type&quot;</span>: <span class="hljs-string">&quot;(DBCollection&lt;users&lt;DBDoc&gt;&gt;)&quot;</span>,
+            <span class="hljs-attr">&quot;_indexes&quot;</span>: []
+          },
+          <span class="hljs-attr">&quot;_createdAt&quot;</span>: <span class="hljs-number">1609853187138</span>,
+          <span class="hljs-attr">&quot;_updatedAt&quot;</span>: <span class="hljs-number">1609853187140</span>,
+          <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;1c650375-3675-4d0d-a293-20808887817c&quot;</span>,
+          <span class="hljs-attr">&quot;_type&quot;</span>: <span class="hljs-string">&quot;(DBCollection&lt;submissions&lt;DBDoc&gt;&gt;)&quot;</span>,
+          <span class="hljs-attr">&quot;_indexes&quot;</span>: []
+        },
+        <span class="hljs-attr">&quot;_createdAt&quot;</span>: <span class="hljs-number">1609853187140</span>,
+        <span class="hljs-attr">&quot;_updatedAt&quot;</span>: <span class="hljs-number">1609853187140</span>,
+        <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;52105702-46c5-4b82-b06d-2bcf46bbf87d&quot;</span>,
+        <span class="hljs-attr">&quot;_type&quot;</span>: <span class="hljs-string">&quot;(DBCollection&lt;comments&lt;DBDoc&gt;&gt;)&quot;</span>,
+        <span class="hljs-attr">&quot;_indexes&quot;</span>: []
+      }
+    ],
+    <span class="hljs-attr">&quot;id&quot;</span>: <span class="hljs-string">&quot;3d27cbb6-8a10-42fc-9100-de452db28b28&quot;</span>,
+    <span class="hljs-attr">&quot;_type&quot;</span>: <span class="hljs-string">&quot;(DBCollection&lt;users&lt;DBDoc&gt;&gt;)&quot;</span>,
+    <span class="hljs-attr">&quot;_indexes&quot;</span>: []
+  }
+]</code></pre>
+							<p>In the above, you can also see the original <code>content: {comments}</code> arrays, as well as where it was populated to (<code>content.comments</code>) due to the afformentioned <a href="#document-caveats">caveats</a></p>
+						</dd>
+					</dl>
+				</div>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Interfaces</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_utils_populate_.populatequery.html" class="tsd-kind-icon">Populate<wbr>Query</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Functions</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_utils_populate_.html#populate" class="tsd-kind-icon">populate</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="populate" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> populate</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">populate<span class="tsd-signature-symbol">(</span>rootCollection<span class="tsd-signature-symbol">: </span><a href="../classes/_collection_.dbcollection.html" class="tsd-signature-type">DBCollection</a>, docs<span class="tsd-signature-symbol">: </span><a href="../classes/_doc_.dbdoc.html" class="tsd-signature-type">DBDoc</a><span class="tsd-signature-symbol">[]</span>, populateQuery<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, filter<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/_doc_.dbdoc.html" class="tsd-signature-type">DBDoc</a><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in utils/populate.ts:235</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Populate an array of documents into a tree based on a MemsDB Population Language (MemsPL) string</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><p>populate(<code>  &lt;submissions&gt;submissions[     &lt;comments&gt;comments[       &lt;users&gt;user{         username       }     ]   ],   &lt;users&gt;followers[     username   ],   dateCreated</code>)</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>rootCollection: <a href="../classes/_collection_.dbcollection.html" class="tsd-signature-type">DBCollection</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>Collection to initially populate on (root document collection)</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5>docs: <a href="../classes/_doc_.dbdoc.html" class="tsd-signature-type">DBDoc</a><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>Array of documents to populate - normally from find() results</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5>populateQuery: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>MemL string to use</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> filter: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>Filter out non-specified keys</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../classes/_doc_.dbdoc.html" class="tsd-signature-type">DBDoc</a><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_collection_.html">&quot;collection&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_db_.html">&quot;db&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_doc_.html">&quot;doc&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_index_.html">&quot;index&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_types_.html">&quot;types&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_utils_key_.html">&quot;utils/key&quot;</a>
+					</li>
+					<li class="current tsd-kind-module">
+						<a href="_utils_populate_.html">&quot;utils/populate&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_utils_query_.html">&quot;utils/query&quot;</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_utils_populate_.populatequery.html" class="tsd-kind-icon">Populate<wbr>Query</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_utils_populate_.html#populate" class="tsd-kind-icon">populate</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

@@ -10,8 +10,6 @@ import { QueryBuilder } from "./utils/query";
  * Class for creating structured documents
  */
 export class DBDoc {
-  /** Reference to the parent collection */
-  readonly collection: DBCollection;
   /** Document id */
   id: string;
   /** Value of the document */
@@ -22,7 +20,10 @@ export class DBDoc {
   } = {};
   /** Debugger variable */
   readonly doc_: debug.Debugger;
+  /** Reference to the parent collection */
+  readonly collection: DBCollection;
 
+  /** Reference to indexed data for repeated deep data matching */
   indexed: {
     [key: string]: any | any[];
   } = {};
@@ -34,11 +35,11 @@ export class DBDoc {
    * @param data Data to be assigned to the document schema
    * @param collection Reference to the parent collection
    */
-  constructor(data: { [key: string]: any }, collection: DBCollection) {
+  constructor(data: { [key: string]: any }, collection: DBCollection, id = v4()) {
     this.collection = collection;
 
     // Ensure the document has a valid and unique ID
-    this.id = v4();
+    this.id = id;
 
     // Ensure this.data is a replica of the schema before assigning the new data
     Object.assign(this.data, this.collection.schema);
@@ -80,7 +81,7 @@ export class DBDoc {
    * This will return a copy of the document and not a reference to the original
    * @param opts Options for the populate. Things like the target field and query don't have to set
    */
-  populate(opts: {
+  customPopulate(opts: {
     srcField: string;
     targetField?: string;
     targetCol: DBCollection;
@@ -89,7 +90,7 @@ export class DBDoc {
     unwind?: boolean;
   }) {
     // Debugger variable
-    const populate_ = this.doc_.extend("populate");
+    const populate_ = this.doc_.extend("customPopulate");
     // Destructure out variables
     const {
       srcField,
@@ -117,8 +118,7 @@ export class DBDoc {
     /* DEBUG */ populate_(
       "Creating identical document so as to avoid mutations"
     );
-    const resultDoc = new DBDoc(this.data, this.collection);
-    resultDoc.id = this.id;
+    const resultDoc = this.duplicate()
 
     /* DEBUG */ populate_("Finding child documents");
     const queriedDocuments = targetCol.find(query);
@@ -144,7 +144,7 @@ export class DBDoc {
     // Debugger variable
     const tree_ = this.doc_.extend("tree");
 
-    const doc = new DBDoc(this.data, this.collection);
+    const doc = this.duplicate()
     /* DEBUG */ tree_("Number of populations: %d", populations.length);
 
     // Map over populations array to run individual populations
@@ -173,6 +173,17 @@ export class DBDoc {
       populations.length
     );
     return doc;
+  }
+
+  /**
+   * Duplicate this document, making mutations to it not affect the original
+   */
+  duplicate(){
+    const duped = new DBDoc(this.data, this.collection, this.id)
+    duped.data._createdAt = this.data._createdAt
+    duped.data._updatedAt = this.data._updatedAt
+
+    return duped
   }
 
   /**

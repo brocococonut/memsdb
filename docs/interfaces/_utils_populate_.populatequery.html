@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>SchemaTemplateType | memsdb</title>
+	<title>PopulateQuery | memsdb</title>
 	<meta name="description" content="Documentation for memsdb">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,31 +56,24 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_types_.html">&quot;types&quot;</a>
+					<a href="../modules/_utils_populate_.html">&quot;utils/populate&quot;</a>
 				</li>
 				<li>
-					<a href="_types_.schematemplatetype.html">SchemaTemplateType</a>
+					<a href="_utils_populate_.populatequery.html">PopulateQuery</a>
 				</li>
 			</ul>
-			<h1>Interface SchemaTemplateType</h1>
+			<h1>Interface PopulateQuery</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Base template of a schema/collection</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">SchemaTemplateType</span>
+						<span class="target">PopulateQuery</span>
 					</li>
 				</ul>
 			</section>
@@ -91,8 +84,10 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_types_.schematemplatetype.html#name" class="tsd-kind-icon">name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_types_.schematemplatetype.html#structure" class="tsd-kind-icon">structure</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_utils_populate_.populatequery.html#children" class="tsd-kind-icon">children</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_utils_populate_.populatequery.html#isarr" class="tsd-kind-icon">is<wbr>Arr</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_utils_populate_.populatequery.html#key" class="tsd-kind-icon">key</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_utils_populate_.populatequery.html#ref" class="tsd-kind-icon">ref</a></li>
 							</ul>
 						</section>
 					</div>
@@ -101,43 +96,44 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="name" class="tsd-anchor"></a>
-					<h3>name</h3>
-					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="children" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> children</h3>
+					<div class="tsd-signature tsd-kind-icon">children<span class="tsd-signature-symbol">:</span> <a href="_utils_populate_.populatequery.html" class="tsd-signature-type">PopulateQuery</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/80af0f6/src/types.ts#L7">types.ts:7</a></li>
+							<li>Defined in utils/populate.ts:17</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Name of the collection schema</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="structure" class="tsd-anchor"></a>
-					<h3>structure</h3>
-					<div class="tsd-signature tsd-kind-icon">structure<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
+					<a name="isarr" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> is<wbr>Arr</h3>
+					<div class="tsd-signature tsd-kind-icon">is<wbr>Arr<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/80af0f6/src/types.ts#L12">types.ts:12</a></li>
+							<li>Defined in utils/populate.ts:18</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Structure of the collection. A key&#39;s value will be treated as
-							the default value for that key</p>
-						</div>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-index-signature">
-								<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></h5>
-							</li>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="key" class="tsd-anchor"></a>
+					<h3>key</h3>
+					<div class="tsd-signature tsd-kind-icon">key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in utils/populate.ts:15</li>
 						</ul>
-					</div>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="ref" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> ref</h3>
+					<div class="tsd-signature tsd-kind-icon">ref<span class="tsd-signature-symbol">:</span> <a href="../classes/_collection_.dbcollection.html" class="tsd-signature-type">DBCollection</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in utils/populate.ts:16</li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 		</div>
@@ -159,13 +155,13 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/_index_.html">&quot;index&quot;</a>
 					</li>
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="../modules/_types_.html">&quot;types&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/_utils_key_.html">&quot;utils/key&quot;</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class="current tsd-kind-module">
 						<a href="../modules/_utils_populate_.html">&quot;utils/populate&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -175,29 +171,29 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_types_.populatequery.html" class="tsd-kind-icon">Populate<wbr>Query</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_types_.query.html" class="tsd-kind-icon">Query</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="_types_.schematemplatetype.html" class="tsd-kind-icon">Schema<wbr>Template<wbr>Type</a>
+						<a href="_utils_populate_.populatequery.html" class="tsd-kind-icon">Populate<wbr>Query</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_types_.schematemplatetype.html#name" class="tsd-kind-icon">name</a>
+								<a href="_utils_populate_.populatequery.html#children" class="tsd-kind-icon">children</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_types_.schematemplatetype.html#structure" class="tsd-kind-icon">structure</a>
+								<a href="_utils_populate_.populatequery.html#isarr" class="tsd-kind-icon">is<wbr>Arr</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_utils_populate_.populatequery.html#key" class="tsd-kind-icon">key</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_utils_populate_.populatequery.html#ref" class="tsd-kind-icon">ref</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="../modules/_types_.html#operators" class="tsd-kind-icon">Operators</a>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="../modules/_utils_populate_.html#populate" class="tsd-kind-icon">populate</a>
 					</li>
 				</ul>
 			</nav>

@@ -5,6 +5,7 @@ A simple in memory DB - Created to experiment more with typescript and classes
 ![minified + gzip](https://badgen.net/bundlephobia/minzip/memsdb)
 ![dependency count](https://badgen.net/bundlephobia/dependency-count/memsdb)
 ![tree shaking](https://badgen.net/bundlephobia/tree-shaking/memsdb)
+[![Rate on Openbase](https://badges.openbase.io/js/rating/memsdb.svg)](https://openbase.io/js/memsdb?utm_source=embedded&utm_medium=badge&utm_campaign=rate-badge)
 
 ## Documentation:
 - [Documentation Root](https://brocococonut.github.io/memsdb/)

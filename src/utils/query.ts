@@ -5,6 +5,12 @@ import { nestedKey } from "./key";
 import { getOrCreateIndex } from "./indexed";
 import { Debugger } from "debug";
 
+/**
+ * Compare a query to the provided document, ran by runQuery()
+ * @ignore
+ * @param doc Document to make comparison on
+ * @param query Query to run
+ */
 const compare = (doc: DBDoc, query: Query): boolean => {
   const val = getOrCreateIndex({ doc, query });
   const op = query.operation;

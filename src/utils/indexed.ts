@@ -6,6 +6,7 @@ import { Query } from "../types";
  * Update an index on a document to increase search speeds for nested keys and arrays
  * @param doc Document to update index on
  * @param key Query key to update index on
+ * @ignore
  */
 export const updateDocIndex = (doc: DBDoc, key = "") => {
   if (doc.collection.db.options.useDynamicIndexes) {
@@ -19,6 +20,7 @@ export const updateDocIndex = (doc: DBDoc, key = "") => {
  * Get/Create an index on the document and/or collection (if reactive) based
  * on the provided query
  * @param param0 Index options
+ * @ignore
  */
 export const getOrCreateIndex = ({
   doc,

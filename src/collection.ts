@@ -83,14 +83,16 @@ export class DBCollection {
    */
   insertOne(doc: { [key: string]: any }, id?: string, reactiveUpdate = true) {
     /* DEBUG */ this.col_("Creating new document");
-    const newDoc = new DBDoc(doc, this);
+    const newDoc = new DBDoc(doc, this, id);
     /* DEBUG */ this.col_(
       "Created document with id: %s, pushing to collection",
       newDoc.id
     );
 
-    if (id) newDoc.id = id;
-
+    /**
+     * Create a listened/proxied version of the document to adjust indexes and
+     * reactive indexes automatically
+     */
     const listened = change(newDoc, () => {
       this.col_('Document %s was modified', newDoc.id)
       newDoc.data._updatedAt = Date.now()
