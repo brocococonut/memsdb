@@ -1,6 +1,8 @@
 import { v4 } from "uuid";
 import debug from "debug";
 import { DBCollection } from "./collection";
+import { VoidBackup } from "./backupProviders/void";
+import { Backup, BackupProvider } from "./backupProviders";
 
 const memsdb_ = debug("memsdb");
 
@@ -13,8 +15,12 @@ export class DB {
   collections: { [key: string]: DBCollection } = {};
   /** Debugger variable */
   readonly db_: debug.Debugger;
-  options = {
+  options: {
+    useDynamicIndexes: boolean
+    backupProvider: BackupProvider
+  } = {
     useDynamicIndexes: true,
+    backupProvider: new VoidBackup()
   };
 
   /**
@@ -25,13 +31,23 @@ export class DB {
   constructor(
     name: string = v4(),
     opts: {
+      /**
+       * Automatically generate dynamic indexes - link deeply nested content
+       * in a document to the root document to speed up future query results
+       */
       useDynamicIndexes?: boolean;
+      /**
+       * BackupProvider to save and restore documents/collections to and from
+       */
+      backupProvider?: BackupProvider,
     } = {}
   ) {
     this.name = name;
     this.db_ = memsdb_.extend(`<db>${name}`);
     if (opts.useDynamicIndexes)
       this.options.useDynamicIndexes = opts.useDynamicIndexes;
+    
+    if (opts.backupProvider) this.options.backupProvider = opts.backupProvider
   }
 
   /**
@@ -114,5 +130,71 @@ export class DB {
     } finally {
       return this;
     }
+  }
+
+  /**
+   * Backup collection data to the provided BackupProvider.
+   */
+  backup() {
+    /* DEBUG */ this.db_("Backing up database to BackupProvider");
+    const backup: Backup = {}
+
+    const collections = Object.keys(this.collections)
+
+    collections.forEach(col => {
+      const collection = this.collections[col]
+
+      const keys = Object.keys(collection.schema)
+      const values = collection.docs.map(doc => [doc.id, ...keys.map(key => doc.data[key])])
+
+      keys.unshift('id')
+
+      backup[col] = {
+        keys,
+        values
+      }
+    })
+
+    /* DEBUG */ this.db_("Data structure created for backup");
+
+    const backedUp = this.options.backupProvider.save(backup)
+
+    /* DEBUG */ this.db_("Backup finished, result: %s", backedUp ? 'Data backed up' : 'Data NOT backed up');
+  }
+
+  /**
+   * Restore collection documents from a backup using the provided
+   * BackupProvider. This won't overwrite any documents
+   */
+  restore() {
+    /* DEBUG */ this.db_("Restoring database collections from BackupProvider");
+    const backup = this.options.backupProvider.load()
+
+    /* DEBUG */ this.db_("Collection data loaded from BackupProvider");
+
+    const collectionKeys = Object.keys(backup)
+
+    /* DEBUG */ this.db_("%d collections to restore", collectionKeys.length);
+
+    collectionKeys.forEach(colKey => {
+      const col = this.collections[colKey]
+      if (!col) return;
+
+      const data = backup[colKey]
+
+      data.values.forEach((docData) => {
+        const doc: {[key: string]: any} = {}
+
+        data.keys.forEach((key, i) => {
+          // Skip the ID
+          if (i === 0) return;
+          doc[key] = docData[i]
+        })
+
+        col.insertOne(doc, docData[0])
+      })
+    })
+
+    /* DEBUG */ this.db_("Database restored");
   }
 }

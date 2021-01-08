@@ -109,31 +109,31 @@ comments[
 							</a>
 							<p>Given you have a set of collections like the following:</p>
 							<pre><code class="language-typescript"><span class="hljs-keyword">const</span> submissionsCol = <span class="hljs-keyword">new</span> DBCollection(db, {
-  name: <span class="hljs-string">&#x27;submissions&#x27;</span>,
-  structure: {
-    title: <span class="hljs-string">&#x27;&#x27;</span>,
-    comments: [<span class="hljs-string">&#x27;&#x27;</span>],
-    user: <span class="hljs-string">&#x27;&#x27;</span>
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;submissions&#x27;</span>,
+  <span class="hljs-attr">structure</span>: {
+    <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;&#x27;</span>,
+    <span class="hljs-attr">comments</span>: [<span class="hljs-string">&#x27;&#x27;</span>],
+    <span class="hljs-attr">user</span>: <span class="hljs-string">&#x27;&#x27;</span>
   }
 })
 
 <span class="hljs-keyword">const</span> commentsCol = <span class="hljs-keyword">new</span> DBCollection(db, {
-  name: <span class="hljs-string">&#x27;comments&#x27;</span>,
-  structure: {
-    content: <span class="hljs-string">&#x27;&#x27;</span>,
-    user: <span class="hljs-string">&#x27;&#x27;</span>,
-    parent: <span class="hljs-string">&#x27;&#x27;</span>
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;comments&#x27;</span>,
+  <span class="hljs-attr">structure</span>: {
+    <span class="hljs-attr">content</span>: <span class="hljs-string">&#x27;&#x27;</span>,
+    <span class="hljs-attr">user</span>: <span class="hljs-string">&#x27;&#x27;</span>,
+    <span class="hljs-attr">parent</span>: <span class="hljs-string">&#x27;&#x27;</span>
   }
 })
 
 <span class="hljs-keyword">const</span> usersCol = <span class="hljs-keyword">new</span> DBCollection(db, {
-  name: <span class="hljs-string">&#x27;users&#x27;</span>,
-  structure: {
-    content: {
-      comments: [<span class="hljs-string">&#x27;&#x27;</span>],
-      submissions: [<span class="hljs-string">&#x27;&#x27;</span>],
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;users&#x27;</span>,
+  <span class="hljs-attr">structure</span>: {
+    <span class="hljs-attr">content</span>: {
+      <span class="hljs-attr">comments</span>: [<span class="hljs-string">&#x27;&#x27;</span>],
+      <span class="hljs-attr">submissions</span>: [<span class="hljs-string">&#x27;&#x27;</span>],
     },
-    name: <span class="hljs-string">&#x27;&#x27;</span>
+    <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;&#x27;</span>
   }
 })</code></pre>
 							<p>And starting from the <code>users</code> collection, you want the results to look something like this:</p>
@@ -274,7 +274,7 @@ comments[
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in utils/populate.ts:235</li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/2434449/src/utils/populate.ts#L235">utils/populate.ts:235</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -335,6 +335,18 @@ comments[
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="_backupproviders_fs_.html">&quot;backup<wbr>Providers/fs&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_backupproviders_index_.html">&quot;backup<wbr>Providers/index&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_backupproviders_localstorage_.html">&quot;backup<wbr>Providers/local<wbr>Storage&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_backupproviders_void_.html">&quot;backup<wbr>Providers/void&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="_collection_.html">&quot;collection&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -350,6 +362,9 @@ comments[
 						<a href="_types_.html">&quot;types&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="_utils_indexed_.html">&quot;utils/indexed&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="_utils_key_.html">&quot;utils/key&quot;</a>
 					</li>
 					<li class="current tsd-kind-module">
@@ -357,6 +372,9 @@ comments[
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="_utils_query_.html">&quot;utils/query&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_utils_reactive_.html">&quot;utils/reactive&quot;</a>
 					</li>
 				</ul>
 			</nav>

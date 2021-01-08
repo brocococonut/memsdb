@@ -89,26 +89,26 @@
 <span class="hljs-keyword">const</span> db = <span class="hljs-keyword">new</span> DB(<span class="hljs-string">&#x27;My DB Name&#x27;</span>)</code></pre>
 				<p>Creating and assigning new collections to the db:</p>
 				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> comments = <span class="hljs-keyword">new</span> DBCollection(db, {
-  name: <span class="hljs-string">&#x27;comments&#x27;</span>,
-  structure: {
-    text: <span class="hljs-string">&#x27;&#x27;</span>,
-    by: <span class="hljs-string">&#x27;&#x27;</span>,
-    parent: <span class="hljs-string">&#x27;&#x27;</span>,
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;comments&#x27;</span>,
+  <span class="hljs-attr">structure</span>: {
+    <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;&#x27;</span>,
+    <span class="hljs-attr">by</span>: <span class="hljs-string">&#x27;&#x27;</span>,
+    <span class="hljs-attr">parent</span>: <span class="hljs-string">&#x27;&#x27;</span>,
   },
 })</code></pre>
 				<p>Adding documents to an existing collection:</p>
 				<pre><code class="language-typescript">comments.insertOne({
-  text: <span class="hljs-string">`My fantastic comment`</span>,
-  by: <span class="hljs-string">&#x27;me&#x27;</span>
+  <span class="hljs-attr">text</span>: <span class="hljs-string">`My fantastic comment`</span>,
+  <span class="hljs-attr">by</span>: <span class="hljs-string">&#x27;me&#x27;</span>
 })</code></pre>
 				<p>Finding documents in a collection:</p>
 				<pre><code class="language-typescript"><span class="hljs-comment">/**
  * Find all documents where the `by` field is equal to &#x27;me&#x27;
  */</span>
 comments.find([{
-  key: <span class="hljs-string">&#x27;by&#x27;</span>,
-  operation: <span class="hljs-string">&#x27;===&#x27;</span>,
-  comparison: <span class="hljs-string">&#x27;me&#x27;</span>
+  <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;by&#x27;</span>,
+  <span class="hljs-attr">operation</span>: <span class="hljs-string">&#x27;===&#x27;</span>,
+  <span class="hljs-attr">comparison</span>: <span class="hljs-string">&#x27;me&#x27;</span>
 }])
 <span class="hljs-comment">// Or with the QueryBuilder:</span>
 comments.find(<span class="hljs-keyword">new</span> QueryBuilder().where(<span class="hljs-string">&#x27;by&#x27;</span>, <span class="hljs-string">&#x27;===&#x27;</span>, <span class="hljs-string">&#x27;me&#x27;</span>))
@@ -123,23 +123,23 @@ comments.id(<span class="hljs-string">&#x27;50d4047b-6c6d-47e8-b487-42ca2a7a4c00
 <span class="hljs-keyword">const</span> db = <span class="hljs-keyword">new</span> DB(<span class="hljs-string">&#x27;My DB Name&#x27;</span>)
 
 <span class="hljs-keyword">const</span> comments = <span class="hljs-keyword">new</span> DBCollection(db, {
-  name: <span class="hljs-string">&#x27;comments&#x27;</span>,
-  structure: {
-    text: <span class="hljs-string">&#x27;&#x27;</span>,
-    by: <span class="hljs-string">&#x27;&#x27;</span>,
-    parent: <span class="hljs-string">&#x27;&#x27;</span>,
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;comments&#x27;</span>,
+  <span class="hljs-attr">structure</span>: {
+    <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;&#x27;</span>,
+    <span class="hljs-attr">by</span>: <span class="hljs-string">&#x27;&#x27;</span>,
+    <span class="hljs-attr">parent</span>: <span class="hljs-string">&#x27;&#x27;</span>,
   },
 })
 
 comments.insertOne({
-  text: <span class="hljs-string">`My fantastic comment`</span>,
-  by: <span class="hljs-string">&#x27;me&#x27;</span>
+  <span class="hljs-attr">text</span>: <span class="hljs-string">`My fantastic comment`</span>,
+  <span class="hljs-attr">by</span>: <span class="hljs-string">&#x27;me&#x27;</span>
 })
 
 <span class="hljs-keyword">const</span> docs = comments.find([{
-  key: <span class="hljs-string">&#x27;by&#x27;</span>,
-  operation: <span class="hljs-string">&#x27;===&#x27;</span>,
-  comparison: <span class="hljs-string">&#x27;me&#x27;</span>
+  <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;by&#x27;</span>,
+  <span class="hljs-attr">operation</span>: <span class="hljs-string">&#x27;===&#x27;</span>,
+  <span class="hljs-attr">comparison</span>: <span class="hljs-string">&#x27;me&#x27;</span>
 }])
 <span class="hljs-comment">// Or with the QueryBuilder:</span>
 <span class="hljs-keyword">const</span> docs = comments.find(<span class="hljs-keyword">new</span> QueryBuilder().where(<span class="hljs-string">&#x27;by&#x27;</span>, <span class="hljs-string">&#x27;===&#x27;</span>, <span class="hljs-string">&#x27;me&#x27;</span>))
@@ -148,9 +148,9 @@ comments.insertOne({
 				<p>The query language is still rather simple but can support the operators: <code>&lt;</code> | <code>&gt;</code> | <code>&lt;=</code> | <code>&gt;=</code> | <code>===</code> | <code>||</code> | <code>includes</code> | <code>isContainedIn</code> | <code>hasAllOf</code> | <code>all&gt;than</code> | <code>all&lt;than</code> | <code>all&gt;=to</code> | <code>all&lt;=to</code> | <code>all===to</code> | <code>some&gt;than</code> | <code>some&lt;than</code> | <code>some&gt;=to</code> | <code>some&lt;=to</code> | <code>some===to</code> - where <code>||</code> runs an OR using an array of <code>Query</code> objects (supports multi-level ORing).</p>
 				<p>An example query object of:</p>
 				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> query = {
-  key: <span class="hljs-string">&#x27;by&#x27;</span>,
-  operation: <span class="hljs-string">&#x27;===&#x27;</span>,
-  comparison: <span class="hljs-string">&#x27;me&#x27;</span>
+  <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;by&#x27;</span>,
+  <span class="hljs-attr">operation</span>: <span class="hljs-string">&#x27;===&#x27;</span>,
+  <span class="hljs-attr">comparison</span>: <span class="hljs-string">&#x27;me&#x27;</span>
 }
 <span class="hljs-comment">// Or with the QueryBuilder:</span>
 <span class="hljs-keyword">const</span> query = <span class="hljs-keyword">new</span> QueryBuilder().where(<span class="hljs-string">&#x27;by&#x27;</span>, <span class="hljs-string">&#x27;===&#x27;</span>, <span class="hljs-string">&#x27;me&#x27;</span>)</code></pre>
@@ -158,9 +158,9 @@ comments.insertOne({
 				<p>The <code>some===to</code> key (<code>some*</code>, <code>all*</code>) can be used to find similarities between different arrays</p>
 				<p><code>all===to</code> makes sure that all of the specified key is equal to the comparison. This would usually be useful with query keys that specify an array  with objects in it like the following: <code>folder.children.[].exists</code>. In the previous example you&#39;d use <code>all===to</code> to make sure that all child folders of the first level have the property <code>exists</code> and that it&#39;s equal to whatever comparison value you set in the query. Eg.:</p>
 				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> query = {
-  key: <span class="hljs-string">&#x27;folder.children.[].exists&#x27;</span>,
-  operation: <span class="hljs-string">&#x27;all===to&#x27;</span>,
-  comparison: <span class="hljs-literal">true</span>
+  <span class="hljs-attr">key</span>: <span class="hljs-string">&#x27;folder.children.[].exists&#x27;</span>,
+  <span class="hljs-attr">operation</span>: <span class="hljs-string">&#x27;all===to&#x27;</span>,
+  <span class="hljs-attr">comparison</span>: <span class="hljs-literal">true</span>
 }
 <span class="hljs-comment">// OR using the query builder:</span>
 <span class="hljs-keyword">const</span> query = <span class="hljs-keyword">new</span> QueryBuilder()
@@ -173,6 +173,18 @@ comments.insertOne({
 				<ul>
 					<li class="globals  ">
 						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_backupproviders_fs_.html">&quot;backup<wbr>Providers/fs&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_backupproviders_index_.html">&quot;backup<wbr>Providers/index&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_backupproviders_localstorage_.html">&quot;backup<wbr>Providers/local<wbr>Storage&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_backupproviders_void_.html">&quot;backup<wbr>Providers/void&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/_collection_.html">&quot;collection&quot;</a>
@@ -190,6 +202,9 @@ comments.insertOne({
 						<a href="modules/_types_.html">&quot;types&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="modules/_utils_indexed_.html">&quot;utils/indexed&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="modules/_utils_key_.html">&quot;utils/key&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -197,6 +212,9 @@ comments.insertOne({
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/_utils_query_.html">&quot;utils/query&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_utils_reactive_.html">&quot;utils/reactive&quot;</a>
 					</li>
 				</ul>
 			</nav>

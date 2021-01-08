@@ -83,6 +83,17 @@ export class DBCollection {
    */
   insertOne(doc: { [key: string]: any }, id?: string, reactiveUpdate = true) {
     /* DEBUG */ this.col_("Creating new document");
+
+    if (id) {
+      /* DEBUG */ this.col_("ID specified, ensuring document with ID %s doesn't already exist", id);
+      const oldDoc = this.id(id)
+      if (oldDoc) {
+        /* DEBUG */ this.col_("Document with ID %s exists, returning document", id);
+        return oldDoc
+      }
+      /* DEBUG */ this.col_("Document with ID %s doesn't exist, continuing with document creation", id);
+    } 
+
     const newDoc = new DBDoc(doc, this, id);
     /* DEBUG */ this.col_(
       "Created document with id: %s, pushing to collection",

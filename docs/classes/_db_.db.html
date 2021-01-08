@@ -106,10 +106,12 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_db_.db.html#addcollection" class="tsd-kind-icon">add<wbr>Collection</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_db_.db.html#backup" class="tsd-kind-icon">backup</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_db_.db.html#c" class="tsd-kind-icon">c</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_db_.db.html#collection" class="tsd-kind-icon">collection</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_db_.db.html#deletecollection" class="tsd-kind-icon">delete<wbr>Collection</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_db_.db.html#emptycollection" class="tsd-kind-icon">empty<wbr>Collection</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_db_.db.html#restore" class="tsd-kind-icon">restore</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -127,13 +129,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new DB<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, opts<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{ </span>useDynamicIndexes<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_db_.db.html" class="tsd-signature-type">DB</a></li>
+						<li class="tsd-signature tsd-kind-icon">new DB<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, opts<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{ </span>backupProvider<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_backupproviders_index_.backupprovider.html" class="tsd-signature-type">BackupProvider</a><span class="tsd-signature-symbol">; </span>useDynamicIndexes<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_db_.db.html" class="tsd-signature-type">DB</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/80af0f6/src/db.ts#L18">db.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/2434449/src/db.ts#L24">db.ts:24</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -152,7 +154,7 @@
 									</div>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> opts: <span class="tsd-signature-symbol">{ </span>useDynamicIndexes<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = {}</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> opts: <span class="tsd-signature-symbol">{ </span>backupProvider<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_backupproviders_index_.backupprovider.html" class="tsd-signature-type">BackupProvider</a><span class="tsd-signature-symbol">; </span>useDynamicIndexes<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = {}</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
 											<p>Options object to modify DB behaviour (mostly unused)</p>
@@ -160,7 +162,21 @@
 									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter">
+											<h5><span class="tsd-flag ts-flagOptional">Optional</span> backup<wbr>Provider<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_backupproviders_index_.backupprovider.html" class="tsd-signature-type">BackupProvider</a></h5>
+											<div class="tsd-comment tsd-typography">
+												<div class="lead">
+													<p>BackupProvider to save and restore documents/collections to and from</p>
+												</div>
+											</div>
+										</li>
+										<li class="tsd-parameter">
 											<h5><span class="tsd-flag ts-flagOptional">Optional</span> use<wbr>Dynamic<wbr>Indexes<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></h5>
+											<div class="tsd-comment tsd-typography">
+												<div class="lead">
+													<p>Automatically generate dynamic indexes - link deeply nested content
+													in a document to the root document to speed up future query results</p>
+												</div>
+											</div>
 										</li>
 									</ul>
 								</li>
@@ -178,7 +194,7 @@
 					<div class="tsd-signature tsd-kind-icon">collections<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/80af0f6/src/db.ts#L13">db.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/2434449/src/db.ts#L15">db.ts:15</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -196,7 +212,7 @@
 					<div class="tsd-signature tsd-kind-icon">db_<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Debugger</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/80af0f6/src/db.ts#L15">db.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/2434449/src/db.ts#L17">db.ts:17</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -211,7 +227,7 @@
 					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;memsdb&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/80af0f6/src/db.ts#L12">db.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/2434449/src/db.ts#L14">db.ts:14</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -233,7 +249,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/80af0f6/src/db.ts#L62">db.ts:62</a></li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/2434449/src/db.ts#L78">db.ts:78</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -261,6 +277,28 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="backup" class="tsd-anchor"></a>
+					<h3>backup</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">backup<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/2434449/src/db.ts#L138">db.ts:138</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Backup collection data to the provided BackupProvider.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="c" class="tsd-anchor"></a>
 					<h3>c</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -270,7 +308,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/80af0f6/src/db.ts#L41">db.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/2434449/src/db.ts#L57">db.ts:57</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -301,7 +339,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/80af0f6/src/db.ts#L53">db.ts:53</a></li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/2434449/src/db.ts#L69">db.ts:69</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -332,7 +370,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/80af0f6/src/db.ts#L78">db.ts:78</a></li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/2434449/src/db.ts#L94">db.ts:94</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -360,7 +398,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/80af0f6/src/db.ts#L96">db.ts:96</a></li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/2434449/src/db.ts#L112">db.ts:112</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -378,6 +416,29 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="restore" class="tsd-anchor"></a>
+					<h3>restore</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">restore<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/2434449/src/db.ts#L169">db.ts:169</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Restore collection documents from a backup using the provided
+									BackupProvider. This won&#39;t overwrite any documents</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Object literals</h2>
@@ -387,16 +448,26 @@
 					<div class="tsd-signature tsd-kind-icon">options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/80af0f6/src/db.ts#L16">db.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/2434449/src/db.ts#L18">db.ts:18</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-						<a name="options.usedynamicindexes" class="tsd-anchor"></a>
-						<h3>use<wbr>Dynamic<wbr>Indexes</h3>
-						<div class="tsd-signature tsd-kind-icon">use<wbr>Dynamic<wbr>Indexes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></div>
+						<a name="options.backupprovider" class="tsd-anchor"></a>
+						<h3>backup<wbr>Provider</h3>
+						<div class="tsd-signature tsd-kind-icon">backup<wbr>Provider<span class="tsd-signature-symbol">:</span> <a href="_backupproviders_void_.voidbackup.html" class="tsd-signature-type">VoidBackup</a><span class="tsd-signature-symbol"> = new VoidBackup()</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/80af0f6/src/db.ts#L17">db.ts:17</a></li>
+								<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/2434449/src/db.ts#L23">db.ts:23</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="options.usedynamicindexes" class="tsd-anchor"></a>
+						<h3>use<wbr>Dynamic<wbr>Indexes</h3>
+						<div class="tsd-signature tsd-kind-icon">use<wbr>Dynamic<wbr>Indexes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> = true</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/2434449/src/db.ts#L22">db.ts:22</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -408,6 +479,18 @@
 				<ul>
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_backupproviders_fs_.html">&quot;backup<wbr>Providers/fs&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_backupproviders_index_.html">&quot;backup<wbr>Providers/index&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_backupproviders_localstorage_.html">&quot;backup<wbr>Providers/local<wbr>Storage&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_backupproviders_void_.html">&quot;backup<wbr>Providers/void&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/_collection_.html">&quot;collection&quot;</a>
@@ -425,6 +508,9 @@
 						<a href="../modules/_types_.html">&quot;types&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="../modules/_utils_indexed_.html">&quot;utils/indexed&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="../modules/_utils_key_.html">&quot;utils/key&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -432,6 +518,9 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/_utils_query_.html">&quot;utils/query&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_utils_reactive_.html">&quot;utils/reactive&quot;</a>
 					</li>
 				</ul>
 			</nav>
@@ -458,6 +547,9 @@
 								<a href="_db_.db.html#addcollection" class="tsd-kind-icon">add<wbr>Collection</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_db_.db.html#backup" class="tsd-kind-icon">backup</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_db_.db.html#c" class="tsd-kind-icon">c</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -468,6 +560,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_db_.db.html#emptycollection" class="tsd-kind-icon">empty<wbr>Collection</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_db_.db.html#restore" class="tsd-kind-icon">restore</a>
 							</li>
 							<li class=" tsd-kind-object-literal tsd-parent-kind-class">
 								<a href="_db_.db.html#options" class="tsd-kind-icon">options</a>

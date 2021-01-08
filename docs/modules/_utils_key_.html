@@ -91,7 +91,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/80af0f6/src/utils/key.ts#L38">utils/key.ts:38</a></li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/2434449/src/utils/key.ts#L38">utils/key.ts:38</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -102,27 +102,27 @@
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
 									<dd><p>Deeply nested key retrieval</p>
-										<pre><code class="language-typescript">nestedKey({layer1: {layer2: {layer3: <span class="hljs-string">&#x27;boop&#x27;</span>}}}, <span class="hljs-string">&#x27;layer1.layer2.layer3&#x27;</span>) <span class="hljs-comment">// Returns &#x27;boop&#x27;</span></code></pre>
+										<pre><code class="language-typescript">nestedKey({<span class="hljs-attr">layer1</span>: {<span class="hljs-attr">layer2</span>: {<span class="hljs-attr">layer3</span>: <span class="hljs-string">&#x27;boop&#x27;</span>}}}, <span class="hljs-string">&#x27;layer1.layer2.layer3&#x27;</span>) <span class="hljs-comment">// Returns &#x27;boop&#x27;</span></code></pre>
 									</dd>
 									<dt>example</dt>
 									<dd><p>Single level nested array to retrieve key from</p>
-										<pre><code class="language-typescript">nestedKey({layer1: [{layerArr1: <span class="hljs-string">&#x27;val1&#x27;</span>}, {layerArr1: <span class="hljs-string">&#x27;val2&#x27;</span>}]}, <span class="hljs-string">&#x27;layer1.[].layerArr1&#x27;</span>) <span class="hljs-comment">// Returns [&#x27;val1&#x27;, &#x27;val2&#x27;]</span></code></pre>
+										<pre><code class="language-typescript">nestedKey({<span class="hljs-attr">layer1</span>: [{<span class="hljs-attr">layerArr1</span>: <span class="hljs-string">&#x27;val1&#x27;</span>}, {<span class="hljs-attr">layerArr1</span>: <span class="hljs-string">&#x27;val2&#x27;</span>}]}, <span class="hljs-string">&#x27;layer1.[].layerArr1&#x27;</span>) <span class="hljs-comment">// Returns [&#x27;val1&#x27;, &#x27;val2&#x27;]</span></code></pre>
 									</dd>
 									<dt>example</dt>
 									<dd><p>Deeply nested arrays inside deeply nested arrays</p>
 										<pre><code class="language-typescript">nestedKey(
   {
-    layer1: [
+    <span class="hljs-attr">layer1</span>: [
       {
-        layerArr1: [
-          {layerArr2: <span class="hljs-string">&#x27;val1-1&#x27;</span>},
-          {layerArr2: <span class="hljs-string">&#x27;val1-2&#x27;</span>}
+        <span class="hljs-attr">layerArr1</span>: [
+          {<span class="hljs-attr">layerArr2</span>: <span class="hljs-string">&#x27;val1-1&#x27;</span>},
+          {<span class="hljs-attr">layerArr2</span>: <span class="hljs-string">&#x27;val1-2&#x27;</span>}
         ]
       },
       {
-        layerArr1: [
-          {layerArr2: <span class="hljs-string">&#x27;val2-1&#x27;</span>},
-          {layerArr2: <span class="hljs-string">&#x27;val2-2&#x27;</span>}
+        <span class="hljs-attr">layerArr1</span>: [
+          {<span class="hljs-attr">layerArr2</span>: <span class="hljs-string">&#x27;val2-1&#x27;</span>},
+          {<span class="hljs-attr">layerArr2</span>: <span class="hljs-string">&#x27;val2-2&#x27;</span>}
         ]
       }
     ]
@@ -164,6 +164,18 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="_backupproviders_fs_.html">&quot;backup<wbr>Providers/fs&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_backupproviders_index_.html">&quot;backup<wbr>Providers/index&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_backupproviders_localstorage_.html">&quot;backup<wbr>Providers/local<wbr>Storage&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_backupproviders_void_.html">&quot;backup<wbr>Providers/void&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="_collection_.html">&quot;collection&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -178,6 +190,9 @@
 					<li class=" tsd-kind-module">
 						<a href="_types_.html">&quot;types&quot;</a>
 					</li>
+					<li class=" tsd-kind-module">
+						<a href="_utils_indexed_.html">&quot;utils/indexed&quot;</a>
+					</li>
 					<li class="current tsd-kind-module">
 						<a href="_utils_key_.html">&quot;utils/key&quot;</a>
 					</li>
@@ -186,6 +201,9 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="_utils_query_.html">&quot;utils/query&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_utils_reactive_.html">&quot;utils/reactive&quot;</a>
 					</li>
 				</ul>
 			</nav>

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>PopulateQuery | memsdb</title>
+	<title>BackupProvider | memsdb</title>
 	<meta name="description" content="Documentation for memsdb">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_types_.html">&quot;types&quot;</a>
+					<a href="../modules/_backupproviders_index_.html">&quot;backupProviders/index&quot;</a>
 				</li>
 				<li>
-					<a href="_types_.populatequery.html">PopulateQuery</a>
+					<a href="_backupproviders_index_.backupprovider.html">BackupProvider</a>
 				</li>
 			</ul>
-			<h1>Interface PopulateQuery</h1>
+			<h1>Interface BackupProvider</h1>
 		</div>
 	</div>
 </header>
@@ -72,7 +72,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Population specific query</p>
+						<p>The required structure for a BackupProvider to function</p>
 					</div>
 				</div>
 			</section>
@@ -80,8 +80,16 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">PopulateQuery</span>
+						<span class="target">BackupProvider</span>
 					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implemented by</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../classes/_backupproviders_fs_.fsbackup.html" class="tsd-signature-type">FSBackup</a></li>
+					<li><a href="../classes/_backupproviders_localstorage_.localstoragebackup.html" class="tsd-signature-type">LocalStorageBackup</a></li>
+					<li><a href="../classes/_backupproviders_void_.voidbackup.html" class="tsd-signature-type">VoidBackup</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -91,10 +99,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_types_.populatequery.html#collection" class="tsd-kind-icon">collection</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_types_.populatequery.html#destinationfield" class="tsd-kind-icon">destination<wbr>Field</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_types_.populatequery.html#srcfield" class="tsd-kind-icon">src<wbr>Field</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_types_.populatequery.html#targetfield" class="tsd-kind-icon">target<wbr>Field</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_backupproviders_index_.backupprovider.html#load" class="tsd-kind-icon">load</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_backupproviders_index_.backupprovider.html#save" class="tsd-kind-icon">save</a></li>
 							</ul>
 						</section>
 					</div>
@@ -103,42 +109,22 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="collection" class="tsd-anchor"></a>
-					<h3>collection</h3>
-					<div class="tsd-signature tsd-kind-icon">collection<span class="tsd-signature-symbol">:</span> <a href="../classes/_collection_.dbcollection.html" class="tsd-signature-type">DBCollection</a></div>
+					<a name="load" class="tsd-anchor"></a>
+					<h3>load</h3>
+					<div class="tsd-signature tsd-kind-icon">load<span class="tsd-signature-symbol">:</span> <a href="../modules/_backupproviders_index_.html#loadfn" class="tsd-signature-type">LoadFn</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/2434449/src/types.ts#L59">types.ts:59</a></li>
+							<li>Defined in backupProviders/index.ts:20</li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="destinationfield" class="tsd-anchor"></a>
-					<h3>destination<wbr>Field</h3>
-					<div class="tsd-signature tsd-kind-icon">destination<wbr>Field<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="save" class="tsd-anchor"></a>
+					<h3>save</h3>
+					<div class="tsd-signature tsd-kind-icon">save<span class="tsd-signature-symbol">:</span> <a href="../modules/_backupproviders_index_.html#savefn" class="tsd-signature-type">SaveFn</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/2434449/src/types.ts#L57">types.ts:57</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="srcfield" class="tsd-anchor"></a>
-					<h3>src<wbr>Field</h3>
-					<div class="tsd-signature tsd-kind-icon">src<wbr>Field<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/2434449/src/types.ts#L53">types.ts:53</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="targetfield" class="tsd-anchor"></a>
-					<h3>target<wbr>Field</h3>
-					<div class="tsd-signature tsd-kind-icon">target<wbr>Field<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/2434449/src/types.ts#L55">types.ts:55</a></li>
+							<li>Defined in backupProviders/index.ts:19</li>
 						</ul>
 					</aside>
 				</section>
@@ -153,7 +139,7 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/_backupproviders_fs_.html">&quot;backup<wbr>Providers/fs&quot;</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class="current tsd-kind-module">
 						<a href="../modules/_backupproviders_index_.html">&quot;backup<wbr>Providers/index&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -174,7 +160,7 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/_index_.html">&quot;index&quot;</a>
 					</li>
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="../modules/_types_.html">&quot;types&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -196,35 +182,29 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_backupproviders_index_.backup.html" class="tsd-kind-icon">Backup</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="_types_.populatequery.html" class="tsd-kind-icon">Populate<wbr>Query</a>
+						<a href="_backupproviders_index_.backupprovider.html" class="tsd-kind-icon">Backup<wbr>Provider</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_types_.populatequery.html#collection" class="tsd-kind-icon">collection</a>
+								<a href="_backupproviders_index_.backupprovider.html#load" class="tsd-kind-icon">load</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_types_.populatequery.html#destinationfield" class="tsd-kind-icon">destination<wbr>Field</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_types_.populatequery.html#srcfield" class="tsd-kind-icon">src<wbr>Field</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_types_.populatequery.html#targetfield" class="tsd-kind-icon">target<wbr>Field</a>
+								<a href="_backupproviders_index_.backupprovider.html#save" class="tsd-kind-icon">save</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_types_.query.html" class="tsd-kind-icon">Query</a>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
+						<a href="../modules/_backupproviders_index_.html#loadfn" class="tsd-kind-icon">Load<wbr>Fn</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_types_.schematemplatetype.html" class="tsd-kind-icon">Schema<wbr>Template<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="../modules/_types_.html#operators" class="tsd-kind-icon">Operators</a>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
+						<a href="../modules/_backupproviders_index_.html#savefn" class="tsd-kind-icon">Save<wbr>Fn</a>
 					</li>
 				</ul>
 			</nav>
