@@ -1,4 +1,4 @@
-import { Query, Operators } from "../types";
+import { Query, Operators } from "../types/query";
 import { DBCollection } from "../collection";
 import { DBDoc } from "../doc";
 import { nestedKey } from "./key";
@@ -68,7 +68,7 @@ const compare = (doc: DBDoc, query: Query): boolean => {
     case "isContainedIn":
       if (!Array.isArray(comp)) break;
 
-      if (Array.isArray(val)) res = val.every((valT) => comp.includes(valT));
+      if (Array.isArray(val)) res = val.every(valT => comp.includes(valT));
       else return (res = comp.includes(val));
 
       break;

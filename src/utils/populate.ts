@@ -247,8 +247,6 @@ export const populate = (
     const toRemove = Object.keys(doc.data).filter(key => !keys.includes(key))
 
     toRemove.forEach(key => delete doc.data[key])
-
-    // return doc
   }
 
   /**
@@ -259,7 +257,7 @@ export const populate = (
   const runPopulate = (queries: PopulateQuery[], docsOrig: DBDoc[], pop_: Debugger) => {
     const runPop_ = pop_.extend(`<runPopulate>${v4()}`)
     // Duplicate all the original documents so as to avoid mutating the originals with references to the copies
-    const duped = docsOrig.map(doc => doc.duplicate())
+    const duped = docsOrig.map(doc => doc.clone())
     /* DEBUG */runPop_('Documents duped')
     
     const keysList = queries.map(query => query.key)
@@ -284,7 +282,8 @@ export const populate = (
           if (query?.children) {
             // Handle whether the key to populate is an array or not
             if (query.isArr || Array.isArray(nestedKeyVal)) {
-              let childDocs = nestedKeyVal.map((id: string) => query.ref?.id(id))
+              let childDocs = []
+              if (nestedKeyVal) childDocs = nestedKeyVal.map((id: string) => query.ref?.id(id))
               doc.data[query.key] = runPopulate(query.children, childDocs, runPop_)
             }
             // Otherwise set the key to the first result of a populate query
@@ -326,7 +325,7 @@ export const populate = (
         }
 
         if (filter) {
-          runPop_('Removing unnecessary keys from document')
+          /* DEBUG */runPop_('Removing unnecessary keys from document')
           filterDoc(doc, keysList)
         }
       })

@@ -1,7 +1,8 @@
 import { v4 } from "uuid";
 import change from 'on-change'
 import { DBCollection } from "./collection";
-import { Query, PopulateQuery } from "./types";
+import { CustomPopulateQuery } from "./types";
+import { Query } from './types/query'
 import { nestedKey } from "./utils/key";
 import { updateReactiveIndex } from "./utils/reactive";
 import { QueryBuilder } from "./utils/query";
@@ -118,7 +119,7 @@ export class DBDoc {
     /* DEBUG */ populate_(
       "Creating identical document so as to avoid mutations"
     );
-    const resultDoc = this.duplicate()
+    const resultDoc = this.clone()
 
     /* DEBUG */ populate_("Finding child documents");
     const queriedDocuments = targetCol.find(query);
@@ -140,11 +141,11 @@ export class DBDoc {
     return resultDoc;
   }
 
-  tree(populations: PopulateQuery[] = [], maxDepth = 0, currentDepth = 1) {
+  tree(populations: CustomPopulateQuery[] = [], maxDepth = 0, currentDepth = 1) {
     // Debugger variable
     const tree_ = this.doc_.extend("tree");
 
-    const doc = this.duplicate()
+    const doc = this.clone()
     /* DEBUG */ tree_("Number of populations: %d", populations.length);
 
     // Map over populations array to run individual populations
@@ -178,12 +179,12 @@ export class DBDoc {
   /**
    * Duplicate this document, making mutations to it not affect the original
    */
-  duplicate(){
-    const duped = new DBDoc(this.data, this.collection, this.id)
-    duped.data._createdAt = this.data._createdAt
-    duped.data._updatedAt = this.data._updatedAt
+  clone(){
+    const cloned = new DBDoc(this.data, this.collection, this.id)
+    cloned.data._createdAt = this.data._createdAt
+    cloned.data._updatedAt = this.data._updatedAt
 
-    return duped
+    return cloned
   }
 
   /**

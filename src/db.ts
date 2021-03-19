@@ -2,7 +2,8 @@ import { v4 } from "uuid";
 import debug from "debug";
 import { DBCollection } from "./collection";
 import { VoidBackup } from "./backupProviders/void";
-import { Backup, BackupProvider } from "./backupProviders";
+import { Backup, BackupProvider } from "./types/backupProvider";
+import { Plugin, EventName } from "./types/plugin";
 
 const memsdb_ = debug("memsdb");
 
@@ -23,6 +24,8 @@ export class DB {
     backupProvider: new VoidBackup()
   };
 
+  plugins: {[key in EventName]?: Plugin[]} = {}
+
   /**
    * Construct a new in memory db with the provided collection references
    * @param name Name of database
@@ -40,6 +43,7 @@ export class DB {
        * BackupProvider to save and restore documents/collections to and from
        */
       backupProvider?: BackupProvider,
+      plugins?: {[key in EventName]?: Plugin | Plugin[]}[]
     } = {}
   ) {
     this.name = name;
@@ -48,6 +52,20 @@ export class DB {
       this.options.useDynamicIndexes = opts.useDynamicIndexes;
     
     if (opts.backupProvider) this.options.backupProvider = opts.backupProvider
+
+    // if (opts.plugins && Array.isArray(opts.plugins)) opts.plugins.forEach(plugin => {
+    //   const keys = Object.keys(plugin)
+
+    //   keys.forEach(key_ => {
+    //     const key = key_ as EventName
+
+    //     const pluginArr = Array.isArray()
+
+    //     if (this.plugins[key] && Array.isArray(this.plugins[key])) {
+    //       this.plugins[key] ? this.plugins[key]?.push : (this.plugins[key])
+    //     }
+    //   })
+    // })
   }
 
   /**
@@ -88,12 +106,14 @@ export class DB {
   }
 
   /**
-   *
+   * Delete a collection and all its documents
    * @param name Collection name to delete
    */
   deleteCollection(name: string) {
     try {
       /* DEBUG */ this.db_("Removing collection `%s` from DB", name);
+      
+      this.collections[name].docs.forEach(doc => doc.delete())
       delete this.collections[name];
     } catch (err) {
       /* DEBUG */ this.db_(
@@ -106,7 +126,8 @@ export class DB {
   }
 
   /**
-   *
+   * Empty out a collection, deleting the documents but leaving the collection
+   * structure intact
    * @param name Empty out a specified collection
    */
   emptyCollection(name: string) {
@@ -116,6 +137,8 @@ export class DB {
         name,
         this.collections[name].docs.length
       );
+      
+      this.collections[name].docs.forEach(doc => doc.delete())
       this.collections[name].docs.length = 0;
       /* DEBUG */ this.db_(
         "Emptying collection `%s` completed. Current document count: %d",
@@ -196,5 +219,9 @@ export class DB {
     })
 
     /* DEBUG */ this.db_("Database restored");
+  }
+
+  callPlugins: Plugin = (ev) => {
+    
   }
 }

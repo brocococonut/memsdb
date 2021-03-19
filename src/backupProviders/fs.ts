@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync } from 'fs';
 import { readFileSync, writeFileSync, readdirSync, rmSync } from 'fs'
 import { join } from 'path'
-import { Backup, BackupProvider } from '.';
+import { Backup, BackupProvider } from '../types/backupProvider';
 
 interface FSBackupOpts {
   /**
@@ -47,6 +47,9 @@ export class FSBackup implements BackupProvider {
     }
   }
 
+  /**
+   * Loads a backup from the filesystem or returns an object with an error
+   */
   load() {
     const dirListing = readdirSync(this.saveDirectory)
     const currentFiles = dirListing.filter(file => file.endsWith('.memsdb'))

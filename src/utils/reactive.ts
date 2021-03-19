@@ -1,6 +1,6 @@
 import { runQuery, QueryBuilder } from "./query";
 import { DBDoc } from "../doc";
-import { Query } from "../types";
+import { Query } from "../types/query";
 import { DBCollection } from "../collection";
 
 /**

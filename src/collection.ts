@@ -1,9 +1,10 @@
+import change from 'on-change'
 import { DBDoc } from "./doc";
 import { DB } from "./db";
-import { Query, SchemaTemplateType } from "./types";
+import { Query } from "./types/query";
+import { SchemaTemplateType } from './types'
 import { runQuery, QueryBuilder } from "./utils/query";
 import { updateReactiveIndex, createReactiveIndex } from "./utils/reactive";
-import change from 'on-change'
 import { updateDocIndex } from "./utils/indexed";
 
 /**
@@ -21,7 +22,7 @@ export class DBCollection {
   /** Reference to the DB object */
   readonly db: DB;
   /** Map for reactive query results */
-  reactiveIndexed: Map<Query[] | QueryBuilder, {docs: DBDoc[]}> = new Map();
+  reactiveIndexed: Map<Query[] | QueryBuilder, { docs: DBDoc[] }> = new Map();
 
   /**
    * Create a structured collection of documents
@@ -45,7 +46,7 @@ export class DBCollection {
    */
   id(idStr: string) {
     /* DEBUG */ this.col_("Finding document by id `%s`", idStr);
-    const doc = this.docs.find((val) => val.id === idStr);
+    const doc = this.docs.find(doc => doc.id === idStr);
     /* DEBUG */ this.col_(
       "Document found for id:`%s` %s",
       idStr,
@@ -92,7 +93,7 @@ export class DBCollection {
         return oldDoc
       }
       /* DEBUG */ this.col_("Document with ID %s doesn't exist, continuing with document creation", id);
-    } 
+    }
 
     const newDoc = new DBDoc(doc, this, id);
     /* DEBUG */ this.col_(
