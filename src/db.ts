@@ -1,30 +1,37 @@
-import { v4 } from "uuid";
-import debug from "debug";
-import { DBCollection } from "./collection";
-import { VoidBackup } from "./backupProviders/void";
-import { Backup, BackupProvider } from "./types/backupProvider";
-import { Plugin, EventName } from "./types/plugin";
+import { v4 } from 'uuid'
+import debug from 'debug'
+import { DBCollection } from './collection'
+import { VoidBackup } from './backupProviders/void'
+import { Backup, BackupProvider } from './types/backupProvider'
+import {
+  EventHandlerType,
+  EventHandlersType,
+  EventName,
+  MemsDBEvent,
+} from './types/events'
+import { AddCollectionOpts } from './types/DB'
+import { EventHandler } from './eventHandler'
 
-const memsdb_ = debug("memsdb");
+const memsdb_ = debug('memsdb')
 
 /**
  * Database constructor containing all the initialised collections
  */
 export class DB {
   /** Key based object containing all the collections */
-  readonly name: string = "memsdb";
-  collections: { [key: string]: DBCollection } = {};
+  readonly name: string = 'memsdb'
+  collections: { [key: string]: DBCollection } = {}
   /** Debugger variable */
-  readonly db_: debug.Debugger;
+  readonly db_: debug.Debugger
   options: {
     useDynamicIndexes: boolean
     backupProvider: BackupProvider
   } = {
     useDynamicIndexes: true,
-    backupProvider: new VoidBackup()
-  };
+    backupProvider: new VoidBackup(),
+  }
 
-  plugins: {[key in EventName]?: Plugin[]} = {}
+  private eventHandlers: { [key in EventName]?: EventHandlerType[] } = {}
 
   /**
    * Construct a new in memory db with the provided collection references
@@ -38,34 +45,66 @@ export class DB {
        * Automatically generate dynamic indexes - link deeply nested content
        * in a document to the root document to speed up future query results
        */
-      useDynamicIndexes?: boolean;
+      useDynamicIndexes?: boolean
       /**
        * BackupProvider to save and restore documents/collections to and from
        */
-      backupProvider?: BackupProvider,
-      plugins?: {[key in EventName]?: Plugin | Plugin[]}[]
+      backupProvider?: BackupProvider
+      /**
+       * Map of plugins to apply to the database
+       */
+      eventHandlers?: EventHandlersType
     } = {}
   ) {
-    this.name = name;
-    this.db_ = memsdb_.extend(`<db>${name}`);
+    this.name = name
+    this.db_ = memsdb_.extend(`<db>${name}`)
     if (opts.useDynamicIndexes)
-      this.options.useDynamicIndexes = opts.useDynamicIndexes;
-    
+      this.options.useDynamicIndexes = opts.useDynamicIndexes
+
     if (opts.backupProvider) this.options.backupProvider = opts.backupProvider
 
-    // if (opts.plugins && Array.isArray(opts.plugins)) opts.plugins.forEach(plugin => {
-    //   const keys = Object.keys(plugin)
+    if (opts.eventHandlers) {
+      const eventTypes = Object.keys(opts.eventHandlers)
 
-    //   keys.forEach(key_ => {
-    //     const key = key_ as EventName
+      const addEventHandler = (type: EventName, handler: EventHandlerType) => {
+        if (this.eventHandlers[type]) {
+          this.eventHandlers[type] = [handler]
+        } else this.eventHandlers[type]?.push(handler)
+      }
 
-    //     const pluginArr = Array.isArray()
+      eventTypes.forEach((handlerType) => {
+        if (opts.eventHandlers) {
+          const handlers = opts.eventHandlers[<EventName>handlerType]
 
-    //     if (this.plugins[key] && Array.isArray(this.plugins[key])) {
-    //       this.plugins[key] ? this.plugins[key]?.push : (this.plugins[key])
-    //     }
-    //   })
-    // })
+          if (!handlers) return
+          if (Array.isArray(handlers))
+            handlers.forEach((handler) =>
+              addEventHandler(<EventName>handlerType, handler)
+            )
+          else addEventHandler(<EventName>handlerType, handlers)
+        }
+      })
+    }
+  }
+
+  addEventHandler(eventHandler: EventHandler | EventHandler[]) {
+    const addHandler = (handler: EventHandler) => {
+      if (!this.eventHandlers[handler.eventType]) {
+        this.eventHandlers[handler.eventType] = [handler.func]
+      } else this.eventHandlers[handler.eventType]?.push(handler.func)
+    }
+
+    if (Array.isArray(eventHandler)) {
+      eventHandler.forEach(addHandler)
+    } else {
+      addHandler(eventHandler)
+    }
+  }
+
+  emitEvent(event: MemsDBEvent): void {
+    if (this.eventHandlers[event.event]) {
+      this.eventHandlers[event.event]?.forEach((handler) => handler(event))
+    }
   }
 
   /**
@@ -74,10 +113,10 @@ export class DB {
    */
   c(name: string) {
     /* DEBUG */ this.db_(
-      "Finding and returning collection with name/key of `%s`",
+      'Finding and returning collection with name/key of `%s`',
       name
-    );
-    return this.collections[name];
+    )
+    return this.collections[name]
   }
 
   /**
@@ -85,7 +124,7 @@ export class DB {
    * @param name Name of collection to retrieve
    */
   collection(name: string) {
-    return this.c(name);
+    return this.c(name)
   }
 
   /**
@@ -93,16 +132,27 @@ export class DB {
    * @param collection Collection to add to the db
    * @param replace Replace the specified collection if it exists
    */
-  addCollection(collection: DBCollection, replace: boolean = false) {
+  addCollection(
+    collection: DBCollection,
+    opts: AddCollectionOpts = { replace: false }
+  ) {
     /* DEBUG */ this.db_(
-      "Adding collection `%s` to DB. Replace if it already exists:",
+      'Adding collection `%s` to DB. Replace if it already exists:',
       collection.name,
-      replace ? "true" : "false"
-    );
-    if (!this.collections[collection.name] || replace)
-      this.collections[collection.name] = collection;
+      opts.replace ? 'true' : 'false'
+    )
 
-    return collection;
+    /* DEBUG */ this.db_('Emitting event "EventDBAddCollection"')
+    this.emitEvent({
+      event: 'EventDBAddCollection',
+      collection,
+      opts,
+    })
+
+    if (!this.collections[collection.name] || opts.replace)
+      this.collections[collection.name] = collection
+
+    return collection
   }
 
   /**
@@ -110,18 +160,37 @@ export class DB {
    * @param name Collection name to delete
    */
   deleteCollection(name: string) {
+    let success = true
+    let error
+
     try {
-      /* DEBUG */ this.db_("Removing collection `%s` from DB", name);
-      
-      this.collections[name].docs.forEach(doc => doc.delete())
-      delete this.collections[name];
+      /* DEBUG */ this.db_('Removing collection `%s` from DB', name)
+
+      /* DEBUG */ this.db_('Emitting event "EventDBAddCollection"')
+      this.emitEvent({
+        event: 'EventDBDeleteCollection',
+        collection: this.collections[name],
+      })
+
+      this.collections[name].docs.forEach((doc) => doc.delete())
+      delete this.collections[name]
     } catch (err) {
       /* DEBUG */ this.db_(
         "Collection deletion failed successfully, collection `%s` doesn't exist",
         name
-      );
+      )
+      success = false
+      error = err
     } finally {
-      return this;
+      /* DEBUG */ this.db_('Emitting event "EventDBDeleteCollectionComplete"')
+      this.emitEvent({
+        event: 'EventDBDeleteCollectionComplete',
+        name,
+        success: false,
+        error,
+      })
+
+      return this
     }
   }
 
@@ -131,27 +200,47 @@ export class DB {
    * @param name Empty out a specified collection
    */
   emptyCollection(name: string) {
+    let success = true
+    let error
+
     try {
       /* DEBUG */ this.db_(
-        "Emptying collection `%s`. Current document count: %d",
+        'Emptying collection `%s`. Current document count: %d',
         name,
         this.collections[name].docs.length
-      );
-      
-      this.collections[name].docs.forEach(doc => doc.delete())
-      this.collections[name].docs.length = 0;
+      )
+
+      /* DEBUG */ this.db_('Emitting event "EventDBEmptyCollection"')
+      this.emitEvent({
+        event: 'EventDBEmptyCollection',
+        collection: this.collections[name],
+      })
+
+      this.collections[name].docs.forEach((doc) => doc.delete())
+      this.collections[name].docs.length = 0
       /* DEBUG */ this.db_(
-        "Emptying collection `%s` completed. Current document count: %d",
+        'Emptying collection `%s` completed. Current document count: %d',
         name,
         this.collections[name].docs.length
-      );
+      )
     } catch (err) {
       /* DEBUG */ this.db_(
-        "Emptying collection `%s` failed as it does not exist.",
+        'Emptying collection `%s` failed as it does not exist.',
         name
-      );
+      )
+
+      success = false
+      error = err
     } finally {
-      return this;
+      /* DEBUG */ this.db_('Emitting event "EventDBEmptyCollection"')
+      this.emitEvent({
+        event: 'EventDBEmptyCollectionComplete',
+        collection: this.collections[name],
+        success,
+        error,
+      })
+
+      return this
     }
   }
 
@@ -159,30 +248,54 @@ export class DB {
    * Backup collection data to the provided BackupProvider.
    */
   backup() {
-    /* DEBUG */ this.db_("Backing up database to BackupProvider");
+    /* DEBUG */ this.db_('Starting backup')
     const backup: Backup = {}
 
     const collections = Object.keys(this.collections)
 
-    collections.forEach(col => {
+    /* DEBUG */ this.db_('Serialising collections')
+    collections.forEach((col) => {
       const collection = this.collections[col]
 
       const keys = Object.keys(collection.schema)
-      const values = collection.docs.map(doc => [doc.id, ...keys.map(key => doc.data[key])])
+      const values = collection.docs.map((doc) => [
+        doc.id,
+        ...keys.map((key) => doc.data[key]),
+      ])
 
       keys.unshift('id')
 
       backup[col] = {
         keys,
-        values
+        values,
       }
     })
+    /* DEBUG */ this.db_('Data structure created for backup')
 
-    /* DEBUG */ this.db_("Data structure created for backup");
+    /* DEBUG */ this.db_('Emitting event "EventDBBackup"')
+    this.emitEvent({
+      event: 'EventDBBackup',
+      backup,
+    })
 
+    /* DEBUG */ this.db_('Backing up database to BackupProvider')
     const backedUp = this.options.backupProvider.save(backup)
+    /* DEBUG */ this.db_(
+      'Backed up to BackupProvider, status: %s',
+      backedUp ? 'success' : 'failed'
+    )
 
-    /* DEBUG */ this.db_("Backup finished, result: %s", backedUp ? 'Data backed up' : 'Data NOT backed up');
+    /* DEBUG */ this.db_('Emitting event "EventDBBackupComplete"')
+    this.emitEvent({
+      event: 'EventDBBackupComplete',
+      backup,
+      status: backedUp ? 'success' : 'failed',
+    })
+
+    /* DEBUG */ this.db_(
+      'Backup finished, result: %s',
+      backedUp ? 'Data backed up' : 'Data NOT backed up'
+    )
   }
 
   /**
@@ -190,38 +303,49 @@ export class DB {
    * BackupProvider. This won't overwrite any documents
    */
   restore() {
-    /* DEBUG */ this.db_("Restoring database collections from BackupProvider");
+    /* DEBUG */ this.db_('Restoring database collections from BackupProvider')
     const backup = this.options.backupProvider.load()
 
-    /* DEBUG */ this.db_("Collection data loaded from BackupProvider");
+    /* DEBUG */ this.db_('Emitting event "EventDBRestore"')
+    this.emitEvent({
+      event: 'EventDBRestore',
+      backup,
+    })
+
+    /* DEBUG */ this.db_('Collection data loaded from BackupProvider')
 
     const collectionKeys = Object.keys(backup)
 
-    /* DEBUG */ this.db_("%d collections to restore", collectionKeys.length);
+    /* DEBUG */ this.db_('%d collections to restore', collectionKeys.length)
 
-    collectionKeys.forEach(colKey => {
+    collectionKeys.forEach((colKey) => {
       const col = this.collections[colKey]
-      if (!col) return;
+      if (!col) return
 
       const data = backup[colKey]
 
       data.values.forEach((docData) => {
-        const doc: {[key: string]: any} = {}
+        const doc: { [key: string]: any } = {}
 
         data.keys.forEach((key, i) => {
           // Skip the ID
-          if (i === 0) return;
+          if (i === 0) return
           doc[key] = docData[i]
         })
 
-        col.insertOne(doc, docData[0])
+        col.insertOne({
+          doc,
+          id: docData[0],
+        })
       })
     })
 
-    /* DEBUG */ this.db_("Database restored");
-  }
+    /* DEBUG */ this.db_('Emitting event "EventDBRestoreComplete"')
+    this.emitEvent({
+      event: 'EventDBRestoreComplete',
+      backup,
+    })
 
-  callPlugins: Plugin = (ev) => {
-    
+    /* DEBUG */ this.db_('Database restored')
   }
 }

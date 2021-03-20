@@ -3,13 +3,13 @@
  * @module populate
  * [[include:populate.md]]
  */
-import { Debugger } from "debug";
+import { Debugger } from 'debug'
 import { v4 } from 'uuid'
 
-import { DB } from "../db";
-import { DBCollection } from "../collection";
-import { DBDoc } from "../doc";
-import { nestedKey } from "./key";
+import { DB } from '../db'
+import { DBCollection } from '../collection'
+import { DBDoc } from '../doc'
+import { nestedKey } from './key'
 
 export interface PopulateQuery {
   key: string
@@ -35,7 +35,7 @@ const tokenify = (strArr: string[] = [], tokenArr: string[] = []): string[] => {
     token = ''
   }
 
-  // Loop over 
+  // Loop over
   while (strArr.length > 0) {
     const char = strArr.shift()
 
@@ -103,44 +103,61 @@ const createQueries = (
     switch (token) {
       // Start of reference type
       case '<':
-        /* DEBUG */__('--%s--, Opening ref', token)
+        /* DEBUG */ __('--%s--, Opening ref', token)
         nextTokenType = 'ref'
-        continue;
+        continue
 
       // End reference type
       case '>':
-        /* DEBUG */__('--%s--, Closing ref', token)
+        /* DEBUG */ __('--%s--, Closing ref', token)
         nextTokenType = 'key'
-        continue;
+        continue
 
       // Start child queries
       case '[':
       case '{':
-        /* DEBUG */__('--%s--, Opening array or object, tokenArr, nextTokenType is %s', token, nextTokenType)
+        /* DEBUG */ __(
+          '--%s--, Opening array or object, tokenArr, nextTokenType is %s',
+          token,
+          nextTokenType
+        )
         cur.isArr = token === '[' ? true : false
         // cur.children = []
         cur.children = createQueries(tokenArr, {}, [], db, __.extend(cur.key))
 
-        continue;
+        continue
 
       // End child queries
       case ']':
       case '}':
-        /* DEBUG */__('--%s--, Closing array or object, tokenArr, nextTokenType is %s, pushing query and resetting cur', token, nextTokenType)
+        /* DEBUG */ __(
+          '--%s--, Closing array or object, tokenArr, nextTokenType is %s, pushing query and resetting cur',
+          token,
+          nextTokenType
+        )
         pushAndReset()
         break loop
 
       // token is a word, set it to the cur object
       default:
-        /* DEBUG */__('--Default: %s--, Setting `%s` to %s', token, nextTokenType, token)
+        /* DEBUG */ __(
+          '--Default: %s--, Setting `%s` to %s',
+          token,
+          nextTokenType,
+          token
+        )
         // If the query already has a defined key, then push and reset the
         // current obj so as to not overwrite the key
         if (cur.key !== undefined) {
-          __('--- %s', cur.key.substr(cur.key.length - 1) === '.' ? 'true' : 'false')
+          __(
+            '--- %s',
+            cur.key.substr(cur.key.length - 1) === '.' ? 'true' : 'false'
+          )
         }
 
         // Set the ref or key to the current token
-        cur[nextTokenType] = nextTokenType === 'ref' ? db.collections[token as string] : token
+        cur[nextTokenType] =
+          nextTokenType === 'ref' ? db.collections[token as string] : token
 
         // Continue the while loop when if there are:
         // - More tokens
@@ -148,16 +165,11 @@ const createQueries = (
         // - Or if we're still in a reference declaration (gets reset next token)
         if (
           tokenArr.length > 0 &&
-          (
-            (nextTokenType === 'key' &&
-              (
-                tokenArr[0] === '{' ||
-                tokenArr[0] === '['
-              )
-            ) ||
-            nextTokenType === 'ref'
-          )
-        ) continue
+          ((nextTokenType === 'key' &&
+            (tokenArr[0] === '{' || tokenArr[0] === '[')) ||
+            nextTokenType === 'ref')
+        )
+          continue
         // Otherwise push the current object to the queries list and reset
         // the current object
         else pushAndReset()
@@ -204,7 +216,13 @@ const ParseMemsPL = (
   __('Parsed tokens: %s', JSON.stringify(tokens, undefined, 2))
 
   // Convert the token array into a JS structure for querying later
-  const queries = createQueries(tokens, {}, [], rootCollection.db, __) as PopulateQuery[]
+  const queries = createQueries(
+    tokens,
+    {},
+    [],
+    rootCollection.db,
+    __
+  ) as PopulateQuery[]
 
   __('Parsed queries: %s', JSON.stringify(queries, undefined, 2))
 
@@ -215,7 +233,7 @@ const ParseMemsPL = (
  * Populate an array of documents into a tree based on a MemsDB Population Language (MemsPL) string
  * @param rootCollection Collection to initially populate on (root document collection)
  * @param docs Array of documents to populate - normally from find() results
- * @param populateQuery MemL string to use
+ * @param populateQuery MemPL string to use
  * @param filter Filter out non-specified keys
  * @example
  * populate(`
@@ -244,9 +262,9 @@ export const populate = (
   _('population formatted, running recursive populate')
 
   const filterDoc = (doc: DBDoc, keys: string[]) => {
-    const toRemove = Object.keys(doc.data).filter(key => !keys.includes(key))
+    const toRemove = Object.keys(doc.data).filter((key) => !keys.includes(key))
 
-    toRemove.forEach(key => delete doc.data[key])
+    toRemove.forEach((key) => delete doc.data[key])
   }
 
   /**
@@ -254,50 +272,64 @@ export const populate = (
    * @param queries Populate query array to run
    * @param docsOrig Original document array to dupe, populate, then return
    */
-  const runPopulate = (queries: PopulateQuery[], docsOrig: DBDoc[], pop_: Debugger) => {
+  const runPopulate = (
+    queries: PopulateQuery[],
+    docsOrig: DBDoc[],
+    pop_: Debugger
+  ) => {
     const runPop_ = pop_.extend(`<runPopulate>${v4()}`)
     // Duplicate all the original documents so as to avoid mutating the originals with references to the copies
-    const duped = docsOrig.map(doc => doc.clone())
-    /* DEBUG */runPop_('Documents duped')
-    
-    const keysList = queries.map(query => query.key)
+    const duped = docsOrig.map((doc) => doc.clone())
+    /* DEBUG */ runPop_('Documents duped')
+
+    const keysList = queries.map((query) => query.key)
 
     runPop_('List of keys to keep on document: %O', keysList)
 
     // Go down the array of queries to populate documents
     for (let i = 0; i < queries.length; i++) {
-      const query = queries[i];
-      
-      /* DEBUG */runPop_('Query picked, %d remaining', queries.length - i - 1)
+      const query = queries[i]
+
+      /* DEBUG */ runPop_('Query picked, %d remaining', queries.length - i - 1)
 
       // Map over duped documents applying the populations to the correct key
-      duped.forEach(doc => {
+      duped.forEach((doc) => {
         const nestedKeyVal = nestedKey(doc.data, query?.key)
 
         runPop_('nestedKeyVal Key: %s', query?.key)
         runPop_('nestedKeyVal Val: %O', nestedKeyVal)
-        
+
         if (query?.ref) {
           // Handle if there are child queries and there's a ref set
           if (query?.children) {
             // Handle whether the key to populate is an array or not
             if (query.isArr || Array.isArray(nestedKeyVal)) {
               let childDocs = []
-              if (nestedKeyVal) childDocs = nestedKeyVal.map((id: string) => query.ref?.id(id))
-              doc.data[query.key] = runPopulate(query.children, childDocs, runPop_)
+              if (nestedKeyVal)
+                childDocs = nestedKeyVal.map((id: string) => query.ref?.id(id))
+              doc.data[query.key] = runPopulate(
+                query.children,
+                childDocs,
+                runPop_
+              )
             }
             // Otherwise set the key to the first result of a populate query
             else {
               // Find the document
               const childDoc = query.ref.id(nestedKeyVal)
-  
+
               // If the child document exists, run a population on it
               if (childDoc) {
                 // Run runPopulate on it with the child queries
-                const childPopulated = runPopulate(query.children, [childDoc], runPop_)
-  
+                const childPopulated = runPopulate(
+                  query.children,
+                  [childDoc],
+                  runPop_
+                )
+
                 // Set the key to the first result of the runPopulate if it exists
-                if (childPopulated.length > 0) doc.data[query.key] = childPopulated[0]
+                if (childPopulated.length > 0)
+                  doc.data[query.key] = childPopulated[0]
               }
             }
           }
@@ -308,7 +340,7 @@ export const populate = (
               doc.data[query.key] = nestedKeyVal.map((id: string) => {
                 if (query.ref) {
                   const childDoc = query.ref.id(id)
-    
+
                   if (childDoc) return childDoc
                 }
 
@@ -318,18 +350,18 @@ export const populate = (
             // Otherwise just do the single population
             else {
               const childDoc = query.ref.id(nestedKeyVal)
-  
+
               if (childDoc) doc.data[query.key] = childDoc
             }
           }
         }
 
         if (filter) {
-          /* DEBUG */runPop_('Removing unnecessary keys from document')
+          /* DEBUG */ runPop_('Removing unnecessary keys from document')
           filterDoc(doc, keysList)
         }
       })
-      /* DEBUG */runPop_('Duped docs forEached over, returning duped')
+      /* DEBUG */ runPop_('Duped docs forEached over, returning duped')
     }
 
     return duped
