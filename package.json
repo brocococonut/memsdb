@@ -15,12 +15,12 @@
   "license": "SEE LICENSE IN LICENSE",
   "dependencies": {
     "debug": "^4.3.1",
-    "on-change": "^2.2.1",
+    "on-change": "^2.2.3",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/debug": "^4.1.5",
-    "@types/node": "^14.14.20",
+    "@types/node": "^14.14.35",
     "@types/on-change": "^1.1.0",
     "@types/uuid": "^8.3.0",
     "typedoc": "^0.20.32",
