@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>CustomPopulateQuery | memsdb</title>
+	<title>EventDBAddCollection | memsdb</title>
 	<meta name="description" content="Documentation for memsdb">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -55,31 +55,24 @@
 					<a href="../modules.html">memsdb</a>
 				</li>
 				<li>
-					<a href="../modules/types.html">types</a>
+					<a href="../modules/types_events.html">types/events</a>
 				</li>
 				<li>
-					<a href="types.custompopulatequery.html">CustomPopulateQuery</a>
+					<a href="types_events.eventdbaddcollection.html">EventDBAddCollection</a>
 				</li>
 			</ul>
-			<h1>Interface CustomPopulateQuery</h1>
+			<h1>Interface EventDBAddCollection</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Population specific query</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">CustomPopulateQuery</span>
+						<span class="target">EventDBAddCollection</span>
 					</li>
 				</ul>
 			</section>
@@ -90,10 +83,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="types.custompopulatequery.html#collection" class="tsd-kind-icon">collection</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="types.custompopulatequery.html#destinationfield" class="tsd-kind-icon">destination<wbr>Field</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="types.custompopulatequery.html#srcfield" class="tsd-kind-icon">src<wbr>Field</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="types.custompopulatequery.html#targetfield" class="tsd-kind-icon">target<wbr>Field</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="types_events.eventdbaddcollection.html#collection" class="tsd-kind-icon">collection</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="types_events.eventdbaddcollection.html#event" class="tsd-kind-icon">event</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="types_events.eventdbaddcollection.html#opts" class="tsd-kind-icon">opts</a></li>
 							</ul>
 						</section>
 					</div>
@@ -107,39 +99,45 @@
 					<div class="tsd-signature tsd-kind-icon">collection<span class="tsd-signature-symbol">:</span> <a href="../classes/collection.dbcollection.html" class="tsd-signature-type" data-tsd-kind="Class">DBCollection</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/fa97bb6/src/types.ts#L24">types.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/fa97bb6/src/types/events.ts#L67">types/events.ts:67</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A reference to the added collection. Mutate or read as necessary</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="destinationfield" class="tsd-anchor"></a>
-					<h3>destination<wbr>Field</h3>
-					<div class="tsd-signature tsd-kind-icon">destination<wbr>Field<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="event" class="tsd-anchor"></a>
+					<h3>event</h3>
+					<div class="tsd-signature tsd-kind-icon">event<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;EventDBAddCollection&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/fa97bb6/src/types.ts#L22">types.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/fa97bb6/src/types/events.ts#L63">types/events.ts:63</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Fires when a collection is added to the database.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="srcfield" class="tsd-anchor"></a>
-					<h3>src<wbr>Field</h3>
-					<div class="tsd-signature tsd-kind-icon">src<wbr>Field<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="opts" class="tsd-anchor"></a>
+					<h3>opts</h3>
+					<div class="tsd-signature tsd-kind-icon">opts<span class="tsd-signature-symbol">:</span> <a href="types_db.addcollectionopts.html" class="tsd-signature-type" data-tsd-kind="Interface">AddCollectionOpts</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/fa97bb6/src/types.ts#L18">types.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/fa97bb6/src/types/events.ts#L72">types/events.ts:72</a></li>
 						</ul>
 					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="targetfield" class="tsd-anchor"></a>
-					<h3>target<wbr>Field</h3>
-					<div class="tsd-signature tsd-kind-icon">target<wbr>Field<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/fa97bb6/src/types.ts#L20">types.ts:20</a></li>
-						</ul>
-					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Reference to the opts used for adding a collection to the database.
+							Modifying these options will modify original object</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -177,7 +175,7 @@
 						<a href="../modules/populate___include_populate_md__.html">populate
 						[[include:populate.md]]</a>
 					</li>
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="../modules/types.html">types</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -192,7 +190,7 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/types_backupprovider.html">types/backup<wbr>Provider</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class="current tsd-kind-module">
 						<a href="../modules/types_events.html">types/events</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -214,29 +212,101 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventcollectiondocumentupdated.html" class="tsd-kind-icon">Event<wbr>Collection<wbr>Document<wbr>Updated</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventcollectionfind.html" class="tsd-kind-icon">Event<wbr>Collection<wbr>Find</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventcollectionfindcomplete.html" class="tsd-kind-icon">Event<wbr>Collection<wbr>Find<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventcollectioninsert.html" class="tsd-kind-icon">Event<wbr>Collection<wbr>Insert</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventcollectioninsertcomplete.html" class="tsd-kind-icon">Event<wbr>Collection<wbr>Insert<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventcollectiontojson.html" class="tsd-kind-icon">Event<wbr>Collection<wbr>ToJSON</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="types.custompopulatequery.html" class="tsd-kind-icon">Custom<wbr>Populate<wbr>Query</a>
+						<a href="types_events.eventdbaddcollection.html" class="tsd-kind-icon">EventDBAdd<wbr>Collection</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="types.custompopulatequery.html#collection" class="tsd-kind-icon">collection</a>
+								<a href="types_events.eventdbaddcollection.html#collection" class="tsd-kind-icon">collection</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="types.custompopulatequery.html#destinationfield" class="tsd-kind-icon">destination<wbr>Field</a>
+								<a href="types_events.eventdbaddcollection.html#event" class="tsd-kind-icon">event</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="types.custompopulatequery.html#srcfield" class="tsd-kind-icon">src<wbr>Field</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="types.custompopulatequery.html#targetfield" class="tsd-kind-icon">target<wbr>Field</a>
+								<a href="types_events.eventdbaddcollection.html#opts" class="tsd-kind-icon">opts</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="types.schematemplatetype.html" class="tsd-kind-icon">Schema<wbr>Template<wbr>Type</a>
+						<a href="types_events.eventdbbackup.html" class="tsd-kind-icon">EventDBBackup</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdbbackupcomplete.html" class="tsd-kind-icon">EventDBBackup<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdbdeletecollection.html" class="tsd-kind-icon">EventDBDelete<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdbdeletecollectioncomplete.html" class="tsd-kind-icon">EventDBDelete<wbr>Collection<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdbemptycollection.html" class="tsd-kind-icon">EventDBEmpty<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdbemptycollectioncomplete.html" class="tsd-kind-icon">EventDBEmpty<wbr>Collection<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdbrestore.html" class="tsd-kind-icon">EventDBRestore</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdbrestorecomplete.html" class="tsd-kind-icon">EventDBRestore<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdocumentclone.html" class="tsd-kind-icon">Event<wbr>Document<wbr>Clone</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdocumentclonecomplete.html" class="tsd-kind-icon">Event<wbr>Document<wbr>Clone<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdocumentcustompopulate.html" class="tsd-kind-icon">Event<wbr>Document<wbr>Custom<wbr>Populate</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdocumentcustompopulatecomplete.html" class="tsd-kind-icon">Event<wbr>Document<wbr>Custom<wbr>Populate<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdocumentdelete.html" class="tsd-kind-icon">Event<wbr>Document<wbr>Delete</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdocumentdeletecomplete.html" class="tsd-kind-icon">Event<wbr>Document<wbr>Delete<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdocumenttree.html" class="tsd-kind-icon">Event<wbr>Document<wbr>Tree</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdocumenttreecomplete.html" class="tsd-kind-icon">Event<wbr>Document<wbr>Tree<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/types_events.html#eventhandlertype" class="tsd-kind-icon">Event<wbr>Handler<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/types_events.html#eventhandlerstype" class="tsd-kind-icon">Event<wbr>Handlers<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/types_events.html#eventname" class="tsd-kind-icon">Event<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/types_events.html#memsdbevent" class="tsd-kind-icon">MemsDBEvent</a>
 					</li>
 				</ul>
 			</nav>

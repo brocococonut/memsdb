@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>SchemaTemplateType | memsdb</title>
+	<title>EventDBRestore | memsdb</title>
 	<meta name="description" content="Documentation for memsdb">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -55,31 +55,24 @@
 					<a href="../modules.html">memsdb</a>
 				</li>
 				<li>
-					<a href="../modules/types.html">types</a>
+					<a href="../modules/types_events.html">types/events</a>
 				</li>
 				<li>
-					<a href="types.schematemplatetype.html">SchemaTemplateType</a>
+					<a href="types_events.eventdbrestore.html">EventDBRestore</a>
 				</li>
 			</ul>
-			<h1>Interface SchemaTemplateType</h1>
+			<h1>Interface EventDBRestore</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Base template of a schema/collection</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">SchemaTemplateType</span>
+						<span class="target">EventDBRestore</span>
 					</li>
 				</ul>
 			</section>
@@ -90,8 +83,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="types.schematemplatetype.html#name" class="tsd-kind-icon">name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="types.schematemplatetype.html#structure" class="tsd-kind-icon">structure</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="types_events.eventdbrestore.html#backup" class="tsd-kind-icon">backup</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="types_events.eventdbrestore.html#event" class="tsd-kind-icon">event</a></li>
 							</ul>
 						</section>
 					</div>
@@ -100,42 +93,36 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="name" class="tsd-anchor"></a>
-					<h3>name</h3>
-					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="backup" class="tsd-anchor"></a>
+					<h3>backup</h3>
+					<div class="tsd-signature tsd-kind-icon">backup<span class="tsd-signature-symbol">:</span> <a href="types_backupprovider.backup.html" class="tsd-signature-type" data-tsd-kind="Interface">Backup</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/fa97bb6/src/types.ts#L7">types.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/fa97bb6/src/types/events.ts#L44">types/events.ts:44</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Name of the collection schema</p>
+							<p>The Backup object that will be restored to the database. Mutations
+							here will be written to the database</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="structure" class="tsd-anchor"></a>
-					<h3>structure</h3>
-					<div class="tsd-signature tsd-kind-icon">structure<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
+					<a name="event" class="tsd-anchor"></a>
+					<h3>event</h3>
+					<div class="tsd-signature tsd-kind-icon">event<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;EventDBRestore&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/fa97bb6/src/types.ts#L12">types.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/fa97bb6/src/types/events.ts#L39">types/events.ts:39</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Structure of the collection. A key&#39;s value will be treated as
-							the default value for that key</p>
+							<p>Fires whenever the db.restore() function is called. Plugins will be run
+								BEFORE the BackupProvider loads the content, and before it gets applied to
+							the database.</p>
 						</div>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-index-signature">
-								<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></h5>
-							</li>
-						</ul>
 					</div>
 				</section>
 			</section>
@@ -174,7 +161,7 @@
 						<a href="../modules/populate___include_populate_md__.html">populate
 						[[include:populate.md]]</a>
 					</li>
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="../modules/types.html">types</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -189,7 +176,7 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/types_backupprovider.html">types/backup<wbr>Provider</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class="current tsd-kind-module">
 						<a href="../modules/types_events.html">types/events</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -212,23 +199,98 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="types.custompopulatequery.html" class="tsd-kind-icon">Custom<wbr>Populate<wbr>Query</a>
+						<a href="types_events.eventcollectiondocumentupdated.html" class="tsd-kind-icon">Event<wbr>Collection<wbr>Document<wbr>Updated</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventcollectionfind.html" class="tsd-kind-icon">Event<wbr>Collection<wbr>Find</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventcollectionfindcomplete.html" class="tsd-kind-icon">Event<wbr>Collection<wbr>Find<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventcollectioninsert.html" class="tsd-kind-icon">Event<wbr>Collection<wbr>Insert</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventcollectioninsertcomplete.html" class="tsd-kind-icon">Event<wbr>Collection<wbr>Insert<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventcollectiontojson.html" class="tsd-kind-icon">Event<wbr>Collection<wbr>ToJSON</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdbaddcollection.html" class="tsd-kind-icon">EventDBAdd<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdbbackup.html" class="tsd-kind-icon">EventDBBackup</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdbbackupcomplete.html" class="tsd-kind-icon">EventDBBackup<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdbdeletecollection.html" class="tsd-kind-icon">EventDBDelete<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdbdeletecollectioncomplete.html" class="tsd-kind-icon">EventDBDelete<wbr>Collection<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdbemptycollection.html" class="tsd-kind-icon">EventDBEmpty<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdbemptycollectioncomplete.html" class="tsd-kind-icon">EventDBEmpty<wbr>Collection<wbr>Complete</a>
 					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="types.schematemplatetype.html" class="tsd-kind-icon">Schema<wbr>Template<wbr>Type</a>
+						<a href="types_events.eventdbrestore.html" class="tsd-kind-icon">EventDBRestore</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="types.schematemplatetype.html#name" class="tsd-kind-icon">name</a>
+								<a href="types_events.eventdbrestore.html#backup" class="tsd-kind-icon">backup</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="types.schematemplatetype.html#structure" class="tsd-kind-icon">structure</a>
+								<a href="types_events.eventdbrestore.html#event" class="tsd-kind-icon">event</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdbrestorecomplete.html" class="tsd-kind-icon">EventDBRestore<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdocumentclone.html" class="tsd-kind-icon">Event<wbr>Document<wbr>Clone</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdocumentclonecomplete.html" class="tsd-kind-icon">Event<wbr>Document<wbr>Clone<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdocumentcustompopulate.html" class="tsd-kind-icon">Event<wbr>Document<wbr>Custom<wbr>Populate</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdocumentcustompopulatecomplete.html" class="tsd-kind-icon">Event<wbr>Document<wbr>Custom<wbr>Populate<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdocumentdelete.html" class="tsd-kind-icon">Event<wbr>Document<wbr>Delete</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdocumentdeletecomplete.html" class="tsd-kind-icon">Event<wbr>Document<wbr>Delete<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdocumenttree.html" class="tsd-kind-icon">Event<wbr>Document<wbr>Tree</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types_events.eventdocumenttreecomplete.html" class="tsd-kind-icon">Event<wbr>Document<wbr>Tree<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/types_events.html#eventhandlertype" class="tsd-kind-icon">Event<wbr>Handler<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/types_events.html#eventhandlerstype" class="tsd-kind-icon">Event<wbr>Handlers<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/types_events.html#eventname" class="tsd-kind-icon">Event<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/types_events.html#memsdbevent" class="tsd-kind-icon">MemsDBEvent</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
