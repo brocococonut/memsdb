@@ -1,25 +1,24 @@
-import { DBCollection } from "./collection";
-import { QueryBuilder } from "./utils/query";
+import type { DBCollection } from './collection'
 
 /** Base template of a schema/collection */
 export interface SchemaTemplateType {
   /** Name of the collection schema */
-  name: string;
+  name: string
   /**
    * Structure of the collection. A key's value will be treated as
    * the default value for that key
    */
-  structure: { [key: string]: any };
+  structure: { [key: string]: any }
 }
 
 /** Population specific query */
 export interface CustomPopulateQuery {
   /* Where on the source doc to compare to */
-  srcField: string;
+  srcField: string
   /* Where on the comparison doc to compare to */
-  targetField: string;
+  targetField: string
   /* Where to place the child documents matching this query */
-  destinationField: string;
+  destinationField: string
   /* The collection to pull child documents from for this query */
-  collection: DBCollection;
+  collection: DBCollection
 }

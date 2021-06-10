@@ -9,10 +9,10 @@ A simple in memory DB - Created to experiment more with typescript and classes
 
 ## Documentation:
 - [Documentation Root](https://brocococonut.github.io/memsdb/)
-- [DB Class Docs](https://brocococonut.github.io/memsdb/classes/_db_.db.html)
-- [DBCollection Class Docs](https://brocococonut.github.io/memsdb/classes/_collection_.dbcollection.html)
-- [DBDoc Class Docs](https://brocococonut.github.io/memsdb/classes/_doc_.dbdoc.html)
-- [Query Builder Class Docs](https://brocococonut.github.io/memsdb/classes/_utils_query_.querybuilder.html)
+- [DB Class Docs](https://brocococonut.github.io/memsdb/classes/db.html)
+- [DBCollection Class Docs](https://brocococonut.github.io/memsdb/classes/dbcollection.html)
+- [DBDoc Class Docs](https://brocococonut.github.io/memsdb/classes/dbdoc.html)
+- [Query Builder Class Docs](https://brocococonut.github.io/memsdb/classes/querybuilder.html)
 
 Initialising a new database:
 ```typescript

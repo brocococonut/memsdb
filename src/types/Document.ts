@@ -1,7 +1,7 @@
-import { DBCollection } from '../collection'
-import { CustomPopulateQuery } from '../types'
-import { QueryBuilder } from '../utils/query'
-import { Query } from './query'
+import type { DBCollection } from '../collection'
+import type { CustomPopulateQuery } from '../types'
+import type { QueryBuilder } from '../utils/query'
+import type { Query } from './query'
 
 export interface DocumentCustomPopulateOpts {
   srcField: string

@@ -6,10 +6,11 @@
 import { Debugger } from 'debug'
 import { v4 } from 'uuid'
 
-import { DB } from '../db'
-import { DBCollection } from '../collection'
-import { DBDoc } from '../doc'
 import { nestedKey } from './key'
+
+import type { DB } from '../db'
+import type { DBCollection } from '../collection'
+import type { DBDoc } from '../doc'
 
 export interface PopulateQuery {
   key: string

@@ -1,9 +1,6 @@
 import change from 'on-change'
 import { DBDoc } from './doc'
-import { DB } from './db'
-import { Query } from './types/query'
-import { SchemaTemplateType } from './types'
-import { runQuery, QueryBuilder } from './utils/query'
+import { runQuery } from './utils/query'
 import { updateReactiveIndex, createReactiveIndex } from './utils/reactive'
 import { updateDocIndex } from './utils/indexed'
 import {
@@ -11,7 +8,13 @@ import {
   CollectionInsertManyOpts,
   CollectionInsertOpts,
 } from './types/Collection'
-import { MemsDBEvent } from './types/events'
+import { debounce } from './utils/debounce'
+
+import type { DB } from './db'
+import type { Query } from './types/query'
+import type { SchemaTemplateType } from './types'
+import type { QueryBuilder } from './utils/query'
+import type { MemsDBEvent } from './types/events'
 
 /**
  * Class for creating collections of structured documents
@@ -71,7 +74,7 @@ export class DBCollection {
     let docs: DBDoc[] = []
 
     /* DEBUG */ this.col_('Emitting event "EventCollectionFind"')
-    this.db.emitEvent({
+    this.emitEvent({
       event: 'EventCollectionFind',
       opts,
     })
@@ -87,7 +90,7 @@ export class DBCollection {
     }
 
     /* DEBUG */ this.col_('Emitting event "EventCollectionFindComplete"')
-    this.db.emitEvent({
+    this.emitEvent({
       event: 'EventCollectionFindComplete',
       opts,
       docs,
@@ -108,7 +111,7 @@ export class DBCollection {
     }
 
     /* DEBUG */ this.col_('Emitting event "EventCollectionInsert"')
-    this.db.emitEvent({
+    this.emitEvent({
       event: 'EventCollectionInsert',
       opts,
     })
@@ -144,25 +147,33 @@ export class DBCollection {
      * Create a listened/proxied version of the document to adjust indexes and
      * reactive indexes automatically
      */
-    const listened = change(newDoc, () => {
-      /* DEBUG */ this.col_('Document %s was modified', newDoc.id)
-      newDoc.data._updatedAt = Date.now()
-      if (Object.keys(newDoc.indexed).length > 0) {
-        for (const key in newDoc.indexed) {
-          updateDocIndex(newDoc, key)
-          this.col_('Updated index "%s" for document %s', key, newDoc.id)
+    const listened = change(
+      newDoc,
+      debounce((path: string) => {
+        if (path.startsWith('data.')) {
+          /* DEBUG */ this.col_('Document %s was modified', newDoc.id)
+          newDoc.data._updatedAt = Date.now()
+          if (Object.keys(newDoc.indexed).length > 0) {
+            for (const key in newDoc.indexed) {
+              updateDocIndex(newDoc, key)
+              this.col_('Updated index "%s" for document %s', key, newDoc.id)
+            }
+          }
+          for (const key of this.reactiveIndexed.keys()) {
+            updateReactiveIndex(this, key)
+            this.col_('Updated collection reactive index for key %j', key)
+          }
+          /* DEBUG */ this.col_(
+            'Emitting event "EventCollectionDocumentUpdated"'
+          )
+          this.emitEvent({
+            event: 'EventCollectionDocumentUpdated',
+            doc: newDoc,
+            collection: this,
+          })
         }
-      }
-      for (const key of this.reactiveIndexed.keys()) {
-        updateReactiveIndex(this, key)
-        this.col_('Updated collection reactive index for key %j', key)
-      }
-      /* DEBUG */ this.col_('Emitting event "EventCollectionDocumentUpdated"')
-      this.db.emitEvent({
-        event: 'EventCollectionDocumentUpdated',
-        doc: newDoc,
-      })
-    })
+      }, 300) as () => void
+    )
 
     this.docs.push(listened)
 
@@ -172,13 +183,15 @@ export class DBCollection {
     }
 
     /* DEBUG */ this.col_('Emitting event "EventCollectionInsertComplete"')
-    this.db.emitEvent({
+    this.emitEvent({
       event: 'EventCollectionInsertComplete',
-      doc: newDoc,
+      doc: listened,
+      unlistenedDoc: newDoc,
+      collection: this,
     })
 
     /* DEBUG */ this.col_('Document: %s, pushed to collection', newDoc.id)
-    return newDoc
+    return listened
   }
 
   /**
@@ -198,10 +211,18 @@ export class DBCollection {
     opts.doc.map((doc, i, arr) =>
       this.insertOne({
         doc,
-        reactiveUpdate: i === arr.length - 1 && opts.reactiveUpdate,
+        reactiveUpdate: i === arr.length - 1 && opts.reactiveUpdate === true,
       })
     )
     return this
+  }
+
+  /**
+   * Emit an event to the attached database
+   * @param event Event to emit
+   */
+  emitEvent(event: MemsDBEvent) {
+    this.db.emitEvent(event)
   }
 
   /**
@@ -222,7 +243,7 @@ export class DBCollection {
       event: 'EventCollectionToJSON',
       str,
     }
-    this.db.emitEvent(event)
+    this.emitEvent(event)
 
     return event.str
   }

@@ -1,12 +1,11 @@
 import { v4 } from 'uuid'
 import change from 'on-change'
-import { DBCollection } from './collection'
-import { CustomPopulateQuery } from './types'
-import { Query } from './types/query'
 import { nestedKey } from './utils/key'
 import { updateReactiveIndex } from './utils/reactive'
-import { QueryBuilder } from './utils/query'
-import { DocumentCustomPopulateOpts, DocumentTreeOpts } from './types/Document'
+
+import type { DBCollection } from './collection'
+import type { DocumentCustomPopulateOpts, DocumentTreeOpts } from './types/Document'
+import type { MemsDBEvent } from './types/events'
 
 /**
  * Class for creating structured documents
@@ -16,10 +15,12 @@ export class DBDoc {
   id: string
   /** Value of the document */
   data: {
-    _createdAt?: number
-    _updatedAt?: number
     [key: string]: any
   } = {}
+
+  _createdAt: number = Date.now()
+  _updatedAt: number = Date.now()
+
   /** Debugger variable */
   readonly doc_: debug.Debugger
   /** Reference to the parent collection */
@@ -29,6 +30,9 @@ export class DBDoc {
   indexed: {
     [key: string]: any | any[]
   } = {}
+
+  /** Object for any plugin related data */
+  pluginData: { [key: string]: any } = {}
 
   private _listenedRef: DBDoc = this
 
@@ -53,9 +57,6 @@ export class DBDoc {
     // Assign the data to the new document
     Object.assign(this.data, data)
 
-    this.data._createdAt = Date.now()
-    this.data._updatedAt = Date.now()
-
     this.doc_ = collection.col_.extend(`<doc>${this.id}`)
   }
 
@@ -63,11 +64,9 @@ export class DBDoc {
    * Delete this document from the db
    */
   delete() {
-    let success = true
-    let error
     try {
       /* DEBUG */ this.doc_('Emitting event "EventDocumentDelete"')
-      this.collection.db.emitEvent({
+      this.emitEvent({
         event: 'EventDocumentDelete',
         doc: this,
       })
@@ -85,19 +84,25 @@ export class DBDoc {
 
       /* DEBUG */ this.doc_('Removing nested change listener')
       change.unsubscribe(this._listenedRef)
+
+      /* DEBUG */ this.doc_('Emitting event "EventDocumentDeleteComplete"')
+      this.emitEvent({
+        event: 'EventDocumentDeleteComplete',
+        id: this.id,
+        success: true,
+      })
     } catch (err) {
       /* DEBUG */ this.doc_('Failed to delete this document, %J', err)
-      success = false
-      error = err
+      /* DEBUG */ this.doc_(
+        'Emitting event "EventDocumentDeleteComplete" with error'
+      )
+      this.emitEvent({
+        event: 'EventDocumentDeleteComplete',
+        id: this.id,
+        success: false,
+        error: err as Error,
+      })
     }
-
-    /* DEBUG */ this.doc_('Emitting event "EventDocumentDeleteComplete"')
-    this.collection.db.emitEvent({
-      event: 'EventDocumentDeleteComplete',
-      id: this.id,
-      success,
-      error,
-    })
   }
 
   /**
@@ -116,7 +121,7 @@ export class DBDoc {
     const resultDoc = this.clone()
 
     /* DEBUG */ this.doc_('Emitting event "EventDocumentCustomPopulate"')
-    this.collection.db.emitEvent({
+    this.emitEvent({
       event: 'EventDocumentCustomPopulate',
       doc: resultDoc,
       opts,
@@ -132,6 +137,7 @@ export class DBDoc {
           key: targetField,
           operation: '===',
           comparison: srcField === 'id' ? this.id : this.data[srcField],
+          inverse: false,
         },
       ],
       destinationField = 'children',
@@ -161,7 +167,7 @@ export class DBDoc {
     /* DEBUG */ this.doc_(
       'Emitting event "EventDocumentCustomPopulateComplete"'
     )
-    this.collection.db.emitEvent({
+    this.emitEvent({
       event: 'EventDocumentCustomPopulateComplete',
       doc: resultDoc,
       opts,
@@ -185,7 +191,7 @@ export class DBDoc {
     const doc = this.clone()
 
     /* DEBUG */ this.doc_('Emitting event "EventDocumentTree"')
-    this.collection.db.emitEvent({
+    this.emitEvent({
       event: 'EventDocumentTree',
       doc,
       opts,
@@ -209,6 +215,7 @@ export class DBDoc {
                 q.srcField === 'id'
                   ? this.id
                   : nestedKey(this.data, q.srcField),
+              inverse: false,
             },
           ],
         })
@@ -221,7 +228,7 @@ export class DBDoc {
     })
 
     /* DEBUG */ this.doc_('Emitting event "EventDocumentTreeComplete"')
-    this.collection.db.emitEvent({
+    this.emitEvent({
       event: 'EventDocumentTreeComplete',
       doc,
       opts,
@@ -239,7 +246,7 @@ export class DBDoc {
    */
   clone() {
     /* DEBUG */ this.doc_('Emitting event "EventDocumentClone"')
-    this.collection.db.emitEvent({
+    this.emitEvent({
       event: 'EventDocumentClone',
       doc: this,
     })
@@ -248,12 +255,20 @@ export class DBDoc {
     cloned.data._updatedAt = this.data._updatedAt
 
     /* DEBUG */ this.doc_('Emitting event "EventDocumentClone"')
-    this.collection.db.emitEvent({
+    this.emitEvent({
       event: 'EventDocumentCloneComplete',
       doc: cloned,
     })
 
     return cloned
+  }
+
+  /**
+   * Emit an event to the attached database
+   * @param event Event to emit
+   */
+  emitEvent(event: MemsDBEvent) {
+    this.collection.emitEvent(event)
   }
 
   /**

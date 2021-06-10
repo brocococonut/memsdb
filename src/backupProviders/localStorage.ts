@@ -1,4 +1,4 @@
-import { Backup, BackupProvider } from '../types/backupProvider';
+import { Backup, BackupProvider } from '../types/backupProvider'
 
 /**
  * Save and load backups from localStorage - may be subject to localstorage size limits

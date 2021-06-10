@@ -1,9 +1,9 @@
-import { DBCollection } from '../collection'
-import { DBDoc } from '../doc'
-import { Backup } from './backupProvider'
-import { AddCollectionOpts } from './DB'
-import { CollectionFindOpts, CollectionInsertOpts } from './Collection'
-import { DocumentCustomPopulateOpts, DocumentTreeOpts } from './Document'
+import type { DBCollection } from '../collection'
+import type { DBDoc } from '../doc'
+import type { Backup } from './backupProvider'
+import type { AddCollectionOpts } from './DB'
+import type { CollectionFindOpts, CollectionInsertOpts } from './Collection'
+import type { DocumentCustomPopulateOpts, DocumentTreeOpts } from './Document'
 
 export interface EventDBBackup {
   /**
@@ -179,6 +179,14 @@ export interface EventCollectionInsertComplete {
    * they will be omitted from backups.
    */
   doc: DBDoc
+  /**
+   * Same document as doc, this one won't trigger events when updated though
+   */
+  unlistenedDoc: DBDoc
+  /**
+   * A reference to the containing collection
+   */
+  collection: DBCollection
 }
 export interface EventCollectionToJSON {
   /**
@@ -310,6 +318,10 @@ export interface EventCollectionDocumentUpdated {
    * A reference to the modified document
    */
   doc: DBDoc
+  /**
+   * A reference to the containing collection
+   */
+  collection: DBCollection
 }
 
 export type MemsDBEvent =
@@ -347,14 +359,3 @@ export type EventHandlersType = Record<
   EventName,
   EventHandlerType | EventHandlerType[] | undefined
 >
-
-// const plug: Plugin = async (ev) => {
-//   (<EventDocumentDelete>ev)
-//   switch (ev.event) {
-//     case 'EventCollectionToJSON':
-//       break;
-
-//     default:
-//       break;
-//   }
-// }

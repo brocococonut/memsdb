@@ -1,36 +1,36 @@
-import { QueryBuilder } from "../utils/query";
+import type { QueryBuilder } from '../utils/query'
 
 export type Operators =
-  | "<"
-  | ">"
-  | "<="
-  | ">="
-  | "==="
-  | "||"
-  | "&&"
-  | "includes"
-  | "isContainedIn"
-  | "hasAllOf"
-  | "all>than"
-  | "all<than"
-  | "all>=to"
-  | "all<=to"
-  | "all===to"
-  | "some>than"
-  | "some<than"
-  | "some>=to"
-  | "some<=to"
-  | "some===to";
+  | '<'
+  | '>'
+  | '<='
+  | '>='
+  | '==='
+  | '||'
+  | '&&'
+  | 'includes'
+  | 'isContainedIn'
+  | 'hasAllOf'
+  | 'all>than'
+  | 'all<than'
+  | 'all>=to'
+  | 'all<=to'
+  | 'all===to'
+  | 'some>than'
+  | 'some<than'
+  | 'some>=to'
+  | 'some<=to'
+  | 'some===to'
 
 /** Query interface */
 export interface Query {
   /** Key to run the query on */
-  key: string;
+  key: string
   /** Inverse result requirement */
-  inverse?: boolean;
+  inverse: boolean
   /** Operation to perform */
-  operation: Operators;
+  operation: Operators
   /** Value to compare against */
-  comparison: any | Query[] | QueryBuilder;
-  reactiveQuery?: boolean;
+  comparison: any | Query[] | QueryBuilder
+  reactiveQuery?: boolean
 }

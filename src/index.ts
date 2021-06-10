@@ -1,16 +1,24 @@
-export { CustomPopulateQuery } from './types'
+// Core DB classes
 export { DB } from './db'
 export { DBCollection } from './collection'
 export { DBDoc } from './doc'
+
+// Event handling
 export { EventHandler } from './eventHandler'
+
+// Querying and population
 export { populate } from './utils/populate'
 export { Query } from './types/query'
 export { QueryBuilder } from './utils/query'
+
+// Backup classes
 export { LocalStorageBackup } from './backupProviders/localStorage'
 export { FSBackup } from './backupProviders/fs'
 export { VoidBackup } from './backupProviders/void'
 
-export {
+// Exported types
+export type { CustomPopulateQuery } from './types'
+export type {
   EventDBBackupComplete,
   EventDBRestore,
   EventDBRestoreComplete,

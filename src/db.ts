@@ -1,16 +1,17 @@
 import { v4 } from 'uuid'
 import debug from 'debug'
-import { DBCollection } from './collection'
 import { VoidBackup } from './backupProviders/void'
-import { Backup, BackupProvider } from './types/backupProvider'
-import {
+
+import type { DBCollection } from './collection'
+import type { Backup, BackupProvider } from './types/backupProvider'
+import type {
   EventHandlerType,
   EventHandlersType,
   EventName,
   MemsDBEvent,
 } from './types/events'
-import { AddCollectionOpts } from './types/DB'
-import { EventHandler } from './eventHandler'
+import type { AddCollectionOpts } from './types/DB'
+import type { EventHandler } from './eventHandler'
 
 const memsdb_ = debug('memsdb')
 
@@ -174,22 +175,29 @@ export class DB {
 
       this.collections[name].docs.forEach((doc) => doc.delete())
       delete this.collections[name]
+
+      /* DEBUG */ this.db_('Emitting event "EventDBDeleteCollectionComplete"')
+      this.emitEvent({
+        event: 'EventDBDeleteCollectionComplete',
+        name,
+        success: true,
+      })
     } catch (err) {
       /* DEBUG */ this.db_(
         "Collection deletion failed successfully, collection `%s` doesn't exist",
         name
       )
-      success = false
-      error = err
-    } finally {
-      /* DEBUG */ this.db_('Emitting event "EventDBDeleteCollectionComplete"')
+
+      /* DEBUG */ this.db_(
+        'Emitting event "EventDBDeleteCollectionComplete" with error'
+      )
       this.emitEvent({
         event: 'EventDBDeleteCollectionComplete',
         name,
         success: false,
-        error,
+        error: err as Error,
       })
-
+    } finally {
       return this
     }
   }
@@ -200,9 +208,6 @@ export class DB {
    * @param name Empty out a specified collection
    */
   emptyCollection(name: string) {
-    let success = true
-    let error
-
     try {
       /* DEBUG */ this.db_(
         'Emptying collection `%s`. Current document count: %d',
@@ -223,23 +228,27 @@ export class DB {
         name,
         this.collections[name].docs.length
       )
+
+      /* DEBUG */ this.db_('Emitting event "EventDBEmptyCollection"')
+      this.emitEvent({
+        event: 'EventDBEmptyCollectionComplete',
+        collection: this.collections[name],
+        success: true,
+      })
     } catch (err) {
       /* DEBUG */ this.db_(
         'Emptying collection `%s` failed as it does not exist.',
         name
       )
 
-      success = false
-      error = err
-    } finally {
-      /* DEBUG */ this.db_('Emitting event "EventDBEmptyCollection"')
+      /* DEBUG */ this.db_('Emitting event "EventDBEmptyCollection" with error')
       this.emitEvent({
         event: 'EventDBEmptyCollectionComplete',
         collection: this.collections[name],
-        success,
-        error,
+        success: false,
+        error: err as Error,
       })
-
+    } finally {
       return this
     }
   }

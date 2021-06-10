@@ -9,13 +9,10 @@ export interface Backup {
   }
 }
 
-type SaveFn = (backup: Backup) => boolean;
-type LoadFn = () => Backup;
-
 /**
  * The required structure for a BackupProvider to function
  */
 export interface BackupProvider {
-  save: SaveFn
-  load: LoadFn
+  save: (backup: Backup) => boolean
+  load: () => Backup
 }

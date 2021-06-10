@@ -1,5 +1,5 @@
-import { QueryBuilder } from '../utils/query'
-import { Query } from './query'
+import type { QueryBuilder } from '../utils/query'
+import type { Query } from './query'
 
 export interface CollectionFindOpts {
   queries?: Query[] | QueryBuilder

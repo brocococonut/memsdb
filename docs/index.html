@@ -72,10 +72,10 @@
 				</a>
 				<ul>
 					<li><a href="https://brocococonut.github.io/memsdb/">Documentation Root</a></li>
-					<li><a href="https://brocococonut.github.io/memsdb/classes/_db_.db.html">DB Class Docs</a></li>
-					<li><a href="https://brocococonut.github.io/memsdb/classes/_collection_.dbcollection.html">DBCollection Class Docs</a></li>
-					<li><a href="https://brocococonut.github.io/memsdb/classes/_doc_.dbdoc.html">DBDoc Class Docs</a></li>
-					<li><a href="https://brocococonut.github.io/memsdb/classes/_utils_query_.querybuilder.html">Query Builder Class Docs</a></li>
+					<li><a href="https://brocococonut.github.io/memsdb/classes/db.html">DB Class Docs</a></li>
+					<li><a href="https://brocococonut.github.io/memsdb/classes/dbcollection.html">DBCollection Class Docs</a></li>
+					<li><a href="https://brocococonut.github.io/memsdb/classes/dbdoc.html">DBDoc Class Docs</a></li>
+					<li><a href="https://brocococonut.github.io/memsdb/classes/querybuilder.html">Query Builder Class Docs</a></li>
 				</ul>
 				<p>Initialising a new database:</p>
 				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">DB</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;memsdb&#039;</span>
@@ -175,71 +175,106 @@
 					<li class=" ">
 						<a href="modules.html">Exports</a>
 					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/backupproviders_fs.html">backup<wbr>Providers/fs</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/backupproviders_localstorage.html">backup<wbr>Providers/local<wbr>Storage</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/backupproviders_void.html">backup<wbr>Providers/void</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/collection.html">collection</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/db.html">db</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/doc.html">doc</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/eventhandler.html">event<wbr>Handler</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/index.html">index</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/populate___include_populate_md__.html">populate
-						[[include:populate.md]]</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/types.html">types</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/types_collection.html">types/<wbr>Collection</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/types_db.html">types/DB</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/types_document.html">types/<wbr>Document</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/types_backupprovider.html">types/backup<wbr>Provider</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/types_events.html">types/events</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/types_query.html">types/query</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/utils_indexed.html">utils/indexed</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/utils_key.html">utils/key</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/utils_query.html">utils/query</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/utils_reactive.html">utils/reactive</a>
-					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/db.html" class="tsd-kind-icon">DB</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/dbcollection.html" class="tsd-kind-icon">DBCollection</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/dbdoc.html" class="tsd-kind-icon">DBDoc</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/eventhandler.html" class="tsd-kind-icon">Event<wbr>Handler</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/fsbackup.html" class="tsd-kind-icon">FSBackup</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/localstoragebackup.html" class="tsd-kind-icon">Local<wbr>Storage<wbr>Backup</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/querybuilder.html" class="tsd-kind-icon">Query<wbr>Builder</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/voidbackup.html" class="tsd-kind-icon">Void<wbr>Backup</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/custompopulatequery.html" class="tsd-kind-icon">Custom<wbr>Populate<wbr>Query</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventcollectionfind.html" class="tsd-kind-icon">Event<wbr>Collection<wbr>Find</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventcollectionfindcomplete.html" class="tsd-kind-icon">Event<wbr>Collection<wbr>Find<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventcollectioninsert.html" class="tsd-kind-icon">Event<wbr>Collection<wbr>Insert</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventcollectioninsertcomplete.html" class="tsd-kind-icon">Event<wbr>Collection<wbr>Insert<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventcollectiontojson.html" class="tsd-kind-icon">Event<wbr>Collection<wbr>ToJSON</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventdbaddcollection.html" class="tsd-kind-icon">EventDBAdd<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventdbbackupcomplete.html" class="tsd-kind-icon">EventDBBackup<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventdbdeletecollection.html" class="tsd-kind-icon">EventDBDelete<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventdbdeletecollectioncomplete.html" class="tsd-kind-icon">EventDBDelete<wbr>Collection<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventdbemptycollection.html" class="tsd-kind-icon">EventDBEmpty<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventdbemptycollectioncomplete.html" class="tsd-kind-icon">EventDBEmpty<wbr>Collection<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventdbrestore.html" class="tsd-kind-icon">EventDBRestore</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventdbrestorecomplete.html" class="tsd-kind-icon">EventDBRestore<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventdocumentclone.html" class="tsd-kind-icon">Event<wbr>Document<wbr>Clone</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventdocumentclonecomplete.html" class="tsd-kind-icon">Event<wbr>Document<wbr>Clone<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventdocumentcustompopulate.html" class="tsd-kind-icon">Event<wbr>Document<wbr>Custom<wbr>Populate</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventdocumentcustompopulatecomplete.html" class="tsd-kind-icon">Event<wbr>Document<wbr>Custom<wbr>Populate<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventdocumentdelete.html" class="tsd-kind-icon">Event<wbr>Document<wbr>Delete</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventdocumentdeletecomplete.html" class="tsd-kind-icon">Event<wbr>Document<wbr>Delete<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventdocumenttree.html" class="tsd-kind-icon">Event<wbr>Document<wbr>Tree</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventdocumenttreecomplete.html" class="tsd-kind-icon">Event<wbr>Document<wbr>Tree<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/query.html" class="tsd-kind-icon">Query</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#populate" class="tsd-kind-icon">populate</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
@@ -250,14 +285,15 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
 			</ul>
 		</div>
 	</div>

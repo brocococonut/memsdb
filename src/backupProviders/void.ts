@@ -1,4 +1,4 @@
-import { BackupProvider } from "../types/backupProvider"
+import { BackupProvider } from '../types/backupProvider'
 
 /**
  * Send backups to the void, and retrieve nothing

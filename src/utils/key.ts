@@ -37,57 +37,62 @@
  */
 export const nestedKey = (
   obj: { [key: string]: any } | any[],
-  key = ""
+  key = ''
 ): any | any[] => {
   // Define a temporary value that will eventually be returned
-  let tmpVal;
+  let tmpVal
 
   // Setup a temporary reference to the object we're getting the nested value of
-  let tmpProp = obj;
+  let tmpProp = obj
+
+  // Return just the updated or created at key value if they're the one's
+  // requested
+  if ((key === '_updatedAt' || key === '_createdAt') && !Array.isArray(obj))
+    return obj[key]
 
   // Split the keys so we can iterate over them
-  const keys = key.split(".");
+  const keys = key.split('.')
 
   for (let i = 0; i < keys.length; i++) {
-    const keyName = keys[i];
+    const keyName = keys[i]
 
     // Check to make sure either the object contains the key,
     // or we're looking for an array and the key we're on is an array
     if (
       tmpProp.hasOwnProperty(keyName) ||
-      (keyName === "[]" && Array.isArray(tmpProp))
+      (keyName === '[]' && Array.isArray(tmpProp))
     ) {
       // Handle iterating over an array
-      if (keyName === "[]" && Array.isArray(tmpProp)) {
+      if (keyName === '[]' && Array.isArray(tmpProp)) {
         // As this is an array, map over the tmpProp value
         tmpVal = tmpProp
           .map((val) => {
             // Return the array item if there's no following key to search
-            if (keys[i + 1] === undefined) return val;
+            if (keys[i + 1] === undefined) return val
             // Call the function again recursing down to get the inner
             // contents if we have a particularly long key string
-            else return nestedKey(val, keys.slice(i + 1).join("."));
+            else return nestedKey(val, keys.slice(i + 1).join('.'))
           })
           // Flatten the array to the length of how many keys there are
           .flat(keys.length + 1)
           // Filter out undefined results
-          .filter((val) => val !== undefined);
+          .filter((val) => val !== undefined)
       }
       // Otherwise just set the tmpProp to the key requested and coninue on
       else {
-        tmpProp = tmpProp as { [key: string]: any };
-        tmpProp = tmpProp[keyName];
+        tmpProp = tmpProp as { [key: string]: any }
+        tmpProp = tmpProp[keyName]
       }
 
       // End of the line, set the returned value to the tmpProp value
-      if (i + 1 === keys.length) tmpVal = tmpProp;
+      if (i + 1 === keys.length) tmpVal = tmpProp
     } else {
       // Key doesn't exist or can't be iterated, break the for loop and return
       // undefined (probably)
-      break;
+      break
     }
   }
 
   // Return the result~
-  return tmpVal;
-};
+  return tmpVal
+}

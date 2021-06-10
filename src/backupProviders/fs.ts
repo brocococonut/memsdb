@@ -1,7 +1,7 @@
-import { existsSync, mkdirSync } from 'fs';
+import { existsSync, mkdirSync } from 'fs'
 import { readFileSync, writeFileSync, readdirSync, rmSync } from 'fs'
 import { join } from 'path'
-import { Backup, BackupProvider } from '../types/backupProvider';
+import { Backup, BackupProvider } from '../types/backupProvider'
 
 interface FSBackupOpts {
   /**
@@ -31,9 +31,9 @@ export class FSBackup implements BackupProvider {
 
   constructor(opts: FSBackupOpts = {}) {
     const {
-      saveDirectory = "./",
-      filenameFormat = "%time_%date.memsdb",
-      backupLimit = 10
+      saveDirectory = './',
+      filenameFormat = '%time_%date.memsdb',
+      backupLimit = 10,
     } = opts
 
     this.saveDirectory = saveDirectory
@@ -42,7 +42,7 @@ export class FSBackup implements BackupProvider {
 
     if (!existsSync(this.saveDirectory)) {
       mkdirSync(this.saveDirectory, {
-        recursive: true
+        recursive: true,
       })
     }
   }
@@ -52,24 +52,27 @@ export class FSBackup implements BackupProvider {
    */
   load() {
     const dirListing = readdirSync(this.saveDirectory)
-    const currentFiles = dirListing.filter(file => file.endsWith('.memsdb'))
+    const currentFiles = dirListing.filter((file) => file.endsWith('.memsdb'))
 
     const sorted = currentFiles.sort().reverse()
 
     if (sorted.length === 0) return {}
 
     const newestFile = sorted[0]
-    const file = readFileSync(join(this.saveDirectory, newestFile), { encoding: 'utf8' })
+    const file = readFileSync(join(this.saveDirectory, newestFile), {
+      encoding: 'utf8',
+    })
 
     let backup
 
     try {
       backup = JSON.parse(file)
-    } catch (err) {
+    } catch (error) {
+      const err = error as Error
       backup = {
         _err: err,
         _errmessage: err.message,
-        _errstack: err.stack
+        _errstack: err.stack,
       }
     } finally {
       return backup
@@ -97,11 +100,9 @@ export class FSBackup implements BackupProvider {
 
     // Attempt to write the file to disk, return false on failure
     try {
-      writeFileSync(
-        join(this.saveDirectory, file),
-        JSON.stringify(backup),
-        { encoding: 'utf8' }
-      )
+      writeFileSync(join(this.saveDirectory, file), JSON.stringify(backup), {
+        encoding: 'utf8',
+      })
     } catch (err) {
       console.error(err)
       return false
@@ -110,9 +111,12 @@ export class FSBackup implements BackupProvider {
     // Attempt to delete extraneous files. Output to the console but continue on failure.
     try {
       const dirListing = readdirSync(this.saveDirectory)
-      const currentFiles = dirListing.filter(file => file.endsWith('.memsdb')).sort().reverse()
+      const currentFiles = dirListing
+        .filter((file) => file.endsWith('.memsdb'))
+        .sort()
+        .reverse()
       const toDelete = currentFiles.splice(this.backupLimit)
-      toDelete.map(file => rmSync(join(this.saveDirectory, file)))
+      toDelete.map((file) => rmSync(join(this.saveDirectory, file)))
     } catch (err) {
       console.error(err)
     }

@@ -1,4 +1,4 @@
-import { EventName, MemsDBEvent } from './types/events'
+import type { EventName, MemsDBEvent } from './types/events'
 
 export class EventHandler {
   eventType: EventName

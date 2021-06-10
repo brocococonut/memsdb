@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc -p tsconfig.json && tsc -p tsconfig.cjs.json",
     "prepublish": "npm run build",
-    "build:docs": "typedoc --includes md/ --out docs/ src/"
+    "build:docs": "typedoc --includes md/ --out docs/ src/index.ts"
   },
   "author": "@brocococonut",
   "license": "SEE LICENSE IN LICENSE",

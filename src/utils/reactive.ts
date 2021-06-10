@@ -1,7 +1,8 @@
-import { runQuery, QueryBuilder } from "./query";
-import { DBDoc } from "../doc";
-import { Query } from "../types/query";
-import { DBCollection } from "../collection";
+import { runQuery, QueryBuilder } from './query'
+
+import type { DBDoc } from '../doc'
+import type { Query } from '../types/query'
+import type { DBCollection } from '../collection'
 
 /**
  * Set a reactive query on a collection (should be run from the collection, not directly)
@@ -9,8 +10,11 @@ import { DBCollection } from "../collection";
  * @param collection Collection to update reactive index on
  * @param query Queries to run
  */
-export const updateReactiveIndex = (collection: DBCollection, query: Query[] | QueryBuilder) => {
-  const ref = collection.reactiveIndexed.get(query) as {docs: DBDoc[]}
+export const updateReactiveIndex = (
+  collection: DBCollection,
+  query: Query[] | QueryBuilder
+) => {
+  const ref = collection.reactiveIndexed.get(query) as { docs: DBDoc[] }
 
   ref.docs.length = 0
   ref.docs.push(...runQuery(query, collection, collection.docs))
@@ -28,8 +32,8 @@ export const createReactiveIndex = (
 ) => {
   if (!collection.reactiveIndexed.has(query)) {
     const docs = runQuery(query, collection, collection.docs)
-    collection.reactiveIndexed.set(query, {docs})
+    collection.reactiveIndexed.set(query, { docs })
   }
 
-  return collection.reactiveIndexed.get(query) as {docs: DBDoc[]};
-};
+  return collection.reactiveIndexed.get(query) as { docs: DBDoc[] }
+}
