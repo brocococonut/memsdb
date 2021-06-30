@@ -118,13 +118,22 @@ const createQueries = (
       case '[':
       case '{':
         /* DEBUG */ __(
-          '--%s--, Opening array or object, tokenArr, nextTokenType is %s',
+          '--%s--, Opening %s, tokenArr, nextTokenType is %s',
           token,
+          token === '[' ? 'array' : 'object',
           nextTokenType
         )
         cur.isArr = token === '[' ? true : false
         // cur.children = []
-        cur.children = createQueries(tokenArr, {}, [], db, __.extend(cur.key))
+        cur.children = createQueries(
+          tokenArr,
+          {},
+          [],
+          db,
+          __.extend(cur.key)
+        )
+
+        pushAndReset()
 
         continue
 
@@ -292,8 +301,10 @@ export const populate = (
       const query = queries[i]
 
       /* DEBUG */ runPop_('Query picked, %d remaining', queries.length - i - 1)
-
       // Map over duped documents applying the populations to the correct key
+      /* DEBUG */ runPop_(
+        'Looping over duplicated docs to run population queries on'
+      )
       duped.forEach((doc) => {
         const nestedKeyVal = nestedKey(doc.data, query?.key)
 
@@ -305,9 +316,16 @@ export const populate = (
           if (query?.children) {
             // Handle whether the key to populate is an array or not
             if (query.isArr || Array.isArray(nestedKeyVal)) {
-              let childDocs = []
-              if (nestedKeyVal)
-                childDocs = nestedKeyVal.map((id: string) => query.ref?.id(id))
+              let childDocs: any[] = []
+              if (nestedKeyVal) {
+                if (Array.isArray(nestedKeyVal)) {
+                  childDocs = nestedKeyVal.map((id: string) =>
+                    query.ref?.id(id)
+                  )
+                } else {
+                  childDocs = [query.ref?.id(nestedKeyVal)]
+                }
+              }
               doc.data[query.key] = runPopulate(
                 query.children,
                 childDocs,
@@ -362,7 +380,7 @@ export const populate = (
           filterDoc(doc, keysList)
         }
       })
-      /* DEBUG */ runPop_('Duped docs forEached over, returning duped')
+      /* DEBUG */ runPop_('Finished looping over duplicated docs')
     }
 
     return duped

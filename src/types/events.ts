@@ -4,6 +4,8 @@ import type { Backup } from './backupProvider'
 import type { AddCollectionOpts } from './DB'
 import type { CollectionFindOpts, CollectionInsertOpts } from './Collection'
 import type { DocumentCustomPopulateOpts, DocumentTreeOpts } from './Document'
+import { DB } from '../db'
+import { EventHandler } from '../eventHandler'
 
 export interface EventDBBackup {
   /**
@@ -17,10 +19,24 @@ export interface EventDBBackup {
    */
   backup: Backup
 }
+export interface EventDBHandlerAdded {
+  /**
+   * Fires whenever an event handler is added to the database
+   */
+  event: 'EventDBHandlerAdded'
+  /**
+   * A reference to the database itself, useful for handlers that require a reference to the DB
+   */
+  db: DB
+  /**
+   * A reference to the handler being added.
+   */
+  handler: EventHandler | ((event: MemsDBEvent) => void)
+}
 export interface EventDBBackupComplete {
   /**
-   * Fires whenever the db.backup() function is called. Plugins will run BEFORE
-   * the BackupProvider writes the structured Backup to disk (or elsewhere).
+   * Fires whenever the db.backup() function is called. Plugins will run AFTER
+   * the BackupProvider writes the structured Backup to the designated backup provider.
    */
   event: 'EventDBBackupComplete'
   /**
@@ -325,6 +341,7 @@ export interface EventCollectionDocumentUpdated {
 }
 
 export type MemsDBEvent =
+  | EventDBHandlerAdded
   | EventDBBackup
   | EventDBBackupComplete
   | EventDBRestore

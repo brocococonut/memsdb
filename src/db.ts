@@ -99,6 +99,12 @@ export class DB {
       eventHandler.forEach(addHandler)
     } else {
       addHandler(eventHandler)
+      
+      this.emitEvent({
+        event: 'EventDBHandlerAdded',
+        db: this,
+        handler: eventHandler
+      })
     }
   }
 

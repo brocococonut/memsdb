@@ -1,5 +1,6 @@
 import { v4 } from 'uuid'
 import change from 'on-change'
+import { cloneDeep, merge } from 'smoldash'
 import { nestedKey } from './utils/key'
 import { updateReactiveIndex } from './utils/reactive'
 
@@ -52,11 +53,9 @@ export class DBDoc {
     this.id = id
 
     // Ensure this.data is a replica of the schema before assigning the new data
-    Object.assign(this.data, this.collection.schema)
+    this.data = merge(cloneDeep(this.collection.schema), cloneDeep(data))
 
     // Assign the data to the new document
-    Object.assign(this.data, data)
-
     this.doc_ = collection.col_.extend(`<doc>${this.id}`)
   }
 
@@ -250,7 +249,10 @@ export class DBDoc {
       event: 'EventDocumentClone',
       doc: this,
     })
-    const cloned = new DBDoc(this.data, this.collection, this.id)
+    const cloned = new DBDoc({}, this.collection, this.id)
+    
+    cloned.data = cloneDeep(this.data)
+
     cloned.data._createdAt = this.data._createdAt
     cloned.data._updatedAt = this.data._updatedAt
 
