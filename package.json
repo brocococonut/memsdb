@@ -1,13 +1,12 @@
 {
   "name": "memsdb",
-  "version": "0.9.3",
+  "version": "0.10.1",
   "description": "A simple in memory DB",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "esnext": "lib/esm/index.js",
   "sideEffects": false,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc -p tsconfig.json && tsc -p tsconfig.cjs.json",
     "prepublish": "npm run build",
     "build:docs": "typedoc --includes md/ --out docs/ src/index.ts"
