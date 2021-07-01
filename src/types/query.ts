@@ -1,5 +1,8 @@
 import type { QueryBuilder } from '../utils/query'
 
+/**
+ * Available query operators
+ */
 export type Operators =
   | '<'
   | '>'

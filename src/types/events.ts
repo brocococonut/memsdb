@@ -7,11 +7,11 @@ import type { DocumentCustomPopulateOpts, DocumentTreeOpts } from './Document'
 import { DB } from '../db'
 import { EventHandler } from '../eventHandler'
 
+/**
+ * Fires whenever the db.backup() function is called. Plugins will run BEFORE
+ * the BackupProvider writes the structured Backup to disk (or elsewhere).
+ */
 export interface EventDBBackup {
-  /**
-   * Fires whenever the db.backup() function is called. Plugins will run BEFORE
-   * the BackupProvider writes the structured Backup to disk (or elsewhere).
-   */
   event: 'EventDBBackup'
   /**
    * The Backup object that will be written to the BackupProvider. Mutations
@@ -19,10 +19,12 @@ export interface EventDBBackup {
    */
   backup: Backup
 }
+
+/**
+ * Fires whenever an event handler is added to the database
+ */
 export interface EventDBHandlerAdded {
-  /**
-   * Fires whenever an event handler is added to the database
-   */
+  
   event: 'EventDBHandlerAdded'
   /**
    * A reference to the database itself, useful for handlers that require a reference to the DB
@@ -33,11 +35,12 @@ export interface EventDBHandlerAdded {
    */
   handler: EventHandler | ((event: MemsDBEvent) => void)
 }
+
+/**
+ * Fires whenever the db.backup() function is called. Plugins will run AFTER
+ * the BackupProvider writes the structured Backup to the designated backup provider.
+ */
 export interface EventDBBackupComplete {
-  /**
-   * Fires whenever the db.backup() function is called. Plugins will run AFTER
-   * the BackupProvider writes the structured Backup to the designated backup provider.
-   */
   event: 'EventDBBackupComplete'
   /**
    * The Backup object that will be written to the BackupProvider. Mutations
@@ -46,12 +49,13 @@ export interface EventDBBackupComplete {
   backup: Backup
   status: 'success' | 'failed'
 }
+
+/**
+ * Fires whenever the db.restore() function is called. Plugins will be run
+ * BEFORE the BackupProvider loads the content, and before it gets applied to
+ * the database.
+ */
 export interface EventDBRestore {
-  /**
-   * Fires whenever the db.restore() function is called. Plugins will be run
-   * BEFORE the BackupProvider loads the content, and before it gets applied to
-   * the database.
-   */
   event: 'EventDBRestore'
   /**
    * The Backup object that will be restored to the database. Mutations
@@ -59,12 +63,13 @@ export interface EventDBRestore {
    */
   backup: Backup
 }
+
+/**
+ * Fires whenever the db.restore() function is called. Plugins will be run
+ * AFTER the BackupProvider loads the content, and before it gets applied to
+ * the database.
+ */
 export interface EventDBRestoreComplete {
-  /**
-   * Fires whenever the db.restore() function is called. Plugins will be run
-   * AFTER the BackupProvider loads the content, and before it gets applied to
-   * the database.
-   */
   event: 'EventDBRestoreComplete'
   /**
    * The Backup object that will be written to the BackupProvider. Mutations
@@ -72,10 +77,11 @@ export interface EventDBRestoreComplete {
    */
   backup: Backup
 }
+
+/**
+ * Fires when a collection is added to the database.
+ */
 export interface EventDBAddCollection {
-  /**
-   * Fires when a collection is added to the database.
-   */
   event: 'EventDBAddCollection'
   /**
    * A reference to the added collection. Mutate or read as necessary
@@ -87,20 +93,22 @@ export interface EventDBAddCollection {
    */
   opts: AddCollectionOpts
 }
+
+/**
+ * Fires when a collection is about to be deleted from the database.
+ */
 export interface EventDBDeleteCollection {
-  /**
-   * Fires when a collection is about to be deleted from the database.
-   */
   event: 'EventDBDeleteCollection'
   /**
    * A reference to the collection about to be deleted.
    */
   collection: DBCollection
 }
+
+/**
+ * Fires when a collection is deleted from the database.
+ */
 export interface EventDBDeleteCollectionComplete {
-  /**
-   * Fires when a collection is deleted from the database.
-   */
   event: 'EventDBDeleteCollectionComplete'
   /**
    * The name of the collection deleted
@@ -115,20 +123,22 @@ export interface EventDBDeleteCollectionComplete {
    */
   error?: Error
 }
+
+/**
+ * Fires when the DB goes to clear a collection.
+ */
 export interface EventDBEmptyCollection {
-  /**
-   * Fires when the DB goes to clear a collection.
-   */
   event: 'EventDBEmptyCollection'
   /**
    * A reference to the collection
    */
   collection: DBCollection
 }
+
+/**
+ * Fires when the DB is finished clearing a collection
+ */
 export interface EventDBEmptyCollectionComplete {
-  /**
-   * Fires when the DB is finished clearing a collection
-   */
   event: 'EventDBEmptyCollectionComplete'
   /**
    * A reference to the collection
@@ -143,11 +153,12 @@ export interface EventDBEmptyCollectionComplete {
    */
   error?: Error
 }
+
+/**
+ * Fires at the start of find function from a collection. This includes the
+ * col.id() function.
+ */
 export interface EventCollectionFind {
-  /**
-   * Fires at the start of find function from a collection. This includes the
-   * col.id() function.
-   */
   event: 'EventCollectionFind'
   /**
    * The options provided to the find function. Mutations to this will modify
@@ -155,11 +166,12 @@ export interface EventCollectionFind {
    */
   opts: CollectionFindOpts
 }
+
+/**
+ * Fires at the end of find function from a collection. This includes the
+ * col.id() function.
+ */
 export interface EventCollectionFindComplete {
-  /**
-   * Fires at the end of find function from a collection. This includes the
-   * col.id() function.
-   */
   event: 'EventCollectionFindComplete'
   /**
    * The options provided to the find function.
@@ -171,11 +183,12 @@ export interface EventCollectionFindComplete {
    */
   docs: DBDoc[]
 }
+
+/**
+ * Run before a document is inserted. This allows you to modify the data
+ * inserted, bypassing the collection schema.
+ */
 export interface EventCollectionInsert {
-  /**
-   * Run before a document is inserted. This allows you to modify the data
-   * inserted, bypassing the collection schema.
-   */
   event: 'EventCollectionInsert'
   /**
    * Data to be used in the creation of a doc on a collection. Mutating this
@@ -184,10 +197,11 @@ export interface EventCollectionInsert {
    */
   opts: CollectionInsertOpts
 }
+
+/**
+ * Fired after a document is inserted into the collection.
+ */
 export interface EventCollectionInsertComplete {
-  /**
-   * Fired after a document is inserted into the collection.
-   */
   event: 'EventCollectionInsertComplete'
   /**
    * A reference to the inserted document. Mutations here will persist.
@@ -204,12 +218,13 @@ export interface EventCollectionInsertComplete {
    */
   collection: DBCollection
 }
+
+/**
+ * Fired after a collection is converted to a string. To prevent an entire
+ * collection from being converted, the toJSON function has been replaced
+ * with one that simply outputs "(DBCollection<CollectionName>)".
+ */
 export interface EventCollectionToJSON {
-  /**
-   * Fired after a collection is converted to a string. To prevent an entire
-   * collection from being converted, the toJSON function has been replaced
-   * with one that simply outputs "(DBCollection<CollectionName>)".
-   */
   event: 'EventCollectionToJSON'
   /**
    * String that was originally going to be returned. Modify this key to
@@ -217,10 +232,11 @@ export interface EventCollectionToJSON {
    */
   str: string
 }
+
+/**
+ * Fired when a document has its .delete() method called.
+ */
 export interface EventDocumentDelete {
-  /**
-   * Fired when a document has its .delete() method called.
-   */
   event: 'EventDocumentDelete'
   /**
    * A reference to the document before it gets removed from the collection and
@@ -228,10 +244,11 @@ export interface EventDocumentDelete {
    */
   doc: DBDoc
 }
+
+/**
+ * Fired after a document has finished deleting itself
+ */
 export interface EventDocumentDeleteComplete {
-  /**
-   * Fired after a document has finished deleting itself
-   */
   event: 'EventDocumentDeleteComplete'
   /**
    * The ID of the document that was just deleted
@@ -246,10 +263,11 @@ export interface EventDocumentDeleteComplete {
    */
   error?: Error
 }
+
+/**
+ * Fired when the .customPopulate() function is run on a document.
+ */
 export interface EventDocumentCustomPopulate {
-  /**
-   * Fired when the .customPopulate() function is run on a document.
-   */
   event: 'EventDocumentCustomPopulate'
   /**
    * The cloned document that will be modified. Changes to
@@ -262,10 +280,11 @@ export interface EventDocumentCustomPopulate {
    */
   opts: DocumentCustomPopulateOpts
 }
+
+/**
+ * Fired when the .customPopulate() function is run on a document.
+ */
 export interface EventDocumentCustomPopulateComplete {
-  /**
-   * Fired when the .customPopulate() function is run on a document.
-   */
   event: 'EventDocumentCustomPopulateComplete'
   /**
    * The cloned document with the applied mutations. Changes to
@@ -278,10 +297,11 @@ export interface EventDocumentCustomPopulateComplete {
    */
   opts: DocumentCustomPopulateOpts
 }
+
+/**
+ * Fired when the .tree() function is called on a document.
+ */
 export interface EventDocumentTree {
-  /**
-   * Fired when the .tree() function is called on a document.
-   */
   event: 'EventDocumentTree'
   /**
    * The cloned document that will be modified. Changes to
@@ -291,10 +311,11 @@ export interface EventDocumentTree {
 
   opts: DocumentTreeOpts
 }
+
+/**
+ * Fired when the .tree() function has finished running on a document
+ */
 export interface EventDocumentTreeComplete {
-  /**
-   * Fired when the .tree() function has finished running on a document
-   */
   event: 'EventDocumentTreeComplete'
   /**
    * The cloned document with the applied mutations. Changes to
@@ -304,20 +325,22 @@ export interface EventDocumentTreeComplete {
 
   opts: DocumentTreeOpts
 }
+
+/**
+ * Fired when a document is cloned.
+ */
 export interface EventDocumentClone {
-  /**
-   * Fired when a document is cloned.
-   */
   event: 'EventDocumentClone'
   /**
    * The original document, mutations will persist and will be cloned
    */
   doc: DBDoc
 }
+
+/**
+ * Fired after a document is cloned.
+ */
 export interface EventDocumentCloneComplete {
-  /**
-   * Fired after a document is cloned.
-   */
   event: 'EventDocumentCloneComplete'
   /**
    * The cloned document. Changes to this document won't persist/reflect on the
@@ -325,10 +348,11 @@ export interface EventDocumentCloneComplete {
    */
   doc: DBDoc
 }
+
+/**
+ * Fired after a document is updated.
+ */
 export interface EventCollectionDocumentUpdated {
-  /**
-   * Fired after a document is updated.
-   */
   event: 'EventCollectionDocumentUpdated'
   /**
    * A reference to the modified document
@@ -340,6 +364,9 @@ export interface EventCollectionDocumentUpdated {
   collection: DBCollection
 }
 
+/**
+ * Union type of the different supported event types
+ */
 export type MemsDBEvent =
   | EventDBHandlerAdded
   | EventDBBackup

@@ -32,6 +32,10 @@ export class DB {
     backupProvider: new VoidBackup(),
   }
 
+  /**
+   * @ignore
+   * List of event handlers
+   */
   private eventHandlers: { [key in EventName]?: EventHandlerType[] } = {}
 
   /**
@@ -88,6 +92,10 @@ export class DB {
     }
   }
 
+  /**
+   * Add an EventHandler class to the DB
+   * @param eventHandler EventHandler or array of EventHandler classes to add to the DB
+   */
   addEventHandler(eventHandler: EventHandler | EventHandler[]) {
     const addHandler = (handler: EventHandler) => {
       if (!this.eventHandlers[handler.eventType]) {
@@ -108,6 +116,10 @@ export class DB {
     }
   }
 
+  /**
+   * Loop over the EventHandlers and emit the event to the provided function
+   * @param event Event to emit
+   */
   emitEvent(event: MemsDBEvent): void {
     if (this.eventHandlers[event.event]) {
       (<EventHandlerType[]>this.eventHandlers[event.event]).forEach((handler) => handler(event))

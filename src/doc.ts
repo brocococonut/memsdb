@@ -7,6 +7,7 @@ import { updateReactiveIndex } from './utils/reactive'
 import type { DBCollection } from './collection'
 import type { DocumentCustomPopulateOpts, DocumentTreeOpts } from './types/Document'
 import type { MemsDBEvent } from './types/events'
+import { populate } from './utils/populate'
 
 /**
  * Class for creating structured documents
@@ -35,6 +36,10 @@ export class DBDoc {
   /** Object for any plugin related data */
   pluginData: { [key: string]: any } = {}
 
+  /**
+   * @ignore
+   * A reference to the on-change listened document
+   */
   private _listenedRef: DBDoc = this
 
   /**
@@ -102,6 +107,21 @@ export class DBDoc {
         error: err as Error,
       })
     }
+  }
+
+  /**
+   * Populate down a tree of documents based on the provided MemsPL populateQuery
+   * @param populateQuery MemsPL population query
+   * @param filter Filter unspecified keys from the populated documents
+   * @returns Cloned version of this document
+   */
+  populate(
+    populateQuery: string,
+    filter = false
+  ) {
+    const [populated] = populate(this.collection, [this], populateQuery, filter)
+
+    return populated
   }
 
   /**
@@ -177,6 +197,12 @@ export class DBDoc {
     return resultDoc
   }
 
+  /**
+   * Populate a tree of documents. It's recommended you use the provided
+   * populate (import {populate} from 'memsdb';) function instead.
+   * @param opts Options for making a tree from the provided document
+   * @returns A cloned version of this doc that has the data field formatted into a tree
+   */
   tree(opts: DocumentTreeOpts = {}) {
     opts = {
       populations: [],

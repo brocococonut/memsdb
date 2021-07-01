@@ -118,6 +118,7 @@ const compare = (doc: DBDoc, query: Query): boolean => {
 
 /**
  * Run a query to filter out specific documents
+ * @ignore
  * @param queryArr Array of query objects to run/loop through
  * @param col Collection to run query on
  * @param seedDocs Document array to filter, either from the collection, or from recursion
@@ -254,18 +255,17 @@ type WhereCallback = (query: QueryBuilder) => QueryBuilder
  * Helper function to easily generate queries
  * @example Simple example showing a basic set of where's (&& together) to get documents with a value between (inclusive) 40 and 50
  * ```typescript
- * const query = new QueryBuilder()
+ * const query = QueryBuilder
  *   .where('myKey', '>=' 40)
  *   .where('myKey', '<=', 50)
  * ```
  *
  * @example Using the orWhere function to generate OR queries
  * ```typescript
- * const query = new QueryBuilder()
- *   .orWhere(
- *     q => q
- *       .where('myKey', '===', true)
- *       .where('mySecondKey', '===', 52, true)
+ * const query = QueryBuilder
+ *   .orWhere(or => or
+ *     .where('myKey', '===', true)
+ *     .where('mySecondKey', '===', 52, true)
  *   )
  * ```
  *
@@ -282,19 +282,18 @@ type WhereCallback = (query: QueryBuilder) => QueryBuilder
  * //     key4 <= 100
  * //   )
  * // )
- * const query = new QueryBuilder()
- *   .orWhere(
- *     orQuery => orQuery
- *       .andWhere(
- *         and => and
- *           .where('key1', '===', 21)
- *           .where('key2', '===', 'boop')
- *       )
- *       .andWhere(
- *         and => and
- *           .where('key3', '>=', 1)
- *           .where('key4', '<=', 100)
- *       )
+ * const query = QueryBuilder
+ *   .orWhere(or => or
+ *     .andWhere(
+ *       and => and
+ *         .where('key1', '===', 21)
+ *         .where('key2', '===', 'boop')
+ *     )
+ *     .andWhere(
+ *       and => and
+ *         .where('key3', '>=', 1)
+ *         .where('key4', '<=', 100)
+ *     )
  *   )
  * ```
  */
@@ -326,6 +325,22 @@ export class QueryBuilder {
   }
 
   /**
+   * Generate a new query for the array
+   * @param key Key to search on (run through nestedKey function)
+   * @param operation Comparison operation to use
+   * @param comparison What to compare against
+   * @param inverse Inverse the result of the where query
+   */
+  static where(
+    key: string,
+    operation: Operators,
+    comparison: any,
+    inverse: boolean = false
+  ) {
+    return new QueryBuilder().where(key, operation, comparison,)
+  }
+
+  /**
    * Generate a nested || query
    * @param queryFunc callback for generating || queries with a nested QueryBuilder
    */
@@ -333,6 +348,16 @@ export class QueryBuilder {
     const { queries } = queryFunc(new QueryBuilder())
 
     return this.where('', '||', queries)
+  }
+
+  /**
+   * Generate a nested || query
+   * @param queryFunc callback for generating || queries with a nested QueryBuilder
+   */
+  static orWhere(queryFunc: WhereCallback) {
+    const { queries } = queryFunc(new QueryBuilder())
+
+    return QueryBuilder.where('', '||', queries)
   }
 
   /**
@@ -344,4 +369,15 @@ export class QueryBuilder {
 
     return this.where('', '&&', queries)
   }
+
+  /**
+   * Generate && queries for nesting within || queries
+   * @param queryFunc callback for generating queries with a nested QueryBuilder
+   */
+  static andWhere(queryFunc: WhereCallback) {
+    const { queries } = queryFunc(new QueryBuilder())
+
+    return QueryBuilder.where('', '&&', queries)
+  }
 }
+
