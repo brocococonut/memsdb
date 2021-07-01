@@ -69,8 +69,8 @@ export class DB {
 
       const addEventHandler = (type: EventName, handler: EventHandlerType) => {
         if (this.eventHandlers[type]) {
-          this.eventHandlers[type] = [handler]
-        } else this.eventHandlers[type]?.push(handler)
+          (<EventHandlerType[]>this.eventHandlers[type]).push(handler)
+        } else this.eventHandlers[type] = [handler]
       }
 
       eventTypes.forEach((handlerType) => {
@@ -91,8 +91,8 @@ export class DB {
   addEventHandler(eventHandler: EventHandler | EventHandler[]) {
     const addHandler = (handler: EventHandler) => {
       if (!this.eventHandlers[handler.eventType]) {
-        this.eventHandlers[handler.eventType] = [handler.func]
-      } else this.eventHandlers[handler.eventType]?.push(handler.func)
+        (<EventHandlerType[]>this.eventHandlers[handler.eventType]).push(handler.func)
+      } else this.eventHandlers[handler.eventType] = [handler.func]
     }
 
     if (Array.isArray(eventHandler)) {
@@ -110,7 +110,7 @@ export class DB {
 
   emitEvent(event: MemsDBEvent): void {
     if (this.eventHandlers[event.event]) {
-      this.eventHandlers[event.event]?.forEach((handler) => handler(event))
+      (<EventHandlerType[]>this.eventHandlers[event.event]).forEach((handler) => handler(event))
     }
   }
 
