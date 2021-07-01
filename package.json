@@ -1,6 +1,6 @@
 {
   "name": "memsdb",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "description": "A simple in memory DB",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
