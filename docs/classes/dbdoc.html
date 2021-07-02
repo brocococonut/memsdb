@@ -94,13 +94,21 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="dbdoc.html#_createdat" class="tsd-kind-icon">_created<wbr>At</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="dbdoc.html#_plugindata" class="tsd-kind-icon">_plugin<wbr>Data</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="dbdoc.html#_updatedat" class="tsd-kind-icon">_updated<wbr>At</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="dbdoc.html#collection" class="tsd-kind-icon">collection</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="dbdoc.html#data" class="tsd-kind-icon">data</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="dbdoc.html#doc_" class="tsd-kind-icon">doc_</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="dbdoc.html#id" class="tsd-kind-icon">id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="dbdoc.html#indexed" class="tsd-kind-icon">indexed</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="dbdoc.html#iscloned" class="tsd-kind-icon">is<wbr>Cloned</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="dbdoc.html#plugindata" class="tsd-kind-icon">plugin<wbr>Data</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="dbdoc.html#updateindexes" class="tsd-kind-icon">update<wbr>Indexes</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Accessors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="dbdoc.html#data" class="tsd-kind-icon">data</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -108,9 +116,11 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dbdoc.html#clone" class="tsd-kind-icon">clone</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dbdoc.html#custompopulate" class="tsd-kind-icon">custom<wbr>Populate</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dbdoc.html#delete" class="tsd-kind-icon">delete</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dbdoc.html#delete-1" class="tsd-kind-icon">delete</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dbdoc.html#emitevent" class="tsd-kind-icon">emit<wbr>Event</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dbdoc.html#populate" class="tsd-kind-icon">populate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dbdoc.html#set-1" class="tsd-kind-icon">set</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dbdoc.html#setdata" class="tsd-kind-icon">set<wbr>Data</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dbdoc.html#tojson" class="tsd-kind-icon">toJSON</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dbdoc.html#tree" class="tsd-kind-icon">tree</a></li>
 							</ul>
@@ -124,13 +134,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new DBDoc<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span>, collection<span class="tsd-signature-symbol">: </span><a href="dbcollection.html" class="tsd-signature-type" data-tsd-kind="Class">DBCollection</a>, id<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="dbdoc.html" class="tsd-signature-type" data-tsd-kind="Class">DBDoc</a></li>
+						<li class="tsd-signature tsd-kind-icon">new DBDoc<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span>, collection<span class="tsd-signature-symbol">: </span><a href="dbcollection.html" class="tsd-signature-type" data-tsd-kind="Class">DBCollection</a>, id<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, isCloned<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="dbdoc.html" class="tsd-signature-type" data-tsd-kind="Class">DBDoc</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/doc.ts#L43">doc.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/doc.ts#L41">doc.ts:41</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -160,6 +170,9 @@
 								<li>
 									<h5>id: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = ...</span></h5>
 								</li>
+								<li>
+									<h5>isCloned: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
+								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="dbdoc.html" class="tsd-signature-type" data-tsd-kind="Class">DBDoc</a></h4>
 						</li>
@@ -174,118 +187,17 @@
 					<div class="tsd-signature tsd-kind-icon">_created<wbr>At<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/doc.ts#L23">doc.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/doc.ts#L27">doc.ts:27</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="_updatedat" class="tsd-anchor"></a>
-					<h3>_updated<wbr>At</h3>
-					<div class="tsd-signature tsd-kind-icon">_updated<wbr>At<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<a name="_plugindata" class="tsd-anchor"></a>
+					<h3>_plugin<wbr>Data</h3>
+					<div class="tsd-signature tsd-kind-icon">_plugin<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> = {}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/doc.ts#L24">doc.ts:24</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="collection" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> collection</h3>
-					<div class="tsd-signature tsd-kind-icon">collection<span class="tsd-signature-symbol">:</span> <a href="dbcollection.html" class="tsd-signature-type" data-tsd-kind="Class">DBCollection</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/doc.ts#L29">doc.ts:29</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Reference to the parent collection</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="data" class="tsd-anchor"></a>
-					<h3>data</h3>
-					<div class="tsd-signature tsd-kind-icon">data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> = ...</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/doc.ts#L19">doc.ts:19</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Value of the document</p>
-						</div>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-index-signature">
-								<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></h5>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="doc_" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> doc_</h3>
-					<div class="tsd-signature tsd-kind-icon">doc_<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Debugger</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/doc.ts#L27">doc.ts:27</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Debugger variable</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="id" class="tsd-anchor"></a>
-					<h3>id</h3>
-					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/doc.ts#L17">doc.ts:17</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Document id</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="indexed" class="tsd-anchor"></a>
-					<h3>indexed</h3>
-					<div class="tsd-signature tsd-kind-icon">indexed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> = ...</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/doc.ts#L32">doc.ts:32</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Reference to indexed data for repeated deep data matching</p>
-						</div>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-index-signature">
-								<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="plugindata" class="tsd-anchor"></a>
-					<h3>plugin<wbr>Data</h3>
-					<div class="tsd-signature tsd-kind-icon">plugin<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> = ...</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/doc.ts#L37">doc.ts:37</a></li>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/doc.ts#L41">doc.ts:41</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -302,6 +214,264 @@
 						</ul>
 					</div>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="_updatedat" class="tsd-anchor"></a>
+					<h3>_updated<wbr>At</h3>
+					<div class="tsd-signature tsd-kind-icon">_updated<wbr>At<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/doc.ts#L28">doc.ts:28</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="collection" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> collection</h3>
+					<div class="tsd-signature tsd-kind-icon">collection<span class="tsd-signature-symbol">:</span> <a href="dbcollection.html" class="tsd-signature-type" data-tsd-kind="Class">DBCollection</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/doc.ts#L33">doc.ts:33</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Reference to the parent collection</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="doc_" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> doc_</h3>
+					<div class="tsd-signature tsd-kind-icon">doc_<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Debugger</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/doc.ts#L31">doc.ts:31</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Debugger variable</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="id" class="tsd-anchor"></a>
+					<h3>id</h3>
+					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/doc.ts#L23">doc.ts:23</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Document id</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="indexed" class="tsd-anchor"></a>
+					<h3>indexed</h3>
+					<div class="tsd-signature tsd-kind-icon">indexed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> = {}</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/doc.ts#L36">doc.ts:36</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Reference to indexed data for repeated deep data matching</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-index-signature">
+								<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="iscloned" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> is<wbr>Cloned</h3>
+					<div class="tsd-signature tsd-kind-icon">is<wbr>Cloned<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/doc.ts#L25">doc.ts:25</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="plugindata" class="tsd-anchor"></a>
+					<h3>plugin<wbr>Data</h3>
+					<div class="tsd-signature tsd-kind-icon">plugin<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>delete<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>plugin<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">; </span>get<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>plugin<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>set<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>plugin<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/doc.ts#L160">doc.ts:160</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Object with functions for handling plugin data</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>delete<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>plugin<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+								<ul class="tsd-parameters">
+									<li class="tsd-parameter-signature">
+										<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-literal">
+											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>plugin<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
+														<p>Delete the data object of a specific plugin</p>
+													</div>
+												</div>
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>plugin: <span class="tsd-signature-type">string</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>Plugin name to delete data of</p>
+														</div>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="tsd-parameter">
+								<h5>get<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>plugin<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">any</span></h5>
+								<ul class="tsd-parameters">
+									<li class="tsd-parameter-signature">
+										<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-literal">
+											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>plugin<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
+														<p>Get the data object from a specific plugin</p>
+													</div>
+												</div>
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>plugin: <span class="tsd-signature-type">string</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>Plugin name to get data of</p>
+														</div>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+												<p>Data from the plugin</p>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="tsd-parameter">
+								<h5>set<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>plugin<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+								<ul class="tsd-parameters">
+									<li class="tsd-parameter-signature">
+										<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-literal">
+											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>plugin<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
+														<p>Set/replace the data object for a plugin</p>
+													</div>
+												</div>
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>plugin: <span class="tsd-signature-type">string</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>Plugin name to set data to</p>
+														</div>
+													</li>
+													<li>
+														<h5>data: <span class="tsd-signature-type">any</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>Data to replace the plugin data with</p>
+														</div>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="updateindexes" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> update<wbr>Indexes</h3>
+					<div class="tsd-signature tsd-kind-icon">update<wbr>Indexes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">[</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/doc.ts#L68">doc.ts:68</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-class">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">[</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-symbol">[</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="data" class="tsd-anchor"></a>
+					<h3>data</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> data<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/doc.ts#L98">doc.ts:98</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The data of the document as provided by the storage provider</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
@@ -315,7 +485,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/doc.ts#L272">doc.ts:272</a></li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/doc.ts#L398">doc.ts:398</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -337,14 +507,17 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/doc.ts#L132">doc.ts:132</a></li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/doc.ts#L249">doc.ts:249</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Populate the document with another document that matches the query.
-									This will return a copy of the document and not a reference to the original</p>
+										This will return a copy of the document and not a reference to the
+									original.</p>
 								</div>
+								<p>It&#39;s recommended you use the provided
+								populate (<code>doc.populate(...)</code>) function instead.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -360,7 +533,7 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="delete" class="tsd-anchor"></a>
+					<a name="delete-1" class="tsd-anchor"></a>
 					<h3>delete</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">delete<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
@@ -369,7 +542,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/doc.ts#L70">doc.ts:70</a></li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/doc.ts#L189">doc.ts:189</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -391,7 +564,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/doc.ts#L298">doc.ts:298</a></li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/doc.ts#L424">doc.ts:424</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -422,7 +595,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/doc.ts#L118">doc.ts:118</a></li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/doc.ts#L234">doc.ts:234</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -451,16 +624,88 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="tojson" class="tsd-anchor"></a>
-					<h3>toJSON</h3>
+					<a name="set-1" class="tsd-anchor"></a>
+					<h3>set</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">toJSON<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>_indexes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>_type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></li>
+						<li class="tsd-signature tsd-kind-icon">set<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/doc.ts#L305">doc.ts:305</a></li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/doc.ts#L125">doc.ts:125</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the value of a key in the doc to a specified value.</p>
+								</div>
+								<p><strong>This should only be done on shallow key values</strong>, lest you want keys like
+								&#39;key1.key2.key3&#39; as object keys in your data</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>key: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Key to set the value of</p>
+									</div>
+								</li>
+								<li>
+									<h5>data: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Data to set to the afformentioned key</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<p>Returns nothing</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setdata" class="tsd-anchor"></a>
+					<h3>set<wbr>Data</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Data<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/doc.ts#L148">doc.ts:148</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the root of the data object.</p>
+								</div>
+								<p>This will completely replace the data object</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>data: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Data to set</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="tojson" class="tsd-anchor"></a>
+					<h3>toJSON</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">toJSON<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/doc.ts#L431">doc.ts:431</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -468,18 +713,7 @@
 									<p>Returns a simplified view</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span>_indexes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>_type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></h4>
-							<ul class="tsd-parameters">
-								<li class="tsd-parameter">
-									<h5>_indexes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
-								</li>
-								<li class="tsd-parameter">
-									<h5>_type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li class="tsd-parameter">
-									<h5>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -493,19 +727,19 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/doc.ts#L206">doc.ts:206</a></li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/doc.ts#L326">doc.ts:326</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Populate a tree of documents. It&#39;s recommended you use the provided
-									populate (import {populate} from &#39;memsdb&#39;;) function instead.</p>
+									populate (<code>doc.populate(...)</code>) function instead.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>opts: <span class="tsd-signature-type">DocumentTreeOpts</span><span class="tsd-signature-symbol"> = ...</span></h5>
+									<h5>opts: <span class="tsd-signature-type">DocumentTreeOpts</span><span class="tsd-signature-symbol"> = {}</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>Options for making a tree from the provided document</p>
 									</div>
@@ -546,13 +780,13 @@
 								<a href="dbdoc.html#_createdat" class="tsd-kind-icon">_created<wbr>At</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="dbdoc.html#_plugindata" class="tsd-kind-icon">_plugin<wbr>Data</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="dbdoc.html#_updatedat" class="tsd-kind-icon">_updated<wbr>At</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="dbdoc.html#collection" class="tsd-kind-icon">collection</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="dbdoc.html#data" class="tsd-kind-icon">data</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="dbdoc.html#doc_" class="tsd-kind-icon">doc_</a>
@@ -563,8 +797,17 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="dbdoc.html#indexed" class="tsd-kind-icon">indexed</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="dbdoc.html#iscloned" class="tsd-kind-icon">is<wbr>Cloned</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="dbdoc.html#plugindata" class="tsd-kind-icon">plugin<wbr>Data</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="dbdoc.html#updateindexes" class="tsd-kind-icon">update<wbr>Indexes</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="dbdoc.html#data" class="tsd-kind-icon">data</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="dbdoc.html#clone" class="tsd-kind-icon">clone</a>
@@ -573,13 +816,19 @@
 								<a href="dbdoc.html#custompopulate" class="tsd-kind-icon">custom<wbr>Populate</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="dbdoc.html#delete" class="tsd-kind-icon">delete</a>
+								<a href="dbdoc.html#delete-1" class="tsd-kind-icon">delete</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="dbdoc.html#emitevent" class="tsd-kind-icon">emit<wbr>Event</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="dbdoc.html#populate" class="tsd-kind-icon">populate</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="dbdoc.html#set-1" class="tsd-kind-icon">set</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="dbdoc.html#setdata" class="tsd-kind-icon">set<wbr>Data</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="dbdoc.html#tojson" class="tsd-kind-icon">toJSON</a>
@@ -598,16 +847,28 @@
 						<a href="fsbackup.html" class="tsd-kind-icon">FSBackup</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="localstorage.html" class="tsd-kind-icon">Local<wbr>Storage</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="localstoragebackup.html" class="tsd-kind-icon">Local<wbr>Storage<wbr>Backup</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="memorystorage.html" class="tsd-kind-icon">Memory<wbr>Storage</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="querybuilder.html" class="tsd-kind-icon">Query<wbr>Builder</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="sessionstorage.html" class="tsd-kind-icon">Session<wbr>Storage</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="sessionstoragebackup.html" class="tsd-kind-icon">Session<wbr>Storage<wbr>Backup</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="voidbackup.html" class="tsd-kind-icon">Void<wbr>Backup</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="../interfaces/custompopulatequery.html" class="tsd-kind-icon">Custom<wbr>Populate<wbr>Query</a>
+						<a href="../interfaces/eventcollectiondocumentupdated.html" class="tsd-kind-icon">Event<wbr>Collection<wbr>Document<wbr>Updated</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="../interfaces/eventcollectionfind.html" class="tsd-kind-icon">Event<wbr>Collection<wbr>Find</a>
@@ -628,6 +889,9 @@
 						<a href="../interfaces/eventdbaddcollection.html" class="tsd-kind-icon">EventDBAdd<wbr>Collection</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="../interfaces/eventdbbackup.html" class="tsd-kind-icon">EventDBBackup</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="../interfaces/eventdbbackupcomplete.html" class="tsd-kind-icon">EventDBBackup<wbr>Complete</a>
 					</li>
 					<li class=" tsd-kind-interface">
@@ -641,6 +905,9 @@
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="../interfaces/eventdbemptycollectioncomplete.html" class="tsd-kind-icon">EventDBEmpty<wbr>Collection<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/eventdbhandleradded.html" class="tsd-kind-icon">EventDBHandler<wbr>Added</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="../interfaces/eventdbrestore.html" class="tsd-kind-icon">EventDBRestore</a>

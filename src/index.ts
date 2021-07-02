@@ -1,3 +1,4 @@
+
 // Core DB classes
 export { DB } from './db'
 export { DBCollection } from './collection'
@@ -13,12 +14,19 @@ export { QueryBuilder } from './utils/query'
 
 // Backup classes
 export { LocalStorageBackup } from './backupProviders/localStorage'
+export { SessionStorageBackup } from './backupProviders/sessionStorage'
 export { FSBackup } from './backupProviders/fs'
 export { VoidBackup } from './backupProviders/void'
 
+// Storage classes
+export { LocalStorage } from './storageProviders/localStorage'
+export { MemoryStorage } from './storageProviders/memory'
+export { SessionStorage } from './storageProviders/sessionStorage'
+
 // Exported types
-export type { CustomPopulateQuery } from './types'
 export type {
+  EventDBBackup,
+  EventDBHandlerAdded,
   EventDBBackupComplete,
   EventDBRestore,
   EventDBRestoreComplete,
@@ -31,6 +39,7 @@ export type {
   EventCollectionFindComplete,
   EventCollectionInsert,
   EventCollectionInsertComplete,
+  EventCollectionDocumentUpdated,
   EventCollectionToJSON,
   EventDocumentDelete,
   EventDocumentDeleteComplete,

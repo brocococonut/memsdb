@@ -11,11 +11,15 @@ import type{ Debugger } from 'debug'
  * @ignore
  * @param doc Document to make comparison on
  * @param query Query to run
+ * @category Query
  */
 const compare = (doc: DBDoc, query: Query): boolean => {
   const val = getOrCreateIndex({ doc, query })
-  const op = query.operation
-  const comp = query.comparison
+  const {
+    operation: op,
+    comparison: comp,
+    inverse
+  } = query
   let res = false
 
   if (
@@ -34,35 +38,36 @@ const compare = (doc: DBDoc, query: Query): boolean => {
   )
     return false
 
-  switch (query.operation) {
+  switch (op) {
     case '<':
       // Filter out documents where the target is less than the provided value
-      res = getOrCreateIndex({ doc, query }) < query.comparison
+      res = getOrCreateIndex({ doc, query }) < comp
 
       break
     case '>':
       // Filter out documents where the target is greater than the provided value
-      res = getOrCreateIndex({ doc, query }) > query.comparison
+      res = getOrCreateIndex({ doc, query }) > comp
 
       break
     case '<=':
       // Filter out documents where the target is less than or equal to the the provided value
-      res = getOrCreateIndex({ doc, query }) <= query.comparison
+      res = getOrCreateIndex({ doc, query }) <= comp
 
       break
     case '>=':
       // Filter out documents where the target is greater than or equal tothe provided value
-      res = getOrCreateIndex({ doc, query }) >= query.comparison
+      res = getOrCreateIndex({ doc, query }) >= comp
 
       break
     case '===':
       // Filter out documents where the target isn't equal to the provided value
-      res = getOrCreateIndex({ doc, query }) === query.comparison
+      const data = getOrCreateIndex({ doc, query })
+      res = data === comp
 
       break
     case 'includes':
       // Filter out documents that don't include the comparison
-      if (Array.isArray(val)) res = val.includes(query.comparison)
+      if (Array.isArray(val)) res = val.includes(comp)
       else return false
 
       break
@@ -113,7 +118,7 @@ const compare = (doc: DBDoc, query: Query): boolean => {
       return false
   }
 
-  return query.inverse ? !res : res
+  return inverse ? !res : res
 }
 
 /**
@@ -122,6 +127,7 @@ const compare = (doc: DBDoc, query: Query): boolean => {
  * @param queryArr Array of query objects to run/loop through
  * @param col Collection to run query on
  * @param seedDocs Document array to filter, either from the collection, or from recursion
+ * @category Query
  */
 export const runQuery = (
   queryArr: Query[] | QueryBuilder,
@@ -160,9 +166,10 @@ export const runQuery = (
 
     // Check to see if the collection schema has the provided key
     if (
-      nestedKey(col.schema, query.key) !== undefined ||
       query.key === '_updatedAt' ||
       query.key === '_createdAt' ||
+      query.key === 'id' ||
+      nestedKey(col.schema, query.key) !== undefined ||
       (query.key === '' &&
         (query.operation === '&&' || query.operation === '||') &&
         Array.isArray(query.comparison))
@@ -268,20 +275,19 @@ type WhereCallback = (query: QueryBuilder) => QueryBuilder
  *     .where('mySecondKey', '===', 52, true)
  *   )
  * ```
+ * ```sql
+ * -- The equivalent SQL query would be as follows --
+ * SELECT
+ *   *
+ * FROM
+ *   collection
+ * WHERE
+ *   myKey = TRUE
+ *   AND mySecondKey != 52
+ * ```
  *
  * @example Nested AND queries in an OR query
  * ```typescript
- * // Kind of like the following if statement:
- * // if(
- * //   (
- * //     key1 === 21 &&
- * //     key2 === 'boop'
- * //   ) ||
- * //   (
- * //     key3 >= 1 &&
- * //     key4 <= 100
- * //   )
- * // )
  * const query = QueryBuilder
  *   .orWhere(or => or
  *     .andWhere(
@@ -296,6 +302,36 @@ type WhereCallback = (query: QueryBuilder) => QueryBuilder
  *     )
  *   )
  * ```
+ * ```typescript
+ * // The above is kind of like the following if statement
+ * if(
+ *   (
+ *     key1 === 21 &&
+ *     key2 === 'boop'
+ *   ) ||
+ *   (
+ *     key3 >= 1 &&
+ *     key4 <= 100
+ *   )
+ * )
+ * ```
+ * ```sql
+ * -- Or like the following SQL query --
+ * SELECT
+ *   *
+ * FROM
+ *   collection
+ * WHERE
+ *   (
+ *     key1 = 21
+ *     AND key2 = 'boop'
+ *   )
+ *   OR (
+ *     key3 >= 1
+ *     AND key4 <= 100
+ *   )
+ * ```
+ * @category Query
  */
 export class QueryBuilder {
   queries: Query[] = []
@@ -337,7 +373,7 @@ export class QueryBuilder {
     comparison: any,
     inverse: boolean = false
   ) {
-    return new QueryBuilder().where(key, operation, comparison,)
+    return new QueryBuilder().where(key, operation, comparison, inverse)
   }
 
   /**

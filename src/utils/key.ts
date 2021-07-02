@@ -47,23 +47,34 @@ export const nestedKey = (
 
   // Return just the updated or created at key value if they're the one's
   // requested
-  if ((key === '_updatedAt' || key === '_createdAt') && !Array.isArray(obj))
+  if (
+    (key === '_updatedAt' || key === '_createdAt' || key === 'id') &&
+    !Array.isArray(obj)
+  ) {
     return obj[key]
+  }
 
   // Split the keys so we can iterate over them
   const keys = key.split('.')
 
   for (let i = 0; i < keys.length; i++) {
     const keyName = keys[i]
+    const nextKeyName = keys[i + 1]
 
     // Check to make sure either the object contains the key,
     // or we're looking for an array and the key we're on is an array
     if (
       tmpProp.hasOwnProperty(keyName) ||
-      (keyName === '[]' && Array.isArray(tmpProp))
+      (Array.isArray(tmpProp) && (keyName === '[]' || keyName === 'length'))
     ) {
       // Handle iterating over an array
-      if (keyName === '[]' && Array.isArray(tmpProp)) {
+      if (
+        Array.isArray(tmpProp) &&
+        (keyName === '[]' || keyName === 'length')
+      ) {
+        // Handle if the user
+        if (keyName === 'length') return tmpProp.length
+
         // As this is an array, map over the tmpProp value
         tmpVal = tmpProp
           .map((val) => {

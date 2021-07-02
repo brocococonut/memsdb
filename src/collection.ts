@@ -1,14 +1,11 @@
-import change from 'on-change'
 import { DBDoc } from './doc'
 import { runQuery } from './utils/query'
 import { updateReactiveIndex, createReactiveIndex } from './utils/reactive'
-import { updateDocIndex } from './utils/indexed'
 import {
   CollectionFindOpts,
   CollectionInsertManyOpts,
   CollectionInsertOpts,
 } from './types/Collection'
-import { debounce } from './utils/debounce'
 
 import type { DB } from './db'
 import type { Query } from './types/query'
@@ -18,6 +15,7 @@ import type { MemsDBEvent } from './types/events'
 
 /**
  * Class for creating collections of structured documents
+ * @category Core
  */
 export class DBCollection {
   /** Name of the collection */
@@ -67,7 +65,9 @@ export class DBCollection {
   /**
    * Run a set of queries to filter documents
    * @param queries Array of queries to run
-   * @param reactive Create and keep a reactive index of the query on the collection under collection.reactive[queryArr]
+   * @param reactive Create and keep a reactive index of the query on the
+   *    collection under collection.reactive[queryArr]
+   * @category Query
    */
   find(opts: CollectionFindOpts = { queries: [], reactive: false }) {
     /* DEBUG */ this.col_('Starting find query')
@@ -143,39 +143,7 @@ export class DBCollection {
       newDoc.id
     )
 
-    /**
-     * Create a listened/proxied version of the document to adjust indexes and
-     * reactive indexes automatically
-     */
-    const listened = change(
-      newDoc,
-      debounce((path: string) => {
-        if (path.startsWith('data.')) {
-          /* DEBUG */ this.col_('Document %s was modified', newDoc.id)
-          newDoc.data._updatedAt = Date.now()
-          if (Object.keys(newDoc.indexed).length > 0) {
-            for (const key in newDoc.indexed) {
-              updateDocIndex(newDoc, key)
-              this.col_('Updated index "%s" for document %s', key, newDoc.id)
-            }
-          }
-          for (const key of this.reactiveIndexed.keys()) {
-            updateReactiveIndex(this, key)
-            this.col_('Updated collection reactive index for key %j', key)
-          }
-          /* DEBUG */ this.col_(
-            'Emitting event "EventCollectionDocumentUpdated"'
-          )
-          this.emitEvent({
-            event: 'EventCollectionDocumentUpdated',
-            doc: newDoc,
-            collection: this,
-          })
-        }
-      }, 300) as () => void
-    )
-
-    this.docs.push(listened)
+    this.docs.push(newDoc)
 
     for (const key of this.reactiveIndexed.keys()) {
       /* DEBUG */ this.col_('Updating index')
@@ -185,13 +153,13 @@ export class DBCollection {
     /* DEBUG */ this.col_('Emitting event "EventCollectionInsertComplete"')
     this.emitEvent({
       event: 'EventCollectionInsertComplete',
-      doc: listened,
+      doc: newDoc,
       unlistenedDoc: newDoc,
       collection: this,
     })
 
     /* DEBUG */ this.col_('Document: %s, pushed to collection', newDoc.id)
-    return listened
+    return newDoc
   }
 
   /**

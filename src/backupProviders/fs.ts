@@ -23,6 +23,7 @@ interface FSBackupOpts {
 
 /**
  * Backup MemsDB collections to the filesystem
+ * @category Backup Provider
  */
 export class FSBackup implements BackupProvider {
   private saveDirectory: string

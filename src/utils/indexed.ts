@@ -32,6 +32,21 @@ export const getOrCreateIndex = ({
 }): any | any[] => {
   const { key, reactiveQuery } = query
 
+  if (query.key === 'id') return doc.id
+  if (query.key === '_updatedAt') return doc._updatedAt
+  if (query.key === '_createdAt') return doc._createdAt
+  const normalize = (val: any) => {
+    switch (query.comparison) {
+      case '':
+        if (val === undefined) return ''
+      case undefined:
+        if (val === undefined) return undefined
+      default:
+        return val
+    }
+  }
+
+
   // Ensure a reactive index is actually needed
   if (doc.collection.db.options.useDynamicIndexes || reactiveQuery) {
     // Handle whether the key includes an array
@@ -44,8 +59,8 @@ export const getOrCreateIndex = ({
       else return updateDocIndex(doc, key)
     }
     // If not, just return the normal key
-    else return nestedKey(doc.data, key)
+    else return normalize(nestedKey(doc.data, key))
   }
   // Otherwise just return the nested key
-  else return nestedKey(doc.data, key)
+  else return normalize(nestedKey(doc.data, key))
 }

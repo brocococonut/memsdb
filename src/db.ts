@@ -12,11 +12,14 @@ import type {
 } from './types/events'
 import type { AddCollectionOpts } from './types/DB'
 import type { EventHandler } from './eventHandler'
+import { StorageProvider } from './types/storageProvider'
+import { MemoryStorage } from './storageProviders/memory'
 
 const memsdb_ = debug('memsdb')
 
 /**
  * Database constructor containing all the initialised collections
+ * @category Core
  */
 export class DB {
   /** Key based object containing all the collections */
@@ -27,9 +30,6 @@ export class DB {
   options: {
     useDynamicIndexes: boolean
     backupProvider: BackupProvider
-  } = {
-    useDynamicIndexes: true,
-    backupProvider: new VoidBackup(),
   }
 
   /**
@@ -37,6 +37,8 @@ export class DB {
    * List of event handlers
    */
   private eventHandlers: { [key in EventName]?: EventHandlerType[] } = {}
+
+  readonly storageEngine: StorageProvider
 
   /**
    * Construct a new in memory db with the provided collection references
@@ -59,17 +61,32 @@ export class DB {
        * Map of plugins to apply to the database
        */
       eventHandlers?: EventHandlersType
+      /**
+       * Storage provider for document data
+       */
+      storageEngine?: StorageProvider
     } = {}
   ) {
     this.name = name
     this.db_ = memsdb_.extend(`<db>${name}`)
-    if (opts.useDynamicIndexes)
-      this.options.useDynamicIndexes = opts.useDynamicIndexes
 
-    if (opts.backupProvider) this.options.backupProvider = opts.backupProvider
+    const {
+      useDynamicIndexes = false,
+      backupProvider = new VoidBackup(),
+      eventHandlers,
+      storageEngine = new MemoryStorage()
+    } = opts
 
-    if (opts.eventHandlers) {
-      const eventTypes = Object.keys(opts.eventHandlers)
+    this.options = {
+      useDynamicIndexes,
+      backupProvider
+    }
+
+    this.storageEngine = storageEngine
+
+
+    if (eventHandlers) {
+      const eventTypes = Object.keys(eventHandlers)
 
       const addEventHandler = (type: EventName, handler: EventHandlerType) => {
         if (this.eventHandlers[type]) {
@@ -78,8 +95,8 @@ export class DB {
       }
 
       eventTypes.forEach((handlerType) => {
-        if (opts.eventHandlers) {
-          const handlers = opts.eventHandlers[<EventName>handlerType]
+        if (eventHandlers) {
+          const handlers = eventHandlers[<EventName>handlerType]
 
           if (!handlers) return
           if (Array.isArray(handlers))

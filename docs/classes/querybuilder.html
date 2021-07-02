@@ -86,21 +86,20 @@
 <span style="color: #000000">    .</span><span style="color: #795E26">where</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;mySecondKey&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;===&#039;</span><span style="color: #000000">, </span><span style="color: #098658">52</span><span style="color: #000000">, </span><span style="color: #0000FF">true</span><span style="color: #000000">)</span>
 <span style="color: #000000">  )</span>
 </code></pre>
+							<pre><code class="language-sql"><span style="color: #008000">-- The equivalent SQL query would be as follows --</span>
+<span style="color: #008000">-- Or like the following SQL query</span>
+<span style="color: #0000FF">SELECT</span>
+<span style="color: #000000">  *</span>
+<span style="color: #0000FF">FROM</span>
+<span style="color: #000000">  </span><span style="color: #0000FF">collection</span>
+<span style="color: #0000FF">WHERE</span>
+<span style="color: #000000">  myKey = TRUE</span>
+<span style="color: #000000">  </span><span style="color: #0000FF">AND</span><span style="color: #000000"> mySecondKey != </span><span style="color: #098658">52</span>
+</code></pre>
 						</dd>
 						<dt>example</dt>
 						<dd><p>Nested AND queries in an OR query</p>
-							<pre><code class="language-typescript"><span style="color: #008000">// Kind of like the following if statement:</span>
-<span style="color: #008000">// if(</span>
-<span style="color: #008000">//   (</span>
-<span style="color: #008000">//     key1 === 21 &amp;&amp;</span>
-<span style="color: #008000">//     key2 === &#039;boop&#039;</span>
-<span style="color: #008000">//   ) ||</span>
-<span style="color: #008000">//   (</span>
-<span style="color: #008000">//     key3 &gt;= 1 &amp;&amp;</span>
-<span style="color: #008000">//     key4 &lt;= 100</span>
-<span style="color: #008000">//   )</span>
-<span style="color: #008000">// )</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">query</span><span style="color: #000000"> = </span><span style="color: #001080">QueryBuilder</span>
+							<pre><code class="language-typescript"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">query</span><span style="color: #000000"> = </span><span style="color: #001080">QueryBuilder</span>
 <span style="color: #000000">  .</span><span style="color: #795E26">orWhere</span><span style="color: #000000">(</span><span style="color: #001080">or</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">or</span>
 <span style="color: #000000">    .</span><span style="color: #795E26">andWhere</span><span style="color: #000000">(</span>
 <span style="color: #000000">      </span><span style="color: #001080">and</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">and</span>
@@ -112,6 +111,33 @@
 <span style="color: #000000">        .</span><span style="color: #795E26">where</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;key3&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;&gt;=&#039;</span><span style="color: #000000">, </span><span style="color: #098658">1</span><span style="color: #000000">)</span>
 <span style="color: #000000">        .</span><span style="color: #795E26">where</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;key4&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;&lt;=&#039;</span><span style="color: #000000">, </span><span style="color: #098658">100</span><span style="color: #000000">)</span>
 <span style="color: #000000">    )</span>
+<span style="color: #000000">  )</span>
+</code></pre>
+							<pre><code class="language-typescript"><span style="color: #008000">// The above is kind of like the following if statement</span>
+<span style="color: #AF00DB">if</span><span style="color: #000000">(</span>
+<span style="color: #000000">  (</span>
+<span style="color: #000000">    </span><span style="color: #001080">key1</span><span style="color: #000000"> === </span><span style="color: #098658">21</span><span style="color: #000000"> &amp;&amp;</span>
+<span style="color: #000000">    </span><span style="color: #001080">key2</span><span style="color: #000000"> === </span><span style="color: #A31515">&#039;boop&#039;</span>
+<span style="color: #000000">  ) ||</span>
+<span style="color: #000000">  (</span>
+<span style="color: #000000">    </span><span style="color: #001080">key3</span><span style="color: #000000"> &gt;= </span><span style="color: #098658">1</span><span style="color: #000000"> &amp;&amp;</span>
+<span style="color: #000000">    </span><span style="color: #001080">key4</span><span style="color: #000000"> &lt;= </span><span style="color: #098658">100</span>
+<span style="color: #000000">  )</span>
+<span style="color: #000000">)</span>
+</code></pre>
+							<pre><code class="language-sql"><span style="color: #008000">-- Or like the following SQL query --</span>
+<span style="color: #0000FF">SELECT</span>
+<span style="color: #000000">  *</span>
+<span style="color: #0000FF">FROM</span>
+<span style="color: #000000">  </span><span style="color: #0000FF">collection</span>
+<span style="color: #0000FF">WHERE</span>
+<span style="color: #000000">  (</span>
+<span style="color: #000000">    key1 = </span><span style="color: #098658">21</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">AND</span><span style="color: #000000"> key2 = </span><span style="color: #A31515">&#039;boop&#039;</span>
+<span style="color: #000000">  )</span>
+<span style="color: #000000">  </span><span style="color: #0000FF">OR</span><span style="color: #000000"> (</span>
+<span style="color: #000000">    key3 &gt;= </span><span style="color: #098658">1</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">AND</span><span style="color: #000000"> key4 &lt;= </span><span style="color: #098658">100</span>
 <span style="color: #000000">  )</span>
 </code></pre>
 						</dd>
@@ -168,7 +194,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/utils/query.ts#L301">utils/query.ts:301</a></li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/utils/query.ts#L338">utils/query.ts:338</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="querybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">QueryBuilder</a></h4>
@@ -181,10 +207,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="queries" class="tsd-anchor"></a>
 					<h3>queries</h3>
-					<div class="tsd-signature tsd-kind-icon">queries<span class="tsd-signature-symbol">:</span> <a href="../interfaces/query.html" class="tsd-signature-type" data-tsd-kind="Interface">Query</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<div class="tsd-signature tsd-kind-icon">queries<span class="tsd-signature-symbol">:</span> <a href="../interfaces/query.html" class="tsd-signature-type" data-tsd-kind="Interface">Query</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/utils/query.ts#L301">utils/query.ts:301</a></li>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/utils/query.ts#L338">utils/query.ts:338</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -201,7 +227,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/utils/query.ts#L367">utils/query.ts:367</a></li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/utils/query.ts#L404">utils/query.ts:404</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -232,7 +258,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/utils/query.ts#L347">utils/query.ts:347</a></li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/utils/query.ts#L384">utils/query.ts:384</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -263,7 +289,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/utils/query.ts#L312">utils/query.ts:312</a></li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/utils/query.ts#L349">utils/query.ts:349</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -312,7 +338,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/utils/query.ts#L377">utils/query.ts:377</a></li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/utils/query.ts#L414">utils/query.ts:414</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -343,7 +369,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/utils/query.ts#L357">utils/query.ts:357</a></li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/utils/query.ts#L394">utils/query.ts:394</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -374,7 +400,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/utils/query.ts#L334">utils/query.ts:334</a></li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/utils/query.ts#L371">utils/query.ts:371</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -441,7 +467,13 @@
 						<a href="fsbackup.html" class="tsd-kind-icon">FSBackup</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="localstorage.html" class="tsd-kind-icon">Local<wbr>Storage</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="localstoragebackup.html" class="tsd-kind-icon">Local<wbr>Storage<wbr>Backup</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="memorystorage.html" class="tsd-kind-icon">Memory<wbr>Storage</a>
 					</li>
 				</ul>
 				<ul class="current">
@@ -477,10 +509,16 @@
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-class">
+						<a href="sessionstorage.html" class="tsd-kind-icon">Session<wbr>Storage</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="sessionstoragebackup.html" class="tsd-kind-icon">Session<wbr>Storage<wbr>Backup</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="voidbackup.html" class="tsd-kind-icon">Void<wbr>Backup</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="../interfaces/custompopulatequery.html" class="tsd-kind-icon">Custom<wbr>Populate<wbr>Query</a>
+						<a href="../interfaces/eventcollectiondocumentupdated.html" class="tsd-kind-icon">Event<wbr>Collection<wbr>Document<wbr>Updated</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="../interfaces/eventcollectionfind.html" class="tsd-kind-icon">Event<wbr>Collection<wbr>Find</a>
@@ -501,6 +539,9 @@
 						<a href="../interfaces/eventdbaddcollection.html" class="tsd-kind-icon">EventDBAdd<wbr>Collection</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="../interfaces/eventdbbackup.html" class="tsd-kind-icon">EventDBBackup</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="../interfaces/eventdbbackupcomplete.html" class="tsd-kind-icon">EventDBBackup<wbr>Complete</a>
 					</li>
 					<li class=" tsd-kind-interface">
@@ -514,6 +555,9 @@
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="../interfaces/eventdbemptycollectioncomplete.html" class="tsd-kind-icon">EventDBEmpty<wbr>Collection<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/eventdbhandleradded.html" class="tsd-kind-icon">EventDBHandler<wbr>Added</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="../interfaces/eventdbrestore.html" class="tsd-kind-icon">EventDBRestore</a>

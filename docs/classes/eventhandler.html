@@ -105,7 +105,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/eventHandler.ts#L11">eventHandler.ts:11</a></li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/eventHandler.ts#L14">eventHandler.ts:14</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -159,7 +159,7 @@
 					<div class="tsd-signature tsd-kind-icon">event<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;EventDBHandlerAdded&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;EventDBBackup&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;EventDBBackupComplete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;EventDBRestore&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;EventDBRestoreComplete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;EventDBAddCollection&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;EventDBDeleteCollection&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;EventDBDeleteCollectionComplete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;EventDBEmptyCollection&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;EventDBEmptyCollectionComplete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;EventCollectionFind&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;EventCollectionFindComplete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;EventCollectionInsert&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;EventCollectionInsertComplete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;EventCollectionToJSON&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;EventDocumentDelete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;EventDocumentDeleteComplete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;EventDocumentCustomPopulate&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;EventDocumentCustomPopulateComplete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;EventDocumentTree&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;EventDocumentTreeComplete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;EventDocumentClone&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;EventDocumentCloneComplete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;EventCollectionDocumentUpdated&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/eventHandler.ts#L5">eventHandler.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/eventHandler.ts#L8">eventHandler.ts:8</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -174,15 +174,9 @@
 					<div class="tsd-signature tsd-kind-icon">func<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MemsDBEvent</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/eventHandler.ts#L11">eventHandler.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/eventHandler.ts#L14">eventHandler.ts:14</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Handler function for this event type.
-							This function will get called in order of addition to the DB</p>
-						</div>
-					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
@@ -192,6 +186,12 @@
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>Handler function for this event type.
+												This function will get called in order of addition to the DB</p>
+											</div>
+										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
@@ -248,16 +248,28 @@
 						<a href="fsbackup.html" class="tsd-kind-icon">FSBackup</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="localstorage.html" class="tsd-kind-icon">Local<wbr>Storage</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="localstoragebackup.html" class="tsd-kind-icon">Local<wbr>Storage<wbr>Backup</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="memorystorage.html" class="tsd-kind-icon">Memory<wbr>Storage</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="querybuilder.html" class="tsd-kind-icon">Query<wbr>Builder</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="sessionstorage.html" class="tsd-kind-icon">Session<wbr>Storage</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="sessionstoragebackup.html" class="tsd-kind-icon">Session<wbr>Storage<wbr>Backup</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="voidbackup.html" class="tsd-kind-icon">Void<wbr>Backup</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="../interfaces/custompopulatequery.html" class="tsd-kind-icon">Custom<wbr>Populate<wbr>Query</a>
+						<a href="../interfaces/eventcollectiondocumentupdated.html" class="tsd-kind-icon">Event<wbr>Collection<wbr>Document<wbr>Updated</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="../interfaces/eventcollectionfind.html" class="tsd-kind-icon">Event<wbr>Collection<wbr>Find</a>
@@ -278,6 +290,9 @@
 						<a href="../interfaces/eventdbaddcollection.html" class="tsd-kind-icon">EventDBAdd<wbr>Collection</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="../interfaces/eventdbbackup.html" class="tsd-kind-icon">EventDBBackup</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="../interfaces/eventdbbackupcomplete.html" class="tsd-kind-icon">EventDBBackup<wbr>Complete</a>
 					</li>
 					<li class=" tsd-kind-interface">
@@ -291,6 +306,9 @@
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="../interfaces/eventdbemptycollectioncomplete.html" class="tsd-kind-icon">EventDBEmpty<wbr>Collection<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/eventdbhandleradded.html" class="tsd-kind-icon">EventDBHandler<wbr>Added</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="../interfaces/eventdbrestore.html" class="tsd-kind-icon">EventDBRestore</a>

@@ -25,7 +25,10 @@ export type Operators =
   | 'some<=to'
   | 'some===to'
 
-/** Query interface */
+/**
+ * Query interface
+ * @category Query
+ */
 export interface Query {
   /** Key to run the query on */
   key: string

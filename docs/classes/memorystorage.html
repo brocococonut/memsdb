@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>FSBackup | memsdb</title>
+	<title>MemoryStorage | memsdb</title>
 	<meta name="description" content="Documentation for memsdb">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -55,10 +55,10 @@
 					<a href="../modules.html">memsdb</a>
 				</li>
 				<li>
-					<a href="fsbackup.html">FSBackup</a>
+					<a href="memorystorage.html">MemoryStorage</a>
 				</li>
 			</ul>
-			<h1>Class FSBackup</h1>
+			<h1>Class MemoryStorage</h1>
 		</div>
 	</div>
 </header>
@@ -68,7 +68,8 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Backup MemsDB collections to the filesystem</p>
+						<p>Save and load backups from localStorage - may be subject to localstorage
+						size limits</p>
 					</div>
 				</div>
 			</section>
@@ -76,14 +77,14 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">FSBackup</span>
+						<span class="target">MemoryStorage</span>
 					</li>
 				</ul>
 			</section>
 			<section class="tsd-panel">
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><span class="tsd-signature-type">BackupProvider</span></li>
+					<li><span class="tsd-signature-type">StorageProvider</span></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -93,22 +94,15 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="fsbackup.html#constructor" class="tsd-kind-icon">constructor</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
-							<h3>Properties</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="fsbackup.html#backuplimit" class="tsd-kind-icon">backup<wbr>Limit</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="fsbackup.html#filenameformat" class="tsd-kind-icon">filename<wbr>Format</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="fsbackup.html#savedirectory" class="tsd-kind-icon">save<wbr>Directory</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="memorystorage.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="fsbackup.html#load" class="tsd-kind-icon">load</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="fsbackup.html#save" class="tsd-kind-icon">save</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="memorystorage.html#delete" class="tsd-kind-icon">delete</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="memorystorage.html#load" class="tsd-kind-icon">load</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="memorystorage.html#save" class="tsd-kind-icon">save</a></li>
 							</ul>
 						</section>
 					</div>
@@ -120,80 +114,66 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new FSBackup<span class="tsd-signature-symbol">(</span>opts<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">FSBackupOpts</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="fsbackup.html" class="tsd-signature-type" data-tsd-kind="Class">FSBackup</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Memory<wbr>Storage<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="memorystorage.html" class="tsd-signature-type" data-tsd-kind="Class">MemoryStorage</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/backupProviders/fs.ts#L31">backupProviders/fs.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/storageProviders/memory.ts#L9">storageProviders/memory.ts:9</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>opts: <span class="tsd-signature-type">FSBackupOpts</span><span class="tsd-signature-symbol"> = {}</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="fsbackup.html" class="tsd-signature-type" data-tsd-kind="Class">FSBackup</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="memorystorage.html" class="tsd-signature-type" data-tsd-kind="Class">MemoryStorage</a></h4>
 						</li>
 					</ul>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="backuplimit" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> backup<wbr>Limit</h3>
-					<div class="tsd-signature tsd-kind-icon">backup<wbr>Limit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/backupProviders/fs.ts#L31">backupProviders/fs.ts:31</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="filenameformat" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> filename<wbr>Format</h3>
-					<div class="tsd-signature tsd-kind-icon">filename<wbr>Format<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/backupProviders/fs.ts#L30">backupProviders/fs.ts:30</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="savedirectory" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> save<wbr>Directory</h3>
-					<div class="tsd-signature tsd-kind-icon">save<wbr>Directory<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/backupProviders/fs.ts#L29">backupProviders/fs.ts:29</a></li>
-						</ul>
-					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="load" class="tsd-anchor"></a>
-					<h3>load</h3>
+					<a name="delete" class="tsd-anchor"></a>
+					<h3>delete</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">load<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">delete<span class="tsd-signature-symbol">(</span>doc<span class="tsd-signature-symbol">: </span><a href="dbdoc.html" class="tsd-signature-type" data-tsd-kind="Class">DBDoc</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of BackupProvider.load</p>
+								<p>Implementation of StorageProvider.delete</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/backupProviders/fs.ts#L54">backupProviders/fs.ts:54</a></li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/storageProviders/memory.ts#L22">storageProviders/memory.ts:22</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Loads a backup from the filesystem or returns an object with an error</p>
-								</div>
-							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>doc: <a href="dbdoc.html" class="tsd-signature-type" data-tsd-kind="Class">DBDoc</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="load" class="tsd-anchor"></a>
+					<h3>load</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">load<span class="tsd-signature-symbol">(</span>doc<span class="tsd-signature-symbol">: </span><a href="dbdoc.html" class="tsd-signature-type" data-tsd-kind="Class">DBDoc</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of StorageProvider.load</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/storageProviders/memory.ts#L12">storageProviders/memory.ts:12</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>doc: <a href="dbdoc.html" class="tsd-signature-type" data-tsd-kind="Class">DBDoc</a></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
 						</li>
 					</ul>
@@ -202,28 +182,23 @@
 					<a name="save" class="tsd-anchor"></a>
 					<h3>save</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">save<span class="tsd-signature-symbol">(</span>backup<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Backup</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">save<span class="tsd-signature-symbol">(</span>doc<span class="tsd-signature-symbol">: </span><a href="dbdoc.html" class="tsd-signature-type" data-tsd-kind="Class">DBDoc</a>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Data</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of BackupProvider.save</p>
+								<p>Implementation of StorageProvider.save</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/backupProviders/fs.ts#L87">backupProviders/fs.ts:87</a></li>
+									<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/storageProviders/memory.ts#L16">storageProviders/memory.ts:16</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Save a backup to the filesystem</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>backup: <span class="tsd-signature-type">Backup</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Backup data to save</p>
-									</div>
+									<h5>doc: <a href="dbdoc.html" class="tsd-signature-type" data-tsd-kind="Class">DBDoc</a></h5>
+								</li>
+								<li>
+									<h5>data: <span class="tsd-signature-type">Data</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -254,42 +229,36 @@
 					<li class=" tsd-kind-class">
 						<a href="eventhandler.html" class="tsd-kind-icon">Event<wbr>Handler</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-class">
+					<li class=" tsd-kind-class">
 						<a href="fsbackup.html" class="tsd-kind-icon">FSBackup</a>
-						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="fsbackup.html#constructor" class="tsd-kind-icon">constructor</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="fsbackup.html#backuplimit" class="tsd-kind-icon">backup<wbr>Limit</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="fsbackup.html#filenameformat" class="tsd-kind-icon">filename<wbr>Format</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="fsbackup.html#savedirectory" class="tsd-kind-icon">save<wbr>Directory</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="fsbackup.html#load" class="tsd-kind-icon">load</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="fsbackup.html#save" class="tsd-kind-icon">save</a>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-class">
 						<a href="localstorage.html" class="tsd-kind-icon">Local<wbr>Storage</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="localstoragebackup.html" class="tsd-kind-icon">Local<wbr>Storage<wbr>Backup</a>
 					</li>
-					<li class=" tsd-kind-class">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class">
 						<a href="memorystorage.html" class="tsd-kind-icon">Memory<wbr>Storage</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="memorystorage.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="memorystorage.html#delete" class="tsd-kind-icon">delete</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="memorystorage.html#load" class="tsd-kind-icon">load</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="memorystorage.html#save" class="tsd-kind-icon">save</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-class">
 						<a href="querybuilder.html" class="tsd-kind-icon">Query<wbr>Builder</a>
 					</li>

@@ -246,6 +246,7 @@ const ParseMemsPL = (
  * @param populateQuery MemPL string to use
  * @param filter Filter out non-specified keys
  * @example
+ * ```typescript
  * populate(`
  *   <submissions>submissions[
  *     <comments>comments[
@@ -259,6 +260,7 @@ const ParseMemsPL = (
  *   ],
  *   dateCreated
  * `)
+ * ```
  */
 export const populate = (
   rootCollection: DBCollection,
@@ -306,10 +308,22 @@ export const populate = (
         'Looping over duplicated docs to run population queries on'
       )
       duped.forEach((doc) => {
-        const nestedKeyVal = nestedKey(doc.data, query?.key)
+        let nestedKeyVal: any
+        if (query) {
+          switch (query.key) {
+            case 'id':
+            case '_updatedAt':
+            case '_createdAt':
+              nestedKeyVal = doc[query.key]
+              break;
+            default:
+              nestedKeyVal = nestedKey(doc.data, query.key)
+              break;
+          }
+        }
 
-        runPop_('nestedKeyVal Key: %s', query?.key)
-        runPop_('nestedKeyVal Val: %O', nestedKeyVal)
+        /* DEBUG */ runPop_('nestedKeyVal Key: %s', query?.key)
+        /* DEBUG */ runPop_('nestedKeyVal Val: %O', nestedKeyVal)
 
         if (query?.ref) {
           // Handle if there are child queries and there's a ref set
@@ -323,17 +337,21 @@ export const populate = (
                     query.ref?.id(id)
                   )
                 } else {
+                  /* DEBUG */ runPop_('nestedKeyVal is not an array')
                   childDocs = [query.ref?.id(nestedKeyVal)]
                 }
+              } else {
+                /* DEBUG */ runPop_('No provided nestedKeyVal')
               }
-              doc.data[query.key] = runPopulate(
+              doc.set(query.key, runPopulate(
                 query.children,
                 childDocs,
                 runPop_
-              )
+              ))
             }
             // Otherwise set the key to the first result of a populate query
             else {
+              /* DEBUG */ runPop_('Query isn\'t on an array')
               // Find the document
               const childDoc = query.ref.id(nestedKeyVal)
 
@@ -348,15 +366,16 @@ export const populate = (
 
                 // Set the key to the first result of the runPopulate if it exists
                 if (childPopulated.length > 0)
-                  doc.data[query.key] = childPopulated[0]
+                  doc.set(query.key, childPopulated[0])
               }
             }
           }
           // Handle populations of external documents with no added sub-queries
           else {
+            /* DEBUG */ runPop_('No children')
             // Handle if the key is an array of ids or not
             if (query.isArr || Array.isArray(nestedKeyVal)) {
-              doc.data[query.key] = nestedKeyVal.map((id: string) => {
+              doc.set(query.key,nestedKeyVal.map((id: string) => {
                 if (query.ref) {
                   const childDoc = query.ref.id(id)
 
@@ -364,15 +383,17 @@ export const populate = (
                 }
 
                 return id
-              })
+              }))
             }
             // Otherwise just do the single population
             else {
               const childDoc = query.ref.id(nestedKeyVal)
 
-              if (childDoc) doc.data[query.key] = childDoc
+              if (childDoc) doc.set(query.key, childDoc)
             }
           }
+        } else {
+          /* DEBUG */ runPop_('No ref')
         }
 
         if (filter) {

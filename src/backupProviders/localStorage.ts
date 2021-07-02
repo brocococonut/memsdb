@@ -1,7 +1,9 @@
 import { Backup, BackupProvider } from '../types/backupProvider'
 
 /**
- * Save and load backups from localStorage - may be subject to localstorage size limits
+ * Save and load backups from localStorage - may be subject to localstorage
+ * size limits
+ * @category Backup Provider
  */
 export class LocalStorageBackup implements BackupProvider {
   constructor() {}

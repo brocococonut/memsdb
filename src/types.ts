@@ -11,7 +11,10 @@ export interface SchemaTemplateType {
   structure: { [key: string]: any }
 }
 
-/** Population specific query */
+/**
+ * Population specific query
+ * @ignore
+ */
 export interface CustomPopulateQuery {
   /* Where on the source doc to compare to */
   srcField: string

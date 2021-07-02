@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>CustomPopulateQuery | memsdb</title>
+	<title>EventDBBackup | memsdb</title>
 	<meta name="description" content="Documentation for memsdb">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -55,10 +55,10 @@
 					<a href="../modules.html">memsdb</a>
 				</li>
 				<li>
-					<a href="custompopulatequery.html">CustomPopulateQuery</a>
+					<a href="eventdbbackup.html">EventDBBackup</a>
 				</li>
 			</ul>
-			<h1>Interface CustomPopulateQuery</h1>
+			<h1>Interface EventDBBackup</h1>
 		</div>
 	</div>
 </header>
@@ -68,7 +68,8 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Population specific query</p>
+						<p>Fires whenever the db.backup() function is called. Plugins will run BEFORE
+						the BackupProvider writes the structured Backup to disk (or elsewhere).</p>
 					</div>
 				</div>
 			</section>
@@ -76,7 +77,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">CustomPopulateQuery</span>
+						<span class="target">EventDBBackup</span>
 					</li>
 				</ul>
 			</section>
@@ -87,10 +88,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="custompopulatequery.html#collection" class="tsd-kind-icon">collection</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="custompopulatequery.html#destinationfield" class="tsd-kind-icon">destination<wbr>Field</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="custompopulatequery.html#srcfield" class="tsd-kind-icon">src<wbr>Field</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="custompopulatequery.html#targetfield" class="tsd-kind-icon">target<wbr>Field</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="eventdbbackup.html#backup" class="tsd-kind-icon">backup</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="eventdbbackup.html#event" class="tsd-kind-icon">event</a></li>
 							</ul>
 						</section>
 					</div>
@@ -99,42 +98,28 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="collection" class="tsd-anchor"></a>
-					<h3>collection</h3>
-					<div class="tsd-signature tsd-kind-icon">collection<span class="tsd-signature-symbol">:</span> <a href="../classes/dbcollection.html" class="tsd-signature-type" data-tsd-kind="Class">DBCollection</a></div>
+					<a name="backup" class="tsd-anchor"></a>
+					<h3>backup</h3>
+					<div class="tsd-signature tsd-kind-icon">backup<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Backup</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/types.ts#L23">types.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/types/events.ts#L21">types/events.ts:21</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The Backup object that will be written to the BackupProvider. Mutations
+							here will effect what&#39;s written to the BackupProvider.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="destinationfield" class="tsd-anchor"></a>
-					<h3>destination<wbr>Field</h3>
-					<div class="tsd-signature tsd-kind-icon">destination<wbr>Field<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="event" class="tsd-anchor"></a>
+					<h3>event</h3>
+					<div class="tsd-signature tsd-kind-icon">event<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;EventDBBackup&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/types.ts#L21">types.ts:21</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="srcfield" class="tsd-anchor"></a>
-					<h3>src<wbr>Field</h3>
-					<div class="tsd-signature tsd-kind-icon">src<wbr>Field<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/types.ts#L17">types.ts:17</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="targetfield" class="tsd-anchor"></a>
-					<h3>target<wbr>Field</h3>
-					<div class="tsd-signature tsd-kind-icon">target<wbr>Field<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/9cebdff/src/types.ts#L19">types.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/types/events.ts#L16">types/events.ts:16</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -166,35 +151,29 @@
 						<a href="../classes/fsbackup.html" class="tsd-kind-icon">FSBackup</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="../classes/localstorage.html" class="tsd-kind-icon">Local<wbr>Storage</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="../classes/localstoragebackup.html" class="tsd-kind-icon">Local<wbr>Storage<wbr>Backup</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="../classes/memorystorage.html" class="tsd-kind-icon">Memory<wbr>Storage</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="../classes/querybuilder.html" class="tsd-kind-icon">Query<wbr>Builder</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="../classes/sessionstorage.html" class="tsd-kind-icon">Session<wbr>Storage</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="../classes/sessionstoragebackup.html" class="tsd-kind-icon">Session<wbr>Storage<wbr>Backup</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="../classes/voidbackup.html" class="tsd-kind-icon">Void<wbr>Backup</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-interface">
-						<a href="custompopulatequery.html" class="tsd-kind-icon">Custom<wbr>Populate<wbr>Query</a>
-						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="custompopulatequery.html#collection" class="tsd-kind-icon">collection</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="custompopulatequery.html#destinationfield" class="tsd-kind-icon">destination<wbr>Field</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="custompopulatequery.html#srcfield" class="tsd-kind-icon">src<wbr>Field</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="custompopulatequery.html#targetfield" class="tsd-kind-icon">target<wbr>Field</a>
-							</li>
-						</ul>
+					<li class=" tsd-kind-interface">
+						<a href="eventcollectiondocumentupdated.html" class="tsd-kind-icon">Event<wbr>Collection<wbr>Document<wbr>Updated</a>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-interface">
 						<a href="eventcollectionfind.html" class="tsd-kind-icon">Event<wbr>Collection<wbr>Find</a>
 					</li>
@@ -213,6 +192,21 @@
 					<li class=" tsd-kind-interface">
 						<a href="eventdbaddcollection.html" class="tsd-kind-icon">EventDBAdd<wbr>Collection</a>
 					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface">
+						<a href="eventdbbackup.html" class="tsd-kind-icon">EventDBBackup</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="eventdbbackup.html#backup" class="tsd-kind-icon">backup</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="eventdbbackup.html#event" class="tsd-kind-icon">event</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-interface">
 						<a href="eventdbbackupcomplete.html" class="tsd-kind-icon">EventDBBackup<wbr>Complete</a>
 					</li>
@@ -227,6 +221,9 @@
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="eventdbemptycollectioncomplete.html" class="tsd-kind-icon">EventDBEmpty<wbr>Collection<wbr>Complete</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="eventdbhandleradded.html" class="tsd-kind-icon">EventDBHandler<wbr>Added</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="eventdbrestore.html" class="tsd-kind-icon">EventDBRestore</a>

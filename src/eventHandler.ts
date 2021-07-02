@@ -1,5 +1,8 @@
 import type { EventName, MemsDBEvent } from './types/events'
 
+/**
+ * @category Database Event
+ */
 export class EventHandler {
   /** Event type of this handler */
   eventType: EventName

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>EventDBRestoreComplete | memsdb</title>
+	<title>EventDBHandlerAdded | memsdb</title>
 	<meta name="description" content="Documentation for memsdb">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -55,10 +55,10 @@
 					<a href="../modules.html">memsdb</a>
 				</li>
 				<li>
-					<a href="eventdbrestorecomplete.html">EventDBRestoreComplete</a>
+					<a href="eventdbhandleradded.html">EventDBHandlerAdded</a>
 				</li>
 			</ul>
-			<h1>Interface EventDBRestoreComplete</h1>
+			<h1>Interface EventDBHandlerAdded</h1>
 		</div>
 	</div>
 </header>
@@ -68,9 +68,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Fires whenever the db.restore() function is called. Plugins will be run
-							AFTER the BackupProvider loads the content, and before it gets applied to
-						the database.</p>
+						<p>Fires whenever an event handler is added to the database</p>
 					</div>
 				</div>
 			</section>
@@ -78,7 +76,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">EventDBRestoreComplete</span>
+						<span class="target">EventDBHandlerAdded</span>
 					</li>
 				</ul>
 			</section>
@@ -89,8 +87,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="eventdbrestorecomplete.html#backup" class="tsd-kind-icon">backup</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="eventdbrestorecomplete.html#event" class="tsd-kind-icon">event</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="eventdbhandleradded.html#db" class="tsd-kind-icon">db</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="eventdbhandleradded.html#event" class="tsd-kind-icon">event</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="eventdbhandleradded.html#handler" class="tsd-kind-icon">handler</a></li>
 							</ul>
 						</section>
 					</div>
@@ -99,30 +98,44 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="backup" class="tsd-anchor"></a>
-					<h3>backup</h3>
-					<div class="tsd-signature tsd-kind-icon">backup<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Backup</span></div>
+					<a name="db" class="tsd-anchor"></a>
+					<h3>db</h3>
+					<div class="tsd-signature tsd-kind-icon">db<span class="tsd-signature-symbol">:</span> <a href="../classes/db.html" class="tsd-signature-type" data-tsd-kind="Class">DB</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/types/events.ts#L83">types/events.ts:83</a></li>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/types/events.ts#L34">types/events.ts:34</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The Backup object that will be written to the BackupProvider. Mutations
-							here will effect what&#39;s written to the BackupProvider.</p>
+							<p>A reference to the database itself, useful for handlers that require a reference to the DB</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="event" class="tsd-anchor"></a>
 					<h3>event</h3>
-					<div class="tsd-signature tsd-kind-icon">event<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;EventDBRestoreComplete&quot;</span></div>
+					<div class="tsd-signature tsd-kind-icon">event<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;EventDBHandlerAdded&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/types/events.ts#L78">types/events.ts:78</a></li>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/types/events.ts#L30">types/events.ts:30</a></li>
 						</ul>
 					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="handler" class="tsd-anchor"></a>
+					<h3>handler</h3>
+					<div class="tsd-signature tsd-kind-icon">handler<span class="tsd-signature-symbol">:</span> <a href="../classes/eventhandler.html" class="tsd-signature-type" data-tsd-kind="Class">EventHandler</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MemsDBEvent</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/brocococonut/memsdb/blob/6997296/src/types/events.ts#L38">types/events.ts:38</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A reference to the handler being added.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -211,27 +224,30 @@
 					<li class=" tsd-kind-interface">
 						<a href="eventdbemptycollectioncomplete.html" class="tsd-kind-icon">EventDBEmpty<wbr>Collection<wbr>Complete</a>
 					</li>
-					<li class=" tsd-kind-interface">
-						<a href="eventdbhandleradded.html" class="tsd-kind-icon">EventDBHandler<wbr>Added</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="eventdbrestore.html" class="tsd-kind-icon">EventDBRestore</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="eventdbrestorecomplete.html" class="tsd-kind-icon">EventDBRestore<wbr>Complete</a>
+						<a href="eventdbhandleradded.html" class="tsd-kind-icon">EventDBHandler<wbr>Added</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="eventdbrestorecomplete.html#backup" class="tsd-kind-icon">backup</a>
+								<a href="eventdbhandleradded.html#db" class="tsd-kind-icon">db</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="eventdbrestorecomplete.html#event" class="tsd-kind-icon">event</a>
+								<a href="eventdbhandleradded.html#event" class="tsd-kind-icon">event</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="eventdbhandleradded.html#handler" class="tsd-kind-icon">handler</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-interface">
+						<a href="eventdbrestore.html" class="tsd-kind-icon">EventDBRestore</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="eventdbrestorecomplete.html" class="tsd-kind-icon">EventDBRestore<wbr>Complete</a>
+					</li>
 					<li class=" tsd-kind-interface">
 						<a href="eventdocumentclone.html" class="tsd-kind-icon">Event<wbr>Document<wbr>Clone</a>
 					</li>

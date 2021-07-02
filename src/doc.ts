@@ -1,24 +1,27 @@
 import { v4 } from 'uuid'
-import change from 'on-change'
 import { cloneDeep, merge } from 'smoldash'
 import { nestedKey } from './utils/key'
 import { updateReactiveIndex } from './utils/reactive'
 
 import type { DBCollection } from './collection'
-import type { DocumentCustomPopulateOpts, DocumentTreeOpts } from './types/Document'
+import type {
+  DocumentCustomPopulateOpts,
+  DocumentTreeOpts,
+} from './types/Document'
 import type { MemsDBEvent } from './types/events'
 import { populate } from './utils/populate'
+import { debounce } from './utils/debounce'
+import { updateDocIndex } from './utils/indexed'
 
 /**
  * Class for creating structured documents
+ * @category Core
  */
 export class DBDoc {
   /** Document id */
   id: string
-  /** Value of the document */
-  data: {
-    [key: string]: any
-  } = {}
+
+  private isCloned: boolean = false
 
   _createdAt: number = Date.now()
   _updatedAt: number = Date.now()
@@ -34,13 +37,7 @@ export class DBDoc {
   } = {}
 
   /** Object for any plugin related data */
-  pluginData: { [key: string]: any } = {}
-
-  /**
-   * @ignore
-   * A reference to the on-change listened document
-   */
-  private _listenedRef: DBDoc = this
+  _pluginData: { [key: string]: any } = {}
 
   /**
    * Construct a new Document with the collections schema and any provided data
@@ -50,18 +47,139 @@ export class DBDoc {
   constructor(
     data: { [key: string]: any },
     collection: DBCollection,
-    id = v4()
+    id = v4(),
+    isCloned = false
   ) {
     this.collection = collection
 
     // Ensure the document has a valid and unique ID
     this.id = id
 
+    this.isCloned = isCloned
+
     // Ensure this.data is a replica of the schema before assigning the new data
-    this.data = merge(cloneDeep(this.collection.schema), cloneDeep(data))
+    this.setData(merge(cloneDeep(this.collection.schema), cloneDeep(data)))
 
     // Assign the data to the new document
     this.doc_ = collection.col_.extend(`<doc>${this.id}`)
+  }
+
+  private updateIndexes = debounce((path: string) => {
+    /* DEBUG */ this.collection.col_(
+      'Document %s was modified at path %s',
+      this.id,
+      path
+    )
+    this._updatedAt = Date.now()
+    if (Object.keys(this.indexed).length > 0) {
+      for (const key in this.indexed) {
+        updateDocIndex(this, key)
+        this.collection.col_('Updated index "%s" for document %s', key, this.id)
+      }
+    }
+    for (const key of this.collection.reactiveIndexed.keys()) {
+      updateReactiveIndex(this.collection, key)
+      this.collection.col_('Updated collection reactive index for key %j', key)
+    }
+    /* DEBUG */ this.collection.col_(
+      'Emitting event "EventCollectionDocumentUpdated"'
+    )
+    this.collection.emitEvent({
+      event: 'EventCollectionDocumentUpdated',
+      doc: this,
+      collection: this.collection,
+    })
+  }, 300)
+
+  /**
+   * The data of the document as provided by the storage provider
+   */
+  get data() {
+    let data
+
+    const details = {
+      _createdAt: this._createdAt,
+      _updatedAt: this._updatedAt,
+      id: this.id,
+    }
+
+    if (this.isCloned) {
+      data = this.pluginData.get('internal:cloned')
+    } else {
+      data = this.collection.db.storageEngine.load(this)
+    }
+
+    return { ...data, ...details }
+  }
+
+  /**
+   * Set the value of a key in the doc to a specified value.
+   * 
+   * **This should only be done on shallow key values**, lest you want keys like
+   * 'key1.key2.key3' as object keys in your data
+   * @param key Key to set the value of
+   * @param data Data to set to the afformentioned key
+   * @returns Returns nothing
+   */
+  set(key: string, data: any) {
+    const docData = this.data
+
+    if (data === '') {
+      return
+    } else {
+      docData[key] = data
+    }
+
+    if (this.isCloned) {
+      this.pluginData.set('internal:cloned', docData)
+    } else {
+      this.collection.db.storageEngine.save(this, docData)
+      this.updateIndexes(key)
+    }
+  }
+
+  /**
+   * Set the root of the data object.
+   * 
+   * This will completely replace the data object
+   * @param data Data to set
+   */
+  setData(data: any) {
+    if (this.isCloned) {
+      this.pluginData.set('internal:cloned', data)
+    } else {
+      this.collection.db.storageEngine.save(this, data)
+      this.updateIndexes('root')
+    }
+  }
+
+  /**
+   * Object with functions for handling plugin data
+   */
+  pluginData = {
+    /**
+     * Get the data object from a specific plugin
+     * @param plugin Plugin name to get data of
+     * @returns Data from the plugin
+     */
+    get: (plugin: string) => {
+      return this._pluginData[plugin]
+    },
+    /**
+     * Set/replace the data object for a plugin
+     * @param plugin Plugin name to set data to
+     * @param data Data to replace the plugin data with
+     */
+    set: (plugin: string, data: any) => {
+      this._pluginData[plugin] = data
+    },
+    /**
+     * Delete the data object of a specific plugin
+     * @param plugin Plugin name to delete data of
+     */
+    delete: (plugin: string) => {
+      delete this._pluginData[plugin]
+    },
   }
 
   /**
@@ -85,9 +203,6 @@ export class DBDoc {
         /* DEBUG */ this.doc_('Updating reactive index')
         updateReactiveIndex(this.collection, key)
       }
-
-      /* DEBUG */ this.doc_('Removing nested change listener')
-      change.unsubscribe(this._listenedRef)
 
       /* DEBUG */ this.doc_('Emitting event "EventDocumentDeleteComplete"')
       this.emitEvent({
@@ -115,10 +230,7 @@ export class DBDoc {
    * @param filter Filter unspecified keys from the populated documents
    * @returns Cloned version of this document
    */
-  populate(
-    populateQuery: string,
-    filter = false
-  ) {
+  populate(populateQuery: string, filter = false) {
     const [populated] = populate(this.collection, [this], populateQuery, filter)
 
     return populated
@@ -126,7 +238,11 @@ export class DBDoc {
 
   /**
    * Populate the document with another document that matches the query.
-   * This will return a copy of the document and not a reference to the original
+   * This will return a copy of the document and not a reference to the
+   * original.
+   * 
+   * It's recommended you use the provided
+   * populate (`doc.populate(...)`) function instead.
    * @param opts Options for the populate. Things like the target field and query don't have to be set
    */
   customPopulate(opts: DocumentCustomPopulateOpts) {
@@ -178,10 +294,13 @@ export class DBDoc {
       'Setting field on document to contain children. Unwind: %s',
       unwind ? 'true' : 'false'
     )
-    resultDoc.data[destinationField] =
+
+    resultDoc.set(
+      destinationField,
       unwind && queriedDocuments.length < 2
         ? queriedDocuments[0]
         : queriedDocuments
+    )
 
     /* DEBUG */ this.doc_(
       'Emitting event "EventDocumentCustomPopulateComplete"'
@@ -199,7 +318,7 @@ export class DBDoc {
 
   /**
    * Populate a tree of documents. It's recommended you use the provided
-   * populate (import {populate} from 'memsdb';) function instead.
+   * populate (`doc.populate(...)`) function instead.
    * @param opts Options for making a tree from the provided document
    * @returns A cloned version of this doc that has the data field formatted into a tree
    */
@@ -246,8 +365,14 @@ export class DBDoc {
         })
 
         if (opts.maxDepth && <number>opts.currentDepth <= opts.maxDepth)
-          doc.data[q.destinationField] = children.map((child: DBDoc) =>
-            child.tree({ ...opts, currentDepth: <number>opts.currentDepth + 1 })
+          doc.set(
+            q.destinationField,
+            children.map((child: DBDoc) =>
+              child.tree({
+                ...opts,
+                currentDepth: <number>opts.currentDepth + 1,
+              })
+            )
           )
       }
     })
@@ -275,12 +400,12 @@ export class DBDoc {
       event: 'EventDocumentClone',
       doc: this,
     })
-    const cloned = new DBDoc({}, this.collection, this.id)
-    
-    cloned.data = cloneDeep(this.data)
+    const cloned = new DBDoc({}, this.collection, this.id, true)
 
-    cloned.data._createdAt = this.data._createdAt
-    cloned.data._updatedAt = this.data._updatedAt
+    cloned.setData(cloneDeep(this.data))
+
+    cloned._createdAt = this._createdAt
+    cloned._updatedAt = this._updatedAt
 
     /* DEBUG */ this.doc_('Emitting event "EventDocumentClone"')
     this.emitEvent({

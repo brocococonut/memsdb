@@ -10,6 +10,7 @@ import { EventHandler } from '../eventHandler'
 /**
  * Fires whenever the db.backup() function is called. Plugins will run BEFORE
  * the BackupProvider writes the structured Backup to disk (or elsewhere).
+ * @category Database Event
  */
 export interface EventDBBackup {
   event: 'EventDBBackup'
@@ -22,6 +23,7 @@ export interface EventDBBackup {
 
 /**
  * Fires whenever an event handler is added to the database
+ * @category Database Event
  */
 export interface EventDBHandlerAdded {
   
@@ -39,6 +41,7 @@ export interface EventDBHandlerAdded {
 /**
  * Fires whenever the db.backup() function is called. Plugins will run AFTER
  * the BackupProvider writes the structured Backup to the designated backup provider.
+ * @category Database Event
  */
 export interface EventDBBackupComplete {
   event: 'EventDBBackupComplete'
@@ -54,6 +57,7 @@ export interface EventDBBackupComplete {
  * Fires whenever the db.restore() function is called. Plugins will be run
  * BEFORE the BackupProvider loads the content, and before it gets applied to
  * the database.
+ * @category Database Event
  */
 export interface EventDBRestore {
   event: 'EventDBRestore'
@@ -68,6 +72,7 @@ export interface EventDBRestore {
  * Fires whenever the db.restore() function is called. Plugins will be run
  * AFTER the BackupProvider loads the content, and before it gets applied to
  * the database.
+ * @category Database Event
  */
 export interface EventDBRestoreComplete {
   event: 'EventDBRestoreComplete'
@@ -80,6 +85,7 @@ export interface EventDBRestoreComplete {
 
 /**
  * Fires when a collection is added to the database.
+ * @category Database Event
  */
 export interface EventDBAddCollection {
   event: 'EventDBAddCollection'
@@ -96,6 +102,7 @@ export interface EventDBAddCollection {
 
 /**
  * Fires when a collection is about to be deleted from the database.
+ * @category Database Event
  */
 export interface EventDBDeleteCollection {
   event: 'EventDBDeleteCollection'
@@ -107,6 +114,7 @@ export interface EventDBDeleteCollection {
 
 /**
  * Fires when a collection is deleted from the database.
+ * @category Database Event
  */
 export interface EventDBDeleteCollectionComplete {
   event: 'EventDBDeleteCollectionComplete'
@@ -126,6 +134,7 @@ export interface EventDBDeleteCollectionComplete {
 
 /**
  * Fires when the DB goes to clear a collection.
+ * @category Database Event
  */
 export interface EventDBEmptyCollection {
   event: 'EventDBEmptyCollection'
@@ -137,6 +146,7 @@ export interface EventDBEmptyCollection {
 
 /**
  * Fires when the DB is finished clearing a collection
+ * @category Database Event
  */
 export interface EventDBEmptyCollectionComplete {
   event: 'EventDBEmptyCollectionComplete'
@@ -157,6 +167,7 @@ export interface EventDBEmptyCollectionComplete {
 /**
  * Fires at the start of find function from a collection. This includes the
  * col.id() function.
+ * @category Database Event
  */
 export interface EventCollectionFind {
   event: 'EventCollectionFind'
@@ -170,6 +181,7 @@ export interface EventCollectionFind {
 /**
  * Fires at the end of find function from a collection. This includes the
  * col.id() function.
+ * @category Database Event
  */
 export interface EventCollectionFindComplete {
   event: 'EventCollectionFindComplete'
@@ -187,6 +199,7 @@ export interface EventCollectionFindComplete {
 /**
  * Run before a document is inserted. This allows you to modify the data
  * inserted, bypassing the collection schema.
+ * @category Database Event
  */
 export interface EventCollectionInsert {
   event: 'EventCollectionInsert'
@@ -200,6 +213,7 @@ export interface EventCollectionInsert {
 
 /**
  * Fired after a document is inserted into the collection.
+ * @category Database Event
  */
 export interface EventCollectionInsertComplete {
   event: 'EventCollectionInsertComplete'
@@ -223,6 +237,7 @@ export interface EventCollectionInsertComplete {
  * Fired after a collection is converted to a string. To prevent an entire
  * collection from being converted, the toJSON function has been replaced
  * with one that simply outputs "(DBCollection<CollectionName>)".
+ * @category Database Event
  */
 export interface EventCollectionToJSON {
   event: 'EventCollectionToJSON'
@@ -235,6 +250,7 @@ export interface EventCollectionToJSON {
 
 /**
  * Fired when a document has its .delete() method called.
+ * @category Database Event
  */
 export interface EventDocumentDelete {
   event: 'EventDocumentDelete'
@@ -247,6 +263,7 @@ export interface EventDocumentDelete {
 
 /**
  * Fired after a document has finished deleting itself
+ * @category Database Event
  */
 export interface EventDocumentDeleteComplete {
   event: 'EventDocumentDeleteComplete'
@@ -266,6 +283,7 @@ export interface EventDocumentDeleteComplete {
 
 /**
  * Fired when the .customPopulate() function is run on a document.
+ * @category Database Event
  */
 export interface EventDocumentCustomPopulate {
   event: 'EventDocumentCustomPopulate'
@@ -283,6 +301,7 @@ export interface EventDocumentCustomPopulate {
 
 /**
  * Fired when the .customPopulate() function is run on a document.
+ * @category Database Event
  */
 export interface EventDocumentCustomPopulateComplete {
   event: 'EventDocumentCustomPopulateComplete'
@@ -300,6 +319,7 @@ export interface EventDocumentCustomPopulateComplete {
 
 /**
  * Fired when the .tree() function is called on a document.
+ * @category Database Event
  */
 export interface EventDocumentTree {
   event: 'EventDocumentTree'
@@ -314,6 +334,7 @@ export interface EventDocumentTree {
 
 /**
  * Fired when the .tree() function has finished running on a document
+ * @category Database Event
  */
 export interface EventDocumentTreeComplete {
   event: 'EventDocumentTreeComplete'
@@ -328,6 +349,7 @@ export interface EventDocumentTreeComplete {
 
 /**
  * Fired when a document is cloned.
+ * @category Database Event
  */
 export interface EventDocumentClone {
   event: 'EventDocumentClone'
@@ -339,6 +361,7 @@ export interface EventDocumentClone {
 
 /**
  * Fired after a document is cloned.
+ * @category Database Event
  */
 export interface EventDocumentCloneComplete {
   event: 'EventDocumentCloneComplete'
@@ -351,6 +374,7 @@ export interface EventDocumentCloneComplete {
 
 /**
  * Fired after a document is updated.
+ * @category Database Event
  */
 export interface EventCollectionDocumentUpdated {
   event: 'EventCollectionDocumentUpdated'
@@ -366,6 +390,7 @@ export interface EventCollectionDocumentUpdated {
 
 /**
  * Union type of the different supported event types
+ * @category Database Event
  */
 export type MemsDBEvent =
   | EventDBHandlerAdded
