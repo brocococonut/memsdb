@@ -76,6 +76,7 @@
 					<li><a href="https://brocococonut.github.io/memsdb/classes/dbcollection.html">DBCollection Class Docs</a></li>
 					<li><a href="https://brocococonut.github.io/memsdb/classes/dbdoc.html">DBDoc Class Docs</a></li>
 					<li><a href="https://brocococonut.github.io/memsdb/classes/querybuilder.html">Query Builder Class Docs</a></li>
+					<li><a href="https://brocococonut.github.io/memsdb/modules.html#populate">Population/MemsPL Docs</a></li>
 				</ul>
 				<p>Initialising a new database:</p>
 				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">DB</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;memsdb&#039;</span>
@@ -108,7 +109,7 @@
 <span style="color: #000000">  </span><span style="color: #001080">comparison:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;me&#039;</span>
 <span style="color: #000000">}])</span>
 <span style="color: #008000">// Or with the QueryBuilder:</span>
-<span style="color: #001080">comments</span><span style="color: #000000">.</span><span style="color: #795E26">find</span><span style="color: #000000">(</span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">QueryBuilder</span><span style="color: #000000">().</span><span style="color: #795E26">where</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;by&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;===&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;me&#039;</span><span style="color: #000000">))</span>
+<span style="color: #001080">comments</span><span style="color: #000000">.</span><span style="color: #795E26">find</span><span style="color: #000000">(</span><span style="color: #001080">QueryBuilder</span><span style="color: #000000">.</span><span style="color: #795E26">where</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;by&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;===&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;me&#039;</span><span style="color: #000000">))</span>
 
 <span style="color: #008000">/**</span>
 <span style="color: #008000"> * Find a document by it&#039;s id</span>
@@ -140,11 +141,22 @@
 <span style="color: #000000">  </span><span style="color: #001080">comparison:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;me&#039;</span>
 <span style="color: #000000">}])</span>
 <span style="color: #008000">// Or with the QueryBuilder:</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">docs</span><span style="color: #000000"> = </span><span style="color: #001080">comments</span><span style="color: #000000">.</span><span style="color: #795E26">find</span><span style="color: #000000">(</span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">QueryBuilder</span><span style="color: #000000">().</span><span style="color: #795E26">where</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;by&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;===&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;me&#039;</span><span style="color: #000000">))</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">docs</span><span style="color: #000000"> = </span><span style="color: #001080">comments</span><span style="color: #000000">.</span><span style="color: #795E26">find</span><span style="color: #000000">(</span><span style="color: #001080">QueryBuilder</span><span style="color: #000000">.</span><span style="color: #795E26">where</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;by&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;===&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;me&#039;</span><span style="color: #000000">))</span>
 
 <span style="color: #008000">// docs should contain the one comment we added</span>
 </code></pre>
-				<p>The query language is still rather simple but can support the operators: <code>&lt;</code> | <code>&gt;</code> | <code>&lt;=</code> | <code>&gt;=</code> | <code>===</code> | <code>||</code> | <code>includes</code> | <code>isContainedIn</code> | <code>hasAllOf</code> | <code>all&gt;than</code> | <code>all&lt;than</code> | <code>all&gt;=to</code> | <code>all&lt;=to</code> | <code>all===to</code> | <code>some&gt;than</code> | <code>some&lt;than</code> | <code>some&gt;=to</code> | <code>some&lt;=to</code> | <code>some===to</code> - where <code>||</code> runs an OR using an array of <code>Query</code> objects (supports multi-level ORing).</p>
+				<p>The query language is still rather simple but can support the operators: <code>&lt;</code> | <code>&gt;</code> | <code>&lt;=</code> | <code>&gt;=</code> | <code>===</code> | <code>||</code> | <code>includes</code> | <code>isContainedIn</code> | <code>hasAllOf</code> | <code>all&gt;than</code> | <code>all&lt;than</code> | <code>all&gt;=to</code> | <code>all&lt;=to</code> | <code>all===to</code> | <code>some&gt;than</code> | <code>some&lt;than</code> | <code>some&gt;=to</code> | <code>some&lt;=to</code> | <code>some===to</code> - where <code>||</code> runs an OR using an array of <code>Query</code> objects (supports multi-level ORing).
+					Additionally, you can use the length of an array as the &quot;key&quot; to compare values against.
+				If you for example had the following document: </p>
+				<pre><code class="language-json"><span style="color: #000000">{</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;friends&quot;</span><span style="color: #000000">: [</span>
+<span style="color: #000000">    </span><span style="color: #008000">// ...</span>
+<span style="color: #000000">  ]</span>
+<span style="color: #000000">}</span>
+</code></pre>
+				<p>You would be able to query against the length of that array like so:</p>
+				<pre><code class="language-ts"><span style="color: #001080">users</span><span style="color: #000000">.</span><span style="color: #795E26">find</span><span style="color: #000000">(</span><span style="color: #001080">QueryBuilder</span><span style="color: #000000">.</span><span style="color: #795E26">where</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;friends.length&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;===&#039;</span><span style="color: #000000">, </span><span style="color: #098658">0</span><span style="color: #000000">))</span>
+</code></pre>
 				<p>An example query object of:</p>
 				<pre><code class="language-typescript"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">query</span><span style="color: #000000"> = {</span>
 <span style="color: #000000">  </span><span style="color: #001080">key:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;by&#039;</span><span style="color: #000000">,</span>
@@ -152,9 +164,9 @@
 <span style="color: #000000">  </span><span style="color: #001080">comparison:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;me&#039;</span>
 <span style="color: #000000">}</span>
 <span style="color: #008000">// Or with the QueryBuilder:</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">query</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">QueryBuilder</span><span style="color: #000000">().</span><span style="color: #795E26">where</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;by&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;===&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;me&#039;</span><span style="color: #000000">)</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">query</span><span style="color: #000000"> = </span><span style="color: #001080">QueryBuilder</span><span style="color: #000000">.</span><span style="color: #795E26">where</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;by&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;===&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;me&#039;</span><span style="color: #000000">)</span>
 </code></pre>
-				<p>should be read as <code>document.by (key to get value of) &#39;===&#39; &#39;me&#39; (value)</code></p>
+				<p>should be read as <code>document.data.by (key to get value of) &#39;===&#39; &#39;me&#39; (value)</code></p>
 				<p>The <code>some===to</code> key (<code>some*</code>, <code>all*</code>) can be used to find similarities between different arrays</p>
 				<p><code>all===to</code> makes sure that all of the specified key is equal to the comparison. This would usually be useful with query keys that specify an array  with objects in it like the following: <code>folder.children.[].exists</code>. In the previous example you&#39;d use <code>all===to</code> to make sure that all child folders of the first level have the property <code>exists</code> and that it&#39;s equal to whatever comparison value you set in the query. Eg.:</p>
 				<pre><code class="language-typescript"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">query</span><span style="color: #000000"> = {</span>
@@ -163,7 +175,7 @@
 <span style="color: #000000">  </span><span style="color: #001080">comparison:</span><span style="color: #000000"> </span><span style="color: #0000FF">true</span>
 <span style="color: #000000">}</span>
 <span style="color: #008000">// OR using the query builder:</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">query</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">QueryBuilder</span><span style="color: #000000">()</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">query</span><span style="color: #000000"> = </span><span style="color: #001080">QueryBuilder</span>
 <span style="color: #000000">  .</span><span style="color: #795E26">where</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;folder.children.[].exists&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;all===to&#039;</span><span style="color: #000000">, </span><span style="color: #0000FF">true</span><span style="color: #000000">)</span>
 </code></pre>
 				<p>Other functions on the database, collections, and documents can be read in the <a href="https://brocococonut.github.io/memsdb/">documentation</a></p>

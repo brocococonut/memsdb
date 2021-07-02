@@ -13,6 +13,7 @@ A simple in memory DB - Created to experiment more with typescript and classes
 - [DBCollection Class Docs](https://brocococonut.github.io/memsdb/classes/dbcollection.html)
 - [DBDoc Class Docs](https://brocococonut.github.io/memsdb/classes/dbdoc.html)
 - [Query Builder Class Docs](https://brocococonut.github.io/memsdb/classes/querybuilder.html)
+- [Population/MemsPL Docs](https://brocococonut.github.io/memsdb/modules.html#populate)
 
 Initialising a new database:
 ```typescript
@@ -52,7 +53,7 @@ comments.find([{
   comparison: 'me'
 }])
 // Or with the QueryBuilder:
-comments.find(new QueryBuilder().where('by', '===', 'me'))
+comments.find(QueryBuilder.where('by', '===', 'me'))
 
 /**
  * Find a document by it's id
@@ -86,12 +87,25 @@ const docs = comments.find([{
   comparison: 'me'
 }])
 // Or with the QueryBuilder:
-const docs = comments.find(new QueryBuilder().where('by', '===', 'me'))
+const docs = comments.find(QueryBuilder.where('by', '===', 'me'))
 
 // docs should contain the one comment we added
 ```
 
 The query language is still rather simple but can support the operators: `<` | `>` | `<=` | `>=` | `===` | `||` | `includes` | `isContainedIn` | `hasAllOf` | `all>than` | `all<than` | `all>=to` | `all<=to` | `all===to` | `some>than` | `some<than` | `some>=to` | `some<=to` | `some===to` - where `||` runs an OR using an array of `Query` objects (supports multi-level ORing).
+Additionally, you can use the length of an array as the "key" to compare values against.
+If you for example had the following document: 
+```json
+{
+  "friends": [
+    // ...
+  ]
+}
+```
+You would be able to query against the length of that array like so:
+```ts
+users.find(QueryBuilder.where('friends.length', '===', 0))
+```
 
 An example query object of:
 ```typescript
@@ -101,9 +115,9 @@ const query = {
   comparison: 'me'
 }
 // Or with the QueryBuilder:
-const query = new QueryBuilder().where('by', '===', 'me')
+const query = QueryBuilder.where('by', '===', 'me')
 ```
-should be read as `document.by (key to get value of) '===' 'me' (value)`
+should be read as `document.data.by (key to get value of) '===' 'me' (value)`
 
 The `some===to` key (`some*`, `all*`) can be used to find similarities between different arrays
 
@@ -115,7 +129,7 @@ const query = {
   comparison: true
 }
 // OR using the query builder:
-const query = new QueryBuilder()
+const query = QueryBuilder
   .where('folder.children.[].exists', 'all===to', true)
 ```
 

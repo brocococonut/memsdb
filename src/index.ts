@@ -9,7 +9,6 @@ export { EventHandler } from './eventHandler'
 
 // Querying and population
 export { populate } from './utils/populate'
-export { Query } from './types/query'
 export { QueryBuilder } from './utils/query'
 
 // Backup classes
@@ -24,6 +23,7 @@ export { MemoryStorage } from './storageProviders/memory'
 export { SessionStorage } from './storageProviders/sessionStorage'
 
 // Exported types
+export { Query } from './types/query'
 export type {
   EventDBBackup,
   EventDBHandlerAdded,
