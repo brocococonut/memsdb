@@ -1,4 +1,7 @@
 # memsdb
+
+## *Deprecated in favor of [@memsdb](https://github.com/memsdb/mono/)
+
 A simple in memory DB - Created to experiment more with typescript and classes
 
 ![minified](https://badgen.net/bundlephobia/min/memsdb)
